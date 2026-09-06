@@ -19,12 +19,12 @@ jobs:
         uses: actions/checkout@v5
 
       # =====================================================
-      # 2. CONFIGURAR NODE.JS
+      # 2. CONFIGURAR NODE.JS 22
       # =====================================================
       - name: Configurar Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
 
       # =====================================================
       # 3. INSTALAR DEPENDÊNCIAS
@@ -33,7 +33,7 @@ jobs:
         run: npm install
 
       # =====================================================
-      # 4. GERAR A VERSÃO WEB DO APLICATIVO
+      # 4. CONSTRUIR A APLICAÇÃO WEB
       # =====================================================
       - name: Construir aplicação web
         run: npm run build
@@ -82,21 +82,21 @@ jobs:
         run: chmod +x android/gradlew
 
       # =====================================================
-      # 11. LIMPAR COMPILAÇÕES ANTERIORES
+      # 11. LIMPAR PROJETO ANDROID
       # =====================================================
       - name: Limpar projeto Android
         working-directory: android
         run: ./gradlew clean --no-daemon
 
       # =====================================================
-      # 12. GERAR ANDROID APP BUNDLE
+      # 12. CONSTRUIR ANDROID APP BUNDLE
       # =====================================================
       - name: Construir AAB
         working-directory: android
         run: ./gradlew bundleRelease --no-daemon
 
       # =====================================================
-      # 13. GUARDAR O AAB GERADO
+      # 13. GUARDAR AAB
       # =====================================================
       - name: Guardar arquivo AAB
         uses: actions/upload-artifact@v4
@@ -106,7 +106,7 @@ jobs:
           if-no-files-found: error
 
       # =====================================================
-      # 14. GUARDAR APK RELEASE COMO EXTRA
+      # 14. GUARDAR APK
       # =====================================================
       - name: Guardar APK release
         uses: actions/upload-artifact@v4
