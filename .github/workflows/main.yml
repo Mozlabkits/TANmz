@@ -11,47 +11,106 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Baixar código do TANmz
-        uses: actions/checkout@v4
 
+      # =====================================================
+      # 1. BAIXAR O PROJETO
+      # =====================================================
+      - name: Baixar código do TANmz
+        uses: actions/checkout@v5
+
+      # =====================================================
+      # 2. CONFIGURAR NODE.JS
+      # =====================================================
       - name: Configurar Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '20'
-          cache: npm
 
+      # =====================================================
+      # 3. INSTALAR DEPENDÊNCIAS
+      # =====================================================
       - name: Instalar dependências do projeto
-        run: npm ci
+        run: npm install
 
+      # =====================================================
+      # 4. GERAR A VERSÃO WEB DO APLICATIVO
+      # =====================================================
+      - name: Construir aplicação web
+        run: npm run build
+
+      # =====================================================
+      # 5. SINCRONIZAR CAPACITOR COM ANDROID
+      # =====================================================
       - name: Sincronizar Capacitor Android
         run: npx cap sync android
 
+      # =====================================================
+      # 6. CONFIGURAR JAVA 17
+      # =====================================================
       - name: Configurar Java 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
+      # =====================================================
+      # 7. CONFIGURAR ANDROID SDK
+      # =====================================================
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v4
 
+      # =====================================================
+      # 8. INSTALAR COMPONENTES DO ANDROID
+      # =====================================================
       - name: Instalar Android SDK
         run: |
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          sdkmanager "platform-tools"
+          sdkmanager "platforms;android-36"
+          sdkmanager "build-tools;36.0.0"
 
-      - name: Dar permissão ao Gradle
-        run: chmod +x android/gradlew
-
+      # =====================================================
+      # 9. CRIAR LOCAL.PROPERTIES
+      # =====================================================
       - name: Criar local.properties
         run: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
 
+      # =====================================================
+      # 10. DAR PERMISSÃO AO GRADLE
+      # =====================================================
+      - name: Dar permissão ao Gradle
+        run: chmod +x android/gradlew
+
+      # =====================================================
+      # 11. LIMPAR COMPILAÇÕES ANTERIORES
+      # =====================================================
+      - name: Limpar projeto Android
+        working-directory: android
+        run: ./gradlew clean --no-daemon
+
+      # =====================================================
+      # 12. GERAR ANDROID APP BUNDLE
+      # =====================================================
       - name: Construir AAB
         working-directory: android
         run: ./gradlew bundleRelease --no-daemon
 
+      # =====================================================
+      # 13. GUARDAR O AAB GERADO
+      # =====================================================
       - name: Guardar arquivo AAB
         uses: actions/upload-artifact@v4
         with:
           name: TANmz-release-AAB
           path: android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error
+
+      # =====================================================
+      # 14. GUARDAR APK RELEASE COMO EXTRA
+      # =====================================================
+      - name: Guardar APK release
+        uses: actions/upload-artifact@v4
+        with:
+          name: TANmz-release-APK
+          path: android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: warn
