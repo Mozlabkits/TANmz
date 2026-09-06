@@ -45,13 +45,13 @@ jobs:
         run: npx cap sync android
 
       # =====================================================
-      # 6. CONFIGURAR JAVA 17
+      # 6. CONFIGURAR JAVA 21
       # =====================================================
-      - name: Configurar Java 17
+      - name: Configurar Java 21
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       # =====================================================
       # 7. CONFIGURAR ANDROID SDK
@@ -82,7 +82,7 @@ jobs:
         run: chmod +x android/gradlew
 
       # =====================================================
-      # 11. LIMPAR PROJETO ANDROID
+      # 11. LIMPAR O PROJETO ANDROID
       # =====================================================
       - name: Limpar projeto Android
         working-directory: android
@@ -96,7 +96,7 @@ jobs:
         run: ./gradlew bundleRelease --no-daemon
 
       # =====================================================
-      # 13. GUARDAR AAB
+      # 13. GUARDAR O AAB
       # =====================================================
       - name: Guardar arquivo AAB
         uses: actions/upload-artifact@v4
@@ -106,7 +106,7 @@ jobs:
           if-no-files-found: error
 
       # =====================================================
-      # 14. GUARDAR APK
+      # 14. GUARDAR APK RELEASE
       # =====================================================
       - name: Guardar APK release
         uses: actions/upload-artifact@v4
