@@ -1,3175 +1,2261 @@
 import { Lesson, ClassLevel, Subject } from '../types';
-import { CURRICULUM_UNITS } from './curriculumData';
 
 /*
- * ============================================================
- * TANmz — CONTEÚDOS CURRICULARES
- * ============================================================
- *
- * Nesta versão:
- *
- * 7ª Classe — Biologia
- * 30 aulas desenvolvidas.
- *
- * Os restantes conteúdos curriculares continuam disponíveis
- * através de uma estrutura de segurança, enquanto cada classe
- * é desenvolvida com conteúdo científico próprio.
- * ============================================================
- */
+===========================================================
+ TANmz — CONTEÚDOS ESSENCIAIS DE BIOLOGIA E QUÍMICA
+ 7ª à 12ª Classe
 
-function lessonId(unitId: string, number: number): string {
-  return `${unitId}-l${number}`;
-}
+ Conteúdo desenvolvido para aprendizagem autónoma.
+ Cada tema contém:
+ - definição
+ - explicação
+ - exemplo
+ - aplicação
+ - atenção/erro comum
+ - resumo
+ - verificação
+ - exercício
+===========================================================
+*/
 
-function makeQuestion(
+type EssentialContent = {
+  id: string;
+  classLevel: ClassLevel;
+  subject: Subject;
+  unitId: string;
+  unitTitle: string;
+  title: string;
+  theme: string;
+  definition: string;
+  explanation: string[];
+  exampleTitle: string;
+  exampleDescription: string;
+  exampleSolution?: string;
+  mozTitle: string;
+  mozDescription: string;
+  contextArea:
+    | 'agricultura'
+    | 'saúde'
+    | 'biodiversidade'
+    | 'recursos_naturais'
+    | 'ambiente'
+    | 'indústria'
+    | 'energia';
+  commonError: string;
+  correctUnderstanding: string;
+  summary: string[];
+  question: string;
+  options: string[];
+  correctIndex: number;
+  questionExplanation: string;
+  exercise: string;
+  exerciseOptions: string[];
+  exerciseCorrectIndex: number;
+  exerciseExplanation: string;
+};
+
+const c = (
   id: string,
-  question: string,
-  options: string[],
-  correctAnswerIndex: number,
-  explanation: string
-) {
-  return {
-    id,
-    question,
-    options,
-    correctAnswerIndex,
-    explanation,
-  };
-}
-
-function makeExercise(
-  id: string,
-  statement: string,
-  options: string[],
-  correctAnswer: number,
-  explanation: string,
-  difficulty: 'Fácil' | 'Médio' | 'Avançado' = 'Fácil'
-) {
-  return {
-    id,
-    statement,
-    difficulty,
-    type: 'multiple_choice' as const,
-    options,
-    correctAnswer,
-    explanation,
-  };
-}
-
-/*
- * ============================================================
- * 7ª CLASSE — BIOLOGIA
- * ============================================================
- */
-
-const BIO_7_LESSONS: Lesson[] = [
-
-  /* ==========================================================
-     UNIDADE 1 — INTRODUÇÃO À BIOLOGIA
-     ========================================================== */
-
-  {
-    id: lessonId('bio-7-u1', 1),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'O que é Biologia?',
-    lessonNumber: 1,
-    title: 'O que é Biologia?',
-
-    objectives: [
-      'Definir Biologia.',
-      'Explicar o que a Biologia estuda.',
-      'Reconhecer a importância do estudo dos seres vivos.',
-    ],
-
-    content: {
-      definition:
-        'Biologia é a ciência que estuda os seres vivos e os fenómenos relacionados com a vida.',
-
-      explanation: [
-        'A palavra Biologia vem de bios, que significa vida, e logos, que significa estudo ou conhecimento. Assim, Biologia significa estudo da vida.',
-        'A Biologia procura compreender como os seres vivos são constituídos, como funcionam, como se reproduzem, como crescem, como interagem entre si e como se relacionam com o ambiente.',
-        'O estudo da Biologia inclui organismos muito diferentes, desde microrganismos até plantas, animais e seres humanos.',
-        'A Biologia utiliza observação, experimentação, comparação e outras formas de investigação científica para produzir conhecimentos sobre a vida.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: uma planta de milho',
-      description:
-        'Ao observar uma planta de milho, o biólogo pode estudar as suas raízes, folhas, crescimento, reprodução, necessidades de água e nutrientes e relação com o ambiente.',
-      solution:
-        'Todas essas perguntas pertencem à Biologia porque procuram compreender características e processos relacionados com um ser vivo.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Biologia no quotidiano moçambicano',
-      description:
-        'A Biologia ajuda a compreender problemas relacionados com agricultura, saúde, alimentação, biodiversidade, conservação das florestas, recursos hídricos e doenças.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que a Biologia estuda apenas o corpo humano.',
-      correctUnderstanding:
-        'A Biologia estuda a vida de forma ampla, incluindo microrganismos, plantas, animais, seres humanos e as relações entre os seres vivos e o ambiente.',
-    },
-
-    summaryPoints: [
-      'Biologia significa estudo da vida.',
-      'É uma ciência dedicada ao estudo dos seres vivos e dos fenómenos da vida.',
-      'A Biologia possui muitas áreas de estudo.',
-      'O conhecimento biológico possui aplicações na saúde, agricultura e ambiente.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l1-q1',
-        'O que é Biologia?',
-        [
-          'Ciência que estuda os seres vivos e os fenómenos da vida.',
-          'Ciência que estuda somente os minerais.',
-          'Ciência que estuda somente os planetas.',
-          'Ciência que estuda apenas as máquinas.',
-        ],
-        0,
-        'A Biologia é a ciência que estuda os seres vivos e os fenómenos relacionados com a vida.'
-      ),
-      makeQuestion(
-        'bio7-u1-l1-q2',
-        'Qual destes temas pertence à Biologia?',
-        [
-          'Crescimento de uma planta.',
-          'Movimento de um planeta.',
-          'Funcionamento de uma máquina.',
-          'Cálculo de uma área geométrica.',
-        ],
-        0,
-        'O crescimento de uma planta é um fenómeno biológico.',
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l1-e1',
-        'Uma pessoa estuda como uma planta cresce e se reproduz. Qual ciência está diretamente envolvida?',
-        ['Biologia', 'Geografia', 'Astronomia', 'Matemática'],
-        0,
-        'A Biologia estuda os seres vivos e processos como crescimento e reprodução.'
-      ),
-      makeExercise(
-        'bio7-u1-l1-e2',
-        'A Biologia estuda apenas seres humanos.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. A Biologia estuda todos os tipos de seres vivos e os fenómenos relacionados com a vida.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 2),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Importância da Biologia',
-    lessonNumber: 2,
-    title: 'Importância da Biologia',
-
-    objectives: [
-      'Explicar por que a Biologia é importante.',
-      'Relacionar Biologia com saúde, agricultura e ambiente.',
-      'Reconhecer aplicações do conhecimento biológico.',
-    ],
-
-    content: {
-      definition:
-        'A importância da Biologia está na utilização do conhecimento sobre a vida para compreender, prevenir e resolver problemas relacionados com seres vivos e ambiente.',
-
-      explanation: [
-        'Na saúde, a Biologia ajuda a compreender o funcionamento do organismo, as doenças, os microrganismos e as formas de prevenção.',
-        'Na agricultura, permite compreender as plantas, o solo, pragas, doenças, reprodução e condições necessárias para melhorar a produção.',
-        'Na conservação ambiental, ajuda a compreender a biodiversidade, os ecossistemas e os impactos das atividades humanas.',
-        'Na alimentação, contribui para compreender nutrientes, conservação dos alimentos e problemas relacionados com deficiências nutricionais.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: conservação de alimentos',
-      description:
-        'Conhecer os microrganismos ajuda a compreender por que determinados alimentos se deterioram e por que práticas como refrigeração, secagem ou tratamento térmico podem aumentar a sua conservação.',
-      solution:
-        'A aplicação do conhecimento biológico permite reduzir riscos e melhorar práticas de conservação.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Aplicações em Moçambique',
-      description:
-        'O conhecimento biológico é importante para a produção agrícola, prevenção de doenças, conservação da biodiversidade e gestão sustentável dos recursos naturais.',
-      contextArea: 'saúde',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que a Biologia possui importância apenas para quem pretende ser médico.',
-      correctUnderstanding:
-        'O conhecimento biológico é útil em muitas profissões e atividades, incluindo agricultura, educação, saúde, ambiente, investigação e alimentação.',
-    },
-
-    summaryPoints: [
-      'A Biologia tem aplicações na saúde.',
-      'É importante para a agricultura.',
-      'Ajuda na conservação ambiental.',
-      'Contribui para compreender alimentação e doenças.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l2-q1',
-        'Qual é uma aplicação da Biologia na agricultura?',
-        [
-          'Compreender doenças das plantas.',
-          'Calcular a distância entre planetas.',
-          'Construir estradas.',
-          'Estudar movimentos sísmicos.',
-        ],
-        0,
-        'A Biologia ajuda a compreender doenças, crescimento, reprodução e necessidades das plantas.'
-      ),
-      makeQuestion(
-        'bio7-u1-l2-q2',
-        'A Biologia pode contribuir para a prevenção de doenças?',
-        ['Sim', 'Não'],
-        0,
-        'O conhecimento biológico permite compreender agentes causadores de doenças e formas de prevenção.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l2-e1',
-        'Qual área pode beneficiar diretamente do conhecimento da Biologia?',
-        ['Saúde', 'Apenas construção civil', 'Apenas astronomia', 'Nenhuma'],
-        0,
-        'A saúde é uma das áreas em que o conhecimento biológico possui grande aplicação.'
-      ),
-      makeExercise(
-        'bio7-u1-l2-e2',
-        'A conservação da biodiversidade depende de conhecimentos biológicos.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. É necessário compreender espécies, habitats, populações e ecossistemas para conservar a biodiversidade.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 3),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Ramos da Biologia',
-    lessonNumber: 3,
-    title: 'Ramos da Biologia',
-
-    objectives: [
-      'Compreender o conceito de ramo da Biologia.',
-      'Identificar alguns ramos da Biologia.',
-      'Relacionar cada ramo com o seu objeto de estudo.',
-    ],
-
-    content: {
-      definition:
-        'Ramos da Biologia são áreas especializadas que estudam determinados aspetos dos seres vivos ou grupos particulares de organismos.',
-
-      explanation: [
-        'A vida é muito diversificada e complexa. Por isso, a Biologia divide-se em diferentes áreas de estudo.',
-        'A Botânica estuda as plantas, enquanto a Zoologia estuda os animais.',
-        'A Microbiologia estuda microrganismos. A Ecologia estuda as relações entre os seres vivos e o ambiente.',
-        'A Genética estuda a hereditariedade e a variação. A Anatomia estuda estruturas dos organismos e a Fisiologia estuda o funcionamento dessas estruturas.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Um cientista que estuda doenças causadas por bactérias pode trabalhar com Microbiologia. Um investigador que estuda relações entre peixes e qualidade da água pode utilizar conhecimentos de Ecologia.',
-      solution:
-        'O ramo escolhido depende da pergunta científica que se pretende investigar.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Aplicação',
-      description:
-        'Em Moçambique, diferentes áreas da Biologia podem apoiar estudos sobre agricultura, fauna, flora, doenças, conservação e recursos naturais.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Confundir Botânica com Zoologia ou Ecologia com o estudo exclusivo de plantas.',
-      correctUnderstanding:
-        'Cada ramo possui um foco próprio, embora diferentes ramos possam trabalhar juntos numa mesma investigação.',
-    },
-
-    summaryPoints: [
-      'A Biologia possui vários ramos.',
-      'Botânica estuda plantas.',
-      'Zoologia estuda animais.',
-      'Ecologia estuda relações entre seres vivos e ambiente.',
-      'Genética estuda hereditariedade e variação.',
-      'Microbiologia estuda microrganismos.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l3-q1',
-        'Qual ramo estuda as plantas?',
-        ['Botânica', 'Zoologia', 'Geologia', 'Astronomia'],
-        0,
-        'Botânica é o ramo da Biologia dedicado ao estudo das plantas.'
-      ),
-      makeQuestion(
-        'bio7-u1-l3-q2',
-        'Qual ramo estuda as relações entre seres vivos e ambiente?',
-        ['Ecologia', 'Anatomia', 'Genética', 'Botânica'],
-        0,
-        'Ecologia estuda as relações dos organismos entre si e com o ambiente.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l3-e1',
-        'Um estudante quer investigar bactérias. Qual área é especialmente relevante?',
-        ['Microbiologia', 'Astronomia', 'Geometria', 'Geologia'],
-        0,
-        'A Microbiologia dedica-se ao estudo dos microrganismos.'
-      ),
-      makeExercise(
-        'bio7-u1-l3-e2',
-        'A Zoologia estuda principalmente:',
-        ['Animais', 'Plantas', 'Minerais', 'Planetas'],
-        0,
-        'Zoologia é o ramo da Biologia que estuda os animais.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 4),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Relação da Biologia com outras ciências',
-    lessonNumber: 4,
-    title: 'Relação da Biologia com outras ciências',
-
-    objectives: [
-      'Explicar por que a Biologia se relaciona com outras ciências.',
-      'Dar exemplos de relações entre disciplinas.',
-      'Compreender a importância da interdisciplinaridade.',
-    ],
-
-    content: {
-      definition:
-        'A Biologia relaciona-se com outras ciências porque muitos fenómenos da vida são complexos e precisam de conhecimentos de diferentes áreas para serem compreendidos.',
-
-      explanation: [
-        'A Química ajuda a compreender as substâncias e reações que ocorrem nos organismos.',
-        'A Física ajuda a compreender fenómenos como pressão, movimento, luz, som e eletricidade presentes nos seres vivos.',
-        'A Matemática permite analisar dados, construir gráficos, calcular proporções e interpretar resultados de experiências.',
-        'A Geografia contribui para compreender a distribuição dos seres vivos e a relação entre organismos e condições ambientais.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: qualidade da água',
-      description:
-        'Para estudar a qualidade de uma água usada por uma comunidade, podem ser necessários conhecimentos de Biologia, Química, Física e Geografia.',
-      solution:
-        'A combinação das áreas permite obter uma compreensão mais completa do problema.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Água e saúde',
-      description:
-        'Problemas de qualidade da água podem exigir conhecimentos sobre microrganismos, substâncias químicas, características físicas da água e localização das fontes.',
-      contextArea: 'recursos_naturais',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que cada ciência trabalha completamente isolada das outras.',
-      correctUnderstanding:
-        'As ciências possuem objetos de estudo específicos, mas podem complementar-se para resolver problemas complexos.',
-    },
-
-    summaryPoints: [
-      'A Biologia relaciona-se com várias ciências.',
-      'Química ajuda a compreender substâncias e reações.',
-      'Física ajuda a compreender fenómenos físicos nos organismos.',
-      'Matemática ajuda na análise de dados.',
-      'Geografia ajuda a compreender distribuição e ambiente.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l4-q1',
-        'Qual ciência ajuda a Biologia a estudar reações químicas nos seres vivos?',
-        ['Química', 'História', 'Literatura', 'Educação Física'],
-        0,
-        'A Química estuda substâncias e transformações químicas.'
-      ),
-      makeQuestion(
-        'bio7-u1-l4-q2',
-        'A Matemática pode ajudar na análise de dados biológicos?',
-        ['Sim', 'Não'],
-        0,
-        'A Matemática é importante para organizar, analisar e interpretar dados científicos.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l4-e1',
-        'Qual disciplina é especialmente útil para estudar substâncias presentes nos seres vivos?',
-        ['Química', 'História', 'Língua Portuguesa', 'Educação Visual'],
-        0,
-        'A Química ajuda a estudar a composição e as transformações das substâncias.'
-      ),
-      makeExercise(
-        'bio7-u1-l4-e2',
-        'A investigação científica pode utilizar conhecimentos de várias ciências.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Muitos problemas reais exigem uma abordagem interdisciplinar.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 5),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Método científico',
-    lessonNumber: 5,
-    title: 'Método científico',
-
-    objectives: [
-      'Explicar o significado de método científico.',
-      'Identificar etapas básicas de uma investigação.',
-      'Distinguir hipótese de conclusão.',
-    ],
-
-    content: {
-      definition:
-        'Método científico é um conjunto organizado de procedimentos utilizados para investigar fenómenos, testar explicações e produzir conhecimento baseado em evidências.',
-
-      explanation: [
-        'Uma investigação pode começar com uma observação ou uma pergunta sobre um fenómeno.',
-        'Depois de formular uma pergunta, o investigador pode propor uma hipótese, isto é, uma explicação provisória que pode ser testada.',
-        'Através de experiências ou recolha sistemática de dados, a hipótese é confrontada com evidências.',
-        'Finalmente, os resultados são analisados e é elaborada uma conclusão compatível com as evidências obtidas.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: germinação de sementes',
-      description:
-        'Um estudante pergunta se a quantidade de água influencia a germinação de sementes. Pode formular uma hipótese e comparar grupos de sementes submetidos a diferentes quantidades de água.',
-      solution:
-        'Depois de observar os resultados, o estudante analisa os dados e conclui se as evidências apoiam ou não a hipótese.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Investigação escolar',
-      description:
-        'O método científico pode ser utilizado para investigar problemas relacionados com germinação, água, solo, agricultura, conservação e saúde.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que uma hipótese é uma resposta definitivamente comprovada.',
-      correctUnderstanding:
-        'Uma hipótese é uma explicação provisória que deve ser testada através de evidências.',
-    },
-
-    summaryPoints: [
-      'A ciência utiliza procedimentos sistemáticos.',
-      'Uma hipótese é uma explicação provisória.',
-      'As hipóteses devem poder ser testadas.',
-      'Os resultados devem ser analisados com base em evidências.',
-      'A conclusão deve considerar os resultados obtidos.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l5-q1',
-        'O que é uma hipótese?',
-        [
-          'Uma explicação provisória que pode ser testada.',
-          'Uma opinião que nunca pode ser analisada.',
-          'Uma conclusão obrigatoriamente verdadeira.',
-          'Uma regra matemática.',
-        ],
-        0,
-        'Hipótese é uma explicação provisória que pode ser submetida a testes.'
-      ),
-      makeQuestion(
-        'bio7-u1-l5-q2',
-        'O que deve fundamentar uma conclusão científica?',
-        [
-          'Evidências e resultados.',
-          'A preferência do investigador.',
-          'Um palpite.',
-          'Uma opinião sem dados.',
-        ],
-        0,
-        'Conclusões científicas devem ser baseadas nas evidências disponíveis.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l5-e1',
-        'Um estudante afirma que determinada semente germina melhor com mais água e decide testar a ideia. Essa afirmação inicial pode ser considerada:',
-        ['Hipótese', 'Conclusão definitiva', 'Lei científica', 'Teoria sem teste'],
-        0,
-        'Antes do teste, a explicação proposta é uma hipótese.'
-      ),
-      makeExercise(
-        'bio7-u1-l5-e2',
-        'Uma conclusão científica deve ignorar os resultados da experiência.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Os resultados são fundamentais para avaliar uma hipótese.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 6),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Observação científica',
-    lessonNumber: 6,
-    title: 'Observação científica',
-
-    objectives: [
-      'Definir observação científica.',
-      'Distinguir observação de opinião.',
-      'Registar observações de forma objetiva.',
-    ],
-
-    content: {
-      definition:
-        'Observação científica é a recolha sistemática e cuidadosa de informações sobre um fenómeno utilizando os sentidos e, quando necessário, instrumentos de medição.',
-
-      explanation: [
-        'Observar cientificamente não significa apenas olhar. Significa prestar atenção às características relevantes de um fenómeno e registá-las de maneira organizada.',
-        'Uma observação pode incluir cor, forma, tamanho, comportamento, temperatura, tempo ou outras características mensuráveis.',
-        'Sempre que possível, as observações devem ser acompanhadas por medições e registos.',
-        'É importante distinguir aquilo que foi realmente observado de uma interpretação ou opinião sobre o que aconteceu.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Dizer “a planta tem 15 cm de altura” é uma observação mensurável. Dizer “a planta está feliz” é uma interpretação que não constitui uma medição científica adequada.',
-      solution:
-        'A primeira afirmação pode ser verificada através de uma régua.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Observação de plantas',
-      description:
-        'Estudantes podem observar plantas da sua comunidade e registar altura, número de folhas, cor e condições do local.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Confundir uma interpretação pessoal com uma observação.',
-      correctUnderstanding:
-        'Uma observação científica deve ser clara, objetiva e, quando possível, mensurável.',
-    },
-
-    summaryPoints: [
-      'Observar cientificamente exige atenção e organização.',
-      'Medições tornam os registos mais objetivos.',
-      'Observação e interpretação não são exatamente a mesma coisa.',
-      'Os dados devem ser registados de forma clara.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l6-q1',
-        'Qual é uma observação mais objetiva?',
-        [
-          'A planta mede 20 cm.',
-          'A planta parece muito bonita.',
-          'A planta está feliz.',
-          'A planta parece gostar do lugar.',
-        ],
-        0,
-        'Uma medida de 20 cm pode ser verificada utilizando um instrumento de medição.'
-      ),
-      makeQuestion(
-        'bio7-u1-l6-q2',
-        'Uma observação científica pode envolver medições.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Medições fornecem dados objetivos sobre o fenómeno estudado.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l6-e1',
-        'Qual informação é mais adequada para um registo científico?',
-        ['A folha mede 8 cm.', 'A folha é bonita.', 'A folha parece feliz.', 'A folha é interessante.'],
-        0,
-        'Uma medida pode ser verificada e comparada objetivamente.'
-      ),
-      makeExercise(
-        'bio7-u1-l6-e2',
-        'Observar cientificamente significa apenas olhar para alguma coisa.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. A observação científica envolve atenção, registo e, quando possível, medição.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 7),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Experimentação',
-    lessonNumber: 7,
-    title: 'Experimentação',
-
-    objectives: [
-      'Explicar o significado de experimentação.',
-      'Reconhecer a importância de controlar condições numa experiência.',
-      'Distinguir experiência de observação simples.',
-    ],
-
-    content: {
-      definition:
-        'Experimentação é a realização planeada de procedimentos para testar uma hipótese ou investigar a relação entre determinadas condições e um fenómeno.',
-
-      explanation: [
-        'Numa experiência, o investigador define o que pretende testar e organiza as condições de forma controlada.',
-        'Quando se compara o efeito de uma variável, é importante manter outras condições tão semelhantes quanto possível.',
-        'Por exemplo, ao estudar o efeito da água na germinação, podem ser utilizadas sementes semelhantes e recipientes iguais, alterando principalmente a quantidade de água.',
-        'Os resultados devem ser registados e comparados antes de se tirar uma conclusão.',
-      ],
-    },
-
-    example: {
-      title: 'Experiência com sementes',
-      description:
-        'Dois grupos de sementes podem receber diferentes quantidades de água. Depois, pode ser comparada a germinação dos grupos.',
-      solution:
-        'A comparação permite investigar se a quantidade de água está relacionada com a germinação, desde que outras condições relevantes sejam controladas.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Agricultura escolar',
-      description:
-        'Experiências simples podem ajudar estudantes a compreender germinação, crescimento vegetal, condições do solo e necessidades das plantas.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Alterar várias condições ao mesmo tempo e depois atribuir o resultado a apenas uma delas.',
-      correctUnderstanding:
-        'Quando se pretende testar uma variável, é importante controlar outras condições relevantes.',
-    },
-
-    summaryPoints: [
-      'Experiências servem para testar hipóteses.',
-      'As condições devem ser planeadas.',
-      'Variáveis relevantes devem ser controladas.',
-      'Os resultados devem ser registados.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l7-q1',
-        'Qual é uma finalidade da experimentação?',
-        [
-          'Testar uma hipótese.',
-          'Confirmar qualquer opinião sem evidências.',
-          'Evitar medições.',
-          'Substituir todos os registos.',
-        ],
-        0,
-        'A experimentação permite testar explicações através de procedimentos e evidências.'
-      ),
-      makeQuestion(
-        'bio7-u1-l7-q2',
-        'Controlar condições é importante numa experiência.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'O controlo de condições ajuda a interpretar corretamente os resultados.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l7-e1',
-        'Para estudar o efeito da água na germinação, é melhor:',
-        [
-          'Controlar outras condições relevantes.',
-          'Alterar água, luz, temperatura e sementes ao mesmo tempo.',
-          'Não registar os resultados.',
-          'Utilizar apenas uma semente sem comparação.',
-        ],
-        0,
-        'Controlar outras condições permite avaliar melhor o efeito da variável estudada.'
-      ),
-      makeExercise(
-        'bio7-u1-l7-e2',
-        'Uma experiência deve ser planeada antes da sua realização.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. O planeamento é importante para definir procedimentos e condições.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 8),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Segurança no laboratório',
-    lessonNumber: 8,
-    title: 'Segurança no laboratório',
-
-    objectives: [
-      'Reconhecer regras básicas de segurança.',
-      'Compreender a importância do comportamento responsável.',
-      'Identificar riscos comuns no laboratório.',
-    ],
-
-    content: {
-      definition:
-        'Segurança no laboratório é o conjunto de regras e comportamentos destinados a prevenir acidentes, proteger pessoas e conservar materiais durante atividades experimentais.',
-
-      explanation: [
-        'No laboratório devem ser seguidas as orientações do professor ou responsável pela atividade.',
-        'Não se deve provar substâncias, cheirar diretamente produtos químicos ou realizar procedimentos não autorizados.',
-        'Materiais de vidro devem ser manuseados com cuidado e qualquer acidente deve ser comunicado imediatamente.',
-        'A bancada deve permanecer organizada e os resíduos devem ser descartados de acordo com as orientações de segurança.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Se um frasco cair e derramar uma substância, o estudante não deve tentar resolver sozinho sem saber o risco. Deve afastar-se e informar imediatamente o responsável.',
-      solution:
-        'Comunicar o acidente rapidamente permite aplicar o procedimento adequado.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Responsabilidade escolar',
-      description:
-        'Mesmo em laboratórios escolares com recursos limitados, regras básicas de segurança reduzem riscos e permitem realizar atividades práticas de forma responsável.',
-      contextArea: 'saúde',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que pequenas quantidades de substâncias ou materiais nunca oferecem risco.',
-      correctUnderstanding:
-        'Qualquer atividade experimental deve ser realizada de acordo com as regras de segurança e sob orientação adequada.',
-    },
-
-    summaryPoints: [
-      'Segurança deve ser prioridade no laboratório.',
-      'Não se deve provar substâncias.',
-      'Acidentes devem ser comunicados imediatamente.',
-      'Materiais devem ser utilizados corretamente.',
-      'A bancada deve permanecer organizada.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l8-q1',
-        'O que fazer em caso de acidente no laboratório?',
-        [
-          'Informar imediatamente o responsável.',
-          'Esconder o acidente.',
-          'Continuar a experiência normalmente.',
-          'Abandonar o laboratório sem avisar.',
-        ],
-        0,
-        'Comunicar imediatamente permite que o procedimento de segurança adequado seja aplicado.'
-      ),
-      makeQuestion(
-        'bio7-u1-l8-q2',
-        'É seguro provar substâncias no laboratório para descobrir o sabor?',
-        ['Não', 'Sim'],
-        0,
-        'Nunca se deve provar substâncias laboratoriais sem uma autorização e procedimento específico.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l8-e1',
-        'Qual comportamento é correto no laboratório?',
-        [
-          'Seguir as instruções do responsável.',
-          'Correr entre as bancadas.',
-          'Provar substâncias.',
-          'Misturar produtos sem autorização.',
-        ],
-        0,
-        'Seguir instruções é uma das principais regras de segurança.'
-      ),
-      makeExercise(
-        'bio7-u1-l8-e2',
-        'Um acidente deve ser escondido para evitar problemas.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Acidentes devem ser comunicados imediatamente.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 9),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Instrumentos básicos de observação',
-    lessonNumber: 9,
-    title: 'Instrumentos básicos de observação',
-
-    objectives: [
-      'Reconhecer instrumentos básicos de observação.',
-      'Explicar a utilidade de instrumentos simples.',
-      'Compreender a importância da medição científica.',
-    ],
-
-    content: {
-      definition:
-        'Instrumentos de observação são ferramentas utilizadas para ampliar a capacidade de observar, medir ou registar características de objetos e fenómenos.',
-
-      explanation: [
-        'A visão humana permite observar muitos fenómenos, mas alguns detalhes são pequenos demais para serem vistos claramente.',
-        'A lupa pode aumentar a imagem de objetos pequenos. O microscópio permite observar estruturas muito menores.',
-        'A régua permite medir comprimento, enquanto outros instrumentos podem medir massa, temperatura ou volume.',
-        'A escolha do instrumento depende daquilo que se pretende observar ou medir.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Uma folha pode ser observada diretamente, mas uma pequena estrutura presente na sua superfície pode exigir uma lupa ou microscópio.',
-      solution:
-        'O instrumento deve ser escolhido de acordo com o tamanho e a natureza da estrutura que se pretende estudar.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Observação de organismos',
-      description:
-        'Instrumentos simples podem ser utilizados em atividades escolares para observar sementes, folhas, pequenos organismos e características do ambiente.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Usar qualquer instrumento sem considerar a sua finalidade.',
-      correctUnderstanding:
-        'Cada instrumento possui uma função e um nível de precisão ou ampliação adequado.',
-    },
-
-    summaryPoints: [
-      'Instrumentos aumentam a capacidade de observação e medição.',
-      'A lupa permite ampliar objetos pequenos.',
-      'O microscópio permite observar estruturas muito pequenas.',
-      'Instrumentos de medição fornecem dados objetivos.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l9-q1',
-        'Qual instrumento pode ampliar a imagem de um pequeno objeto?',
-        ['Lupa', 'Régua', 'Balança', 'Termómetro'],
-        0,
-        'A lupa é utilizada para ampliar visualmente objetos pequenos.'
-      ),
-      makeQuestion(
-        'bio7-u1-l9-q2',
-        'A régua é utilizada principalmente para medir:',
-        ['Comprimento', 'Temperatura', 'Massa', 'Pressão'],
-        0,
-        'A régua é utilizada para medir comprimento ou distância.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l9-e1',
-        'Para observar estruturas muito pequenas, qual instrumento pode ser necessário?',
-        ['Microscópio', 'Régua', 'Balança', 'Proveta'],
-        0,
-        'O microscópio permite observar estruturas que não podem ser vistas claramente a olho nu.'
-      ),
-      makeExercise(
-        'bio7-u1-l9-e2',
-        'A escolha do instrumento depende do que se pretende observar ou medir.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Instrumentos diferentes possuem funções diferentes.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u1', 10),
-    unitId: 'bio-7-u1',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Ética e responsabilidade científica',
-    lessonNumber: 10,
-    title: 'Ética e responsabilidade científica',
-
-    objectives: [
-      'Compreender o significado de ética científica.',
-      'Reconhecer comportamentos responsáveis na investigação.',
-      'Valorizar honestidade e respeito na ciência.',
-    ],
-
-    content: {
-      definition:
-        'Ética científica é o conjunto de princípios que orientam uma investigação responsável, honesta, segura e respeitosa para com pessoas, animais, ambiente e conhecimento.',
-
-      explanation: [
-        'Um investigador deve apresentar resultados de forma honesta, sem inventar ou alterar dados para obter a conclusão desejada.',
-        'A investigação que envolve seres humanos deve respeitar direitos, segurança, privacidade e consentimento apropriado.',
-        'A utilização de animais em investigação deve seguir princípios de proteção e normas aplicáveis.',
-        'A ciência também deve considerar os impactos ambientais e sociais das suas atividades.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Se uma experiência não produzir o resultado esperado, o estudante não deve modificar os dados para parecer que a hipótese estava correta.',
-      solution:
-        'O resultado inesperado também é informação científica e deve ser comunicado honestamente.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Responsabilidade na escola e comunidade',
-      description:
-        'A ética científica ajuda estudantes e investigadores a realizar atividades responsáveis, especialmente quando trabalham com pessoas, animais, ambiente ou dados pessoais.',
-      contextArea: 'ambiente',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que é aceitável alterar dados quando os resultados não correspondem à hipótese.',
-      correctUnderstanding:
-        'A ciência depende da confiança nos dados. Resultados devem ser apresentados honestamente, mesmo quando contradizem a expectativa inicial.',
-    },
-
-    summaryPoints: [
-      'A ciência exige honestidade.',
-      'Dados não devem ser falsificados.',
-      'Pessoas, animais e ambiente devem ser respeitados.',
-      'A investigação deve considerar consequências sociais e ambientais.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u1-l10-q1',
-        'É correto alterar resultados para confirmar uma hipótese?',
-        ['Não', 'Sim'],
-        0,
-        'Alterar dados é contrário à honestidade científica.'
-      ),
-      makeQuestion(
-        'bio7-u1-l10-q2',
-        'A investigação científica deve respeitar pessoas e ambiente.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'A responsabilidade científica inclui respeito pela segurança, direitos e ambiente.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u1-l10-e1',
-        'Um estudante obtém um resultado diferente do esperado. O que deve fazer?',
-        [
-          'Registar e analisar o resultado honestamente.',
-          'Apagar os dados.',
-          'Inventar resultados.',
-          'Alterar os números.',
-        ],
-        0,
-        'Resultados inesperados devem ser registados e analisados, não falsificados.'
-      ),
-      makeExercise(
-        'bio7-u1-l10-e2',
-        'A ética científica contribui para a confiança na ciência.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Honestidade e responsabilidade são fundamentais para a credibilidade científica.'
-      ),
-    ],
-  },
-
-  /* ==========================================================
-     UNIDADE 2 — SERES VIVOS
-     ========================================================== */
-
-  {
-    id: lessonId('bio-7-u2', 1),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Conceito de ser vivo',
-    lessonNumber: 1,
-    title: 'Conceito de ser vivo',
-
-    objectives: [
-      'Definir ser vivo.',
-      'Identificar características associadas à vida.',
-      'Distinguir seres vivos de objetos não vivos.',
-    ],
-
-    content: {
-      definition:
-        'Ser vivo é um organismo que apresenta organização biológica e realiza processos característicos da vida, como metabolismo, crescimento e reprodução, dentro das condições próprias de cada organismo.',
-
-      explanation: [
-        'Os seres vivos possuem organização e realizam processos que permitem a manutenção da vida.',
-        'Entre as características geralmente associadas aos seres vivos estão metabolismo, crescimento, reprodução, resposta a estímulos e capacidade de manter condições internas relativamente estáveis.',
-        'Nem todas as características são observadas da mesma forma em todos os organismos e em todos os momentos. Por exemplo, um indivíduo estéril continua sendo um ser vivo, embora não consiga reproduzir-se.',
-        'A identificação de vida deve considerar o conjunto das características e não apenas uma característica isolada.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: planta e pedra',
-      description:
-        'Uma planta realiza metabolismo, cresce, responde a estímulos e possui capacidade de reprodução. Uma pedra pode aumentar de tamanho por acumulação de materiais, mas não realiza processos biológicos.',
-      solution:
-        'A diferença está nos processos biológicos que caracterizam a organização viva.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Diversidade da vida',
-      description:
-        'Moçambique possui grande diversidade de plantas, animais e microrganismos em ambientes terrestres e aquáticos.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que qualquer coisa que cresce ou se move é necessariamente um ser vivo.',
-      correctUnderstanding:
-        'Crescimento ou movimento isolados não são suficientes para definir vida. É necessário considerar o conjunto das características biológicas.',
-    },
-
-    summaryPoints: [
-      'Ser vivo é um organismo que apresenta organização e processos biológicos.',
-      'Os seres vivos realizam metabolismo.',
-      'Crescimento e reprodução são características importantes.',
-      'Resposta a estímulos também é uma característica da vida.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l1-q1',
-        'Qual é um processo característico dos seres vivos?',
-        ['Metabolismo', 'Ferrugem de uma bicicleta', 'Desgaste de uma pedra', 'Derretimento do gelo'],
-        0,
-        'Metabolismo é o conjunto de reações químicas que ocorre nos organismos.'
-      ),
-      makeQuestion(
-        'bio7-u2-l1-q2',
-        'Uma pedra é considerada ser vivo apenas porque pode aumentar de tamanho?',
-        ['Não', 'Sim'],
-        0,
-        'O aumento de tamanho por acumulação de materiais não constitui, por si só, crescimento biológico.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l1-e1',
-        'Qual característica ajuda a identificar um ser vivo?',
-        ['Realização de processos metabólicos', 'Apenas ter cor', 'Apenas possuir massa', 'Apenas ocupar espaço'],
-        0,
-        'O metabolismo é uma característica fundamental da organização viva.'
-      ),
-      makeExercise(
-        'bio7-u2-l1-e2',
-        'Um organismo que não consegue reproduzir-se individualmente deixa necessariamente de ser vivo.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Um indivíduo pode ser estéril e continuar sendo um ser vivo.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 2),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Características dos seres vivos',
-    lessonNumber: 2,
-    title: 'Características dos seres vivos',
-
-    objectives: [
-      'Identificar características gerais dos seres vivos.',
-      'Explicar a importância dessas características.',
-      'Utilizar exemplos para reconhecer organismos vivos.',
-    ],
-
-    content: {
-      definition:
-        'As características dos seres vivos são propriedades e processos que, em conjunto, distinguem a organização viva da matéria não viva.',
-
-      explanation: [
-        'Os seres vivos possuem organização biológica, utilizam energia e matéria, crescem e desenvolvem-se.',
-        'Eles respondem a estímulos, reproduzem-se e possuem informação hereditária.',
-        'Os organismos também mantêm condições internas dentro de determinados limites, processo relacionado com a homeostase.',
-        'A vida apresenta grande diversidade, por isso essas características podem manifestar-se de maneiras diferentes entre organismos.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Uma planta cresce, realiza fotossíntese, respira, responde à luz, reproduz-se e possui material genético.',
-      solution:
-        'O conjunto dessas características demonstra que a planta é um ser vivo.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Observação da natureza',
-      description:
-        'A observação de plantas, animais e microrganismos permite identificar diferentes formas de manifestação das características da vida.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Considerar uma única característica como suficiente para definir vida.',
-      correctUnderstanding:
-        'É necessário analisar o conjunto de características e a organização biológica do organismo.',
-    },
-
-    summaryPoints: [
-      'Seres vivos possuem organização biológica.',
-      'Utilizam matéria e energia.',
-      'Crescem e desenvolvem-se.',
-      'Respondem a estímulos.',
-      'Reproduzem-se e possuem informação genética.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l2-q1',
-        'Qual destas características pertence aos seres vivos?',
-        ['Resposta a estímulos', 'Oxidação de ferro', 'Derretimento', 'Erosão'],
-        0,
-        'Os organismos respondem a alterações do ambiente.'
-      ),
-      makeQuestion(
-        'bio7-u2-l2-q2',
-        'Os seres vivos necessitam de matéria e energia para realizar processos vitais.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Os organismos dependem de matéria e energia para manter o metabolismo e outras funções.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l2-e1',
-        'Qual conjunto apresenta características associadas à vida?',
-        [
-          'Crescimento, metabolismo e resposta a estímulos.',
-          'Ferrugem, erosão e derretimento.',
-          'Somente cor e forma.',
-          'Somente massa e volume.',
-        ],
-        0,
-        'Crescimento, metabolismo e resposta a estímulos são características biológicas.'
-      ),
-      makeExercise(
-        'bio7-u2-l2-e2',
-        'Todos os seres vivos apresentam exatamente as mesmas características da mesma maneira.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Existe diversidade na forma como diferentes organismos realizam processos vitais.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 3),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Organização dos seres vivos',
-    lessonNumber: 3,
-    title: 'Organização dos seres vivos',
-
-    objectives: [
-      'Compreender que os seres vivos possuem organização.',
-      'Relacionar organização biológica com funcionamento.',
-      'Reconhecer níveis básicos de organização.',
-    ],
-
-    content: {
-      definition:
-        'Organização biológica é a disposição ordenada das estruturas e componentes que formam um organismo e permitem o funcionamento integrado da vida.',
-
-      explanation: [
-        'Nos organismos multicelulares, células semelhantes podem formar tecidos, tecidos podem formar órgãos e órgãos podem trabalhar juntos em sistemas.',
-        'Mesmo organismos unicelulares possuem organização interna que permite realizar funções vitais.',
-        'A organização permite que diferentes partes desempenhem funções específicas e trabalhem de forma integrada.',
-        'A partir da célula, podem ser considerados níveis progressivamente mais complexos de organização.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: corpo humano',
-      description:
-        'Células musculares organizam-se em tecidos; tecidos formam estruturas como músculos; vários órgãos podem atuar juntos em sistemas.',
-      solution:
-        'A integração entre diferentes níveis permite o funcionamento do organismo.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Saúde',
-      description:
-        'Compreender a organização do organismo ajuda a entender como doenças ou alterações em determinadas estruturas podem afetar funções do corpo.',
-      contextArea: 'saúde',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que todas as células de um organismo multicelular possuem exatamente a mesma estrutura e função.',
-      correctUnderstanding:
-        'Muitas células apresentam especialização, desempenhando funções diferentes dentro do organismo.',
-    },
-
-    summaryPoints: [
-      'Os seres vivos possuem organização.',
-      'Organismos multicelulares apresentam diferentes níveis de organização.',
-      'Células podem especializar-se.',
-      'As partes do organismo funcionam de maneira integrada.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l3-q1',
-        'O que significa organização biológica?',
-        [
-          'Disposição ordenada das estruturas que permite o funcionamento da vida.',
-          'Apenas o tamanho de um organismo.',
-          'A cor externa do organismo.',
-          'A idade do organismo.',
-        ],
-        0,
-        'Organização biológica refere-se à disposição e integração das estruturas e funções da vida.'
-      ),
-      makeQuestion(
-        'bio7-u2-l3-q2',
-        'Células de um organismo multicelular podem apresentar funções diferentes.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. A especialização celular permite desempenhar diferentes funções.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l3-e1',
-        'Qual é uma vantagem da organização biológica?',
-        [
-          'Permitir especialização e integração de funções.',
-          'Impedir qualquer interação entre células.',
-          'Eliminar todas as diferenças celulares.',
-          'Impedir crescimento.',
-        ],
-        0,
-        'A organização permite que estruturas especializadas trabalhem de forma integrada.'
-      ),
-      makeExercise(
-        'bio7-u2-l3-e2',
-        'Um organismo multicelular pode possuir células especializadas.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Diferentes células podem desempenhar diferentes funções.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 4),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Crescimento',
-    lessonNumber: 4,
-    title: 'Crescimento',
-
-    objectives: [
-      'Definir crescimento biológico.',
-      'Explicar como ocorre o crescimento.',
-      'Distinguir crescimento biológico de simples acumulação de matéria.',
-    ],
-
-    content: {
-      definition:
-        'Crescimento biológico é o aumento organizado do tamanho ou da biomassa de um organismo, associado à produção de matéria e, em muitos organismos, ao aumento do número e tamanho das células.',
-
-      explanation: [
-        'Nos organismos multicelulares, o crescimento pode envolver divisão celular e aumento do tamanho das células.',
-        'O crescimento depende da obtenção de matéria e energia e de processos internos regulados.',
-        'Plantas e animais apresentam padrões de crescimento diferentes.',
-        'O crescimento não deve ser confundido com uma simples acumulação externa de material.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: crescimento de uma planta',
-      description:
-        'Uma semente germina e origina uma planta que desenvolve raízes, caule e folhas.',
-      solution:
-        'O aumento do organismo resulta de processos celulares e utilização de matéria e energia.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Agricultura',
-      description:
-        'Compreender o crescimento das plantas ajuda agricultores e estudantes a reconhecer a importância de água, luz, nutrientes e condições adequadas.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que qualquer objeto que aumenta de tamanho está a crescer biologicamente.',
-      correctUnderstanding:
-        'Crescimento biológico envolve processos organizados do organismo, não apenas acumulação de material externo.',
-    },
-
-    summaryPoints: [
-      'Crescimento é uma característica dos seres vivos.',
-      'Pode envolver divisão e crescimento celular.',
-      'Depende de matéria e energia.',
-      'Plantas e animais possuem diferentes padrões de crescimento.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l4-q1',
-        'O crescimento biológico está relacionado com:',
-        [
-          'Processos organizados do organismo.',
-          'Apenas acumulação de poeira.',
-          'Apenas erosão.',
-          'Somente mudança de cor.',
-        ],
-        0,
-        'Crescimento biológico resulta de processos internos organizados.'
-      ),
-      makeQuestion(
-        'bio7-u2-l4-q2',
-        'As plantas precisam de matéria e energia para crescer.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. O crescimento exige matéria e energia obtidas e processadas pelo organismo.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l4-e1',
-        'Qual processo pode contribuir diretamente para o crescimento de um organismo multicelular?',
-        ['Divisão celular', 'Ferrugem', 'Erosão', 'Evaporação'],
-        0,
-        'A divisão celular contribui para o aumento do número de células em muitos organismos.'
-      ),
-      makeExercise(
-        'bio7-u2-l4-e2',
-        'Crescimento biológico é exatamente igual à acumulação de material numa pedra.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Crescimento biológico envolve processos internos organizados.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 5),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Reprodução',
-    lessonNumber: 5,
-    title: 'Reprodução',
-
-    objectives: [
-      'Definir reprodução.',
-      'Distinguir reprodução sexuada e assexuada.',
-      'Explicar a importância da reprodução para a continuidade das espécies.',
-    ],
-
-    content: {
-      definition:
-        'Reprodução é o processo biológico pelo qual os organismos originam novos indivíduos da mesma espécie.',
-
-      explanation: [
-        'A reprodução permite a continuidade das populações ao longo das gerações.',
-        'Na reprodução assexuada, um único organismo pode originar descendentes sem fusão de gametas. Os descendentes tendem a ser geneticamente muito semelhantes ao progenitor.',
-        'Na reprodução sexuada ocorre participação de células reprodutoras e, em muitos organismos, fusão de gametas, contribuindo para a variabilidade genética.',
-        'A reprodução é importante para a continuidade das espécies, embora um indivíduo isolado não precise necessariamente reproduzir-se para ser considerado vivo.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Algumas plantas podem ser propagadas vegetativamente através de partes da planta. Em seres humanos, a reprodução é sexuada.',
-      solution:
-        'Os mecanismos de reprodução variam entre os organismos.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Agricultura',
-      description:
-        'A reprodução de plantas possui importância agrícola, incluindo produção de sementes e propagação vegetativa de determinadas culturas.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que reprodução é obrigatória para cada indivíduo permanecer vivo.',
-      correctUnderstanding:
-        'A reprodução é importante para a continuidade da espécie, mas indivíduos podem viver sem se reproduzir.',
-    },
-
-    summaryPoints: [
-      'Reprodução origina novos indivíduos.',
-      'Pode ser sexuada ou assexuada.',
-      'A reprodução mantém a continuidade das espécies.',
-      'A reprodução sexuada contribui para a variabilidade genética.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l5-q1',
-        'Qual é a função principal da reprodução?',
-        [
-          'Permitir a continuidade das espécies.',
-          'Produzir apenas energia.',
-          'Eliminar todos os organismos.',
-          'Impedir crescimento.',
-        ],
-        0,
-        'A reprodução permite a formação de novos indivíduos e a continuidade das espécies.'
-      ),
-      makeQuestion(
-        'bio7-u2-l5-q2',
-        'Na reprodução assexuada é necessária a fusão de gametas?',
-        ['Não', 'Sim'],
-        0,
-        'A reprodução assexuada ocorre sem fusão de gametas.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l5-e1',
-        'Qual processo está diretamente relacionado com a continuidade de uma espécie?',
-        ['Reprodução', 'Evaporação', 'Erosão', 'Condensação'],
-        0,
-        'A reprodução origina novos indivíduos e permite a continuidade das espécies.'
-      ),
-      makeExercise(
-        'bio7-u2-l5-e2',
-        'Um indivíduo que não se reproduz deixa necessariamente de ser um ser vivo.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. A reprodução é uma característica da vida ao nível das populações e espécies; indivíduos estéreis continuam vivos.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 6),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Nutrição',
-    lessonNumber: 6,
-    title: 'Nutrição',
-
-    objectives: [
-      'Definir nutrição.',
-      'Explicar por que os organismos necessitam de nutrientes.',
-      'Distinguir diferentes formas de obtenção de matéria.',
-    ],
-
-    content: {
-      definition:
-        'Nutrição é o conjunto de processos através dos quais os organismos obtêm, transformam e utilizam matéria e nutrientes necessários para as suas funções vitais.',
-
-      explanation: [
-        'Os organismos precisam de matéria para construir e renovar estruturas e de energia para realizar processos celulares.',
-        'As plantas produzem matéria orgânica através da fotossíntese utilizando água, dióxido de carbono e energia luminosa.',
-        'Os animais obtêm matéria orgânica através da alimentação.',
-        'A nutrição está relacionada com crescimento, reparação de tecidos, metabolismo e manutenção do organismo.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: alimentação humana',
-      description:
-        'Uma pessoa obtém nutrientes através dos alimentos. Esses nutrientes são posteriormente utilizados em diferentes processos do organismo.',
-      solution:
-        'A alimentação fornece matéria e energia necessárias ao funcionamento do organismo.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Alimentação e saúde',
-      description:
-        'Uma alimentação adequada é importante para crescimento, desenvolvimento e prevenção de problemas nutricionais.',
-      contextArea: 'saúde',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que todos os seres vivos obtêm alimento exatamente da mesma maneira.',
-      correctUnderstanding:
-        'Organismos diferentes possuem estratégias diferentes de obtenção de matéria e energia.',
-    },
-
-    summaryPoints: [
-      'Nutrição fornece matéria e energia ao organismo.',
-      'Plantas produzem matéria orgânica por fotossíntese.',
-      'Animais obtêm nutrientes através da alimentação.',
-      'Nutrição é essencial ao funcionamento e crescimento.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l6-q1',
-        'Por que os organismos precisam de nutrientes?',
-        [
-          'Para crescimento, manutenção e funcionamento.',
-          'Apenas para mudar de cor.',
-          'Somente para dormir.',
-          'Para deixar de respirar.',
-        ],
-        0,
-        'Nutrientes fornecem matéria e participam de processos necessários à vida.'
-      ),
-      makeQuestion(
-        'bio7-u2-l6-q2',
-        'As plantas podem produzir matéria orgânica através da fotossíntese.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Na fotossíntese, plantas utilizam energia luminosa para produzir matéria orgânica a partir de substâncias inorgânicas.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l6-e1',
-        'Qual processo permite às plantas produzir matéria orgânica utilizando energia luminosa?',
-        ['Fotossíntese', 'Digestão', 'Excreção', 'Transpiração'],
-        0,
-        'A fotossíntese permite produzir matéria orgânica utilizando energia luminosa.'
-      ),
-      makeExercise(
-        'bio7-u2-l6-e2',
-        'Os animais obtêm nutrientes principalmente através da alimentação.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Animais dependem da ingestão e digestão de alimentos para obter nutrientes.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 7),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Respiração',
-    lessonNumber: 7,
-    title: 'Respiração',
-
-    objectives: [
-      'Compreender o conceito de respiração celular.',
-      'Distinguir respiração celular de simples entrada de ar.',
-      'Explicar a importância da respiração para os organismos.',
-    ],
-
-    content: {
-      definition:
-        'Respiração celular é o conjunto de reações metabólicas através das quais as células obtêm energia utilizável a partir de moléculas orgânicas.',
-
-      explanation: [
-        'A respiração celular ocorre nas células e permite disponibilizar energia para atividades como crescimento, movimento, transporte de substâncias e manutenção do organismo.',
-        'Na respiração aeróbia, o oxigénio participa no processo e a glicose é degradada, produzindo dióxido de carbono, água e energia armazenada principalmente em ATP.',
-        'Respiração celular não é exatamente o mesmo que respirar ou trocar gases com o ambiente.',
-        'Organismos diferentes possuem diferentes estruturas para realizar trocas gasosas, mas todas as células precisam de processos metabólicos para obter energia.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: exercício físico',
-      description:
-        'Durante exercício intenso, os músculos aumentam a necessidade de energia. O organismo aumenta a ventilação e circulação para fornecer oxigénio e nutrientes.',
-      solution:
-        'O aumento da atividade celular exige maior produção de energia.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Saúde',
-      description:
-        'Compreender respiração ajuda a entender a importância do sistema respiratório, circulação e atividade física.',
-      contextArea: 'saúde',
-    },
-
-    attention: {
-      commonError:
-        'Usar “respiração” apenas para significar entrada e saída de ar.',
-      correctUnderstanding:
-        'Na Biologia, é importante distinguir trocas gasosas da respiração celular, que ocorre nas células.',
-    },
-
-    summaryPoints: [
-      'Respiração celular é um processo metabólico.',
-      'Produz energia utilizável pelas células.',
-      'A respiração aeróbia utiliza oxigénio.',
-      'Trocas gasosas e respiração celular são conceitos relacionados, mas diferentes.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l7-q1',
-        'Onde ocorre a respiração celular?',
-        ['Nas células', 'Apenas no ar', 'Apenas no solo', 'Apenas na água'],
-        0,
-        'Respiração celular é um conjunto de reações metabólicas que ocorre nas células.'
-      ),
-      makeQuestion(
-        'bio7-u2-l7-q2',
-        'Respiração celular é exatamente igual à entrada e saída de ar dos pulmões.',
-        ['Falso', 'Verdadeiro'],
-        0,
-        'Falso. Trocas gasosas e respiração celular são processos distintos.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l7-e1',
-        'Qual é uma função importante da respiração celular?',
-        ['Disponibilizar energia para as células.', 'Produzir luz solar.', 'Formar solo.', 'Eliminar todos os nutrientes.'],
-        0,
-        'A respiração celular disponibiliza energia utilizável pelas células.'
-      ),
-      makeExercise(
-        'bio7-u2-l7-e2',
-        'O oxigénio pode participar na respiração aeróbia.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. O oxigénio participa como reagente na respiração aeróbia.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 8),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Excreção',
-    lessonNumber: 8,
-    title: 'Excreção',
-
-    objectives: [
-      'Definir excreção.',
-      'Explicar a importância da eliminação de resíduos metabólicos.',
-      'Distinguir excreção de alimentação.',
-    ],
-
-    content: {
-      definition:
-        'Excreção é o processo de eliminação de substâncias residuais resultantes do metabolismo do organismo.',
-
-      explanation: [
-        'Durante o metabolismo são produzidas substâncias que precisam de ser eliminadas para evitar acumulação prejudicial.',
-        'Nos seres humanos, os rins participam na eliminação de resíduos através da urina, enquanto os pulmões eliminam dióxido de carbono.',
-        'A pele também participa na eliminação de pequenas quantidades de água, sais e outras substâncias através do suor.',
-        'Excreção não deve ser confundida com eliminação de restos de alimentos não digeridos, que pertence à egestão.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: urina',
-      description:
-        'Os rins filtram o sangue e participam na formação da urina, que contém resíduos e excesso de determinadas substâncias.',
-      solution:
-        'A eliminação da urina é uma forma importante de excreção.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Saúde e água',
-      description:
-        'A compreensão da excreção reforça a importância da hidratação adequada, higiene e prevenção de doenças do sistema urinário.',
-      contextArea: 'saúde',
-    },
-
-    attention: {
-      commonError:
-        'Considerar fezes como produto principal da excreção.',
-      correctUnderstanding:
-        'Fezes são principalmente restos não digeridos e materiais não absorvidos; excreção refere-se à eliminação de resíduos metabólicos.',
-    },
-
-    summaryPoints: [
-      'Excreção elimina resíduos do metabolismo.',
-      'Rins são importantes na excreção humana.',
-      'Pulmões eliminam dióxido de carbono.',
-      'Suor pode eliminar água e sais.',
-      'Excreção é diferente de egestão.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l8-q1',
-        'Qual órgão participa diretamente da formação da urina?',
-        ['Rim', 'Coração', 'Estômago', 'Pulmão'],
-        0,
-        'Os rins filtram o sangue e participam da formação da urina.'
-      ),
-      makeQuestion(
-        'bio7-u2-l8-q2',
-        'Excreção elimina resíduos resultantes do metabolismo.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Essa é a definição básica de excreção.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l8-e1',
-        'Qual substância é eliminada pelos pulmões como produto do metabolismo?',
-        ['Dióxido de carbono', 'Glicose', 'Amido', 'Proteína'],
-        0,
-        'O dióxido de carbono é produzido na respiração celular e eliminado pelos pulmões.'
-      ),
-      makeExercise(
-        'bio7-u2-l8-e2',
-        'Excreção e eliminação de restos alimentares não digeridos são exatamente o mesmo processo.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Excreção refere-se a resíduos metabólicos; egestão refere-se a restos não digeridos.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 9),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Sensibilidade',
-    lessonNumber: 9,
-    title: 'Sensibilidade',
-
-    objectives: [
-      'Definir sensibilidade nos seres vivos.',
-      'Explicar resposta a estímulos.',
-      'Dar exemplos de respostas em plantas e animais.',
-    ],
-
-    content: {
-      definition:
-        'Sensibilidade é a capacidade dos organismos de detetar alterações internas ou externas e responder a estímulos.',
-
-      explanation: [
-        'Um estímulo é uma alteração que pode provocar uma resposta do organismo.',
-        'Animais possuem sistemas nervosos e órgãos sensoriais especializados que permitem detetar diferentes estímulos.',
-        'As plantas também respondem a estímulos, embora não possuam sistema nervoso como os animais.',
-        'Luz, gravidade, temperatura, toque e substâncias químicas podem atuar como estímulos.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: luz',
-      description:
-        'Uma planta pode orientar o crescimento dos seus órgãos em direção à luz. Um ser humano pode retirar a mão rapidamente ao tocar numa superfície muito quente.',
-      solution:
-        'Em ambos os casos existe deteção de um estímulo e uma resposta biológica.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Observação de plantas',
-      description:
-        'Estudantes podem observar respostas de plantas à luz e à água em experiências simples.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que apenas animais conseguem responder a estímulos.',
-      correctUnderstanding:
-        'Plantas também respondem a estímulos ambientais, embora utilizem mecanismos diferentes dos animais.',
-    },
-
-    summaryPoints: [
-      'Sensibilidade é a capacidade de perceber estímulos e responder.',
-      'Animais utilizam sistemas sensoriais e nervosos.',
-      'Plantas também respondem a estímulos.',
-      'Luz, temperatura e toque podem funcionar como estímulos.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l9-q1',
-        'O que é um estímulo?',
-        [
-          'Uma alteração capaz de provocar uma resposta.',
-          'Um tipo de alimento.',
-          'Uma célula.',
-          'Um órgão.',
-        ],
-        0,
-        'Estímulo é uma alteração interna ou externa que pode desencadear uma resposta.'
-      ),
-      makeQuestion(
-        'bio7-u2-l9-q2',
-        'As plantas podem responder a estímulos?',
-        ['Sim', 'Não'],
-        0,
-        'Sim. Plantas respondem a estímulos como luz, gravidade, água e toque.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l9-e1',
-        'Uma planta que cresce em direção à luz está respondendo a:',
-        ['Um estímulo luminoso', 'Um som', 'Uma doença necessariamente', 'Um mineral metálico'],
-        0,
-        'A luz é um estímulo ambiental ao qual muitas plantas respondem.'
-      ),
-      makeExercise(
-        'bio7-u2-l9-e2',
-        'Somente animais apresentam sensibilidade.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Plantas também possuem respostas a estímulos.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u2', 10),
-    unitId: 'bio-7-u2',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Adaptação',
-    lessonNumber: 10,
-    title: 'Adaptação',
-
-    objectives: [
-      'Definir adaptação biológica.',
-      'Distinguir adaptação de uma mudança individual imediata.',
-      'Relacionar adaptação com sobrevivência e reprodução.',
-    ],
-
-    content: {
-      definition:
-        'Adaptação é uma característica herdável que, ao longo das gerações, aumenta a capacidade de um organismo sobreviver e reproduzir-se num determinado ambiente.',
-
-      explanation: [
-        'As adaptações resultam de processos evolutivos que atuam sobre variações existentes nas populações.',
-        'Uma característica pode ser vantajosa num determinado ambiente e pouco vantajosa ou desvantajosa noutro.',
-        'Adaptações podem envolver estrutura corporal, funcionamento fisiológico ou comportamento.',
-        'Uma mudança que acontece durante a vida de um indivíduo em resposta ao ambiente não é automaticamente uma adaptação evolutiva.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: plantas de ambientes secos',
-      description:
-        'Algumas plantas de ambientes secos apresentam características que ajudam a reduzir a perda de água, como folhas modificadas e estruturas de armazenamento.',
-      solution:
-        'Essas características podem aumentar a capacidade de sobrevivência em condições de escassez de água.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Diversidade dos ambientes',
-      description:
-        'Moçambique possui ambientes variados, desde zonas costeiras até regiões interiores, proporcionando diferentes condições às quais os organismos estão adaptados.',
-      contextArea: 'ambiente',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que um indivíduo desenvolve uma adaptação porque “precisa” dela.',
-      correctUnderstanding:
-        'Adaptações evolutivas surgem e tornam-se frequentes ao longo de gerações através de processos evolutivos, especialmente seleção natural.',
-    },
-
-    summaryPoints: [
-      'Adaptação está relacionada com sobrevivência e reprodução.',
-      'Adaptações são características herdáveis.',
-      'O ambiente influencia quais características podem ser vantajosas.',
-      'Adaptação evolutiva ocorre ao longo de gerações.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u2-l10-q1',
-        'Uma adaptação evolutiva ocorre principalmente:',
-        [
-          'Ao longo de gerações.',
-          'Instantaneamente num indivíduo.',
-          'Apenas durante uma experiência.',
-          'Quando um organismo decide mudar.',
-        ],
-        0,
-        'Adaptações evolutivas tornam-se características das populações ao longo de gerações.'
-      ),
-      makeQuestion(
-        'bio7-u2-l10-q2',
-        'Uma característica pode ser vantajosa num ambiente e não ser vantajosa noutro.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. O valor adaptativo de uma característica depende do ambiente e das condições existentes.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u2-l10-e1',
-        'Qual exemplo representa melhor uma adaptação evolutiva?',
-        [
-          'Uma característica herdável que favorece sobrevivência num ambiente.',
-          'Uma pessoa que aprende a andar de bicicleta.',
-          'Uma pessoa que corta o cabelo.',
-          'Uma planta que perde água durante um dia quente.',
-        ],
-        0,
-        'Adaptação evolutiva é uma característica herdável relacionada com sobrevivência e reprodução.'
-      ),
-      makeExercise(
-        'bio7-u2-l10-e2',
-        'Um indivíduo desenvolve uma adaptação evolutiva simplesmente porque precisa dela durante a vida.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Adaptações evolutivas resultam de processos que atuam nas populações ao longo de gerações.'
-      ),
-    ],
-  },
-
-  /* ==========================================================
-     UNIDADE 3 — AMBIENTE
-     ========================================================== */
-
-  {
-    id: lessonId('bio-7-u3', 1),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Conceito de ambiente',
-    lessonNumber: 1,
-    title: 'Conceito de ambiente',
-
-    objectives: [
-      'Definir ambiente.',
-      'Identificar componentes do ambiente.',
-      'Relacionar organismos com as condições do local onde vivem.',
-    ],
-
-    content: {
-      definition:
-        'Ambiente é o conjunto de condições e elementos que envolvem os organismos e influenciam a sua vida, incluindo componentes vivos e não vivos.',
-
-      explanation: [
-        'O ambiente inclui elementos físicos como água, ar, luz, temperatura e solo.',
-        'Também inclui outros seres vivos, como plantas, animais, fungos e microrganismos.',
-        'Os organismos não vivem isolados. Eles interagem continuamente com outros organismos e com os componentes físicos do ambiente.',
-        'Alterações ambientais podem modificar as condições de sobrevivência das populações.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: uma machamba',
-      description:
-        'Numa machamba, plantas, insetos, microrganismos, água, solo, luz e temperatura fazem parte do ambiente.',
-      solution:
-        'Todos esses elementos podem influenciar o crescimento das culturas.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Ambiente comunitário',
-      description:
-        'A compreensão do ambiente ajuda comunidades a tomar decisões sobre agricultura, água, resíduos e conservação.',
-      contextArea: 'ambiente',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que ambiente significa apenas natureza intocada.',
-      correctUnderstanding:
-        'Ambiente inclui as condições naturais e os elementos que rodeiam os organismos, incluindo ambientes modificados pelas pessoas.',
-    },
-
-    summaryPoints: [
-      'Ambiente envolve componentes vivos e não vivos.',
-      'Os organismos dependem das condições ambientais.',
-      'Os seres vivos interagem com o ambiente.',
-      'Mudanças ambientais podem afetar populações.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l1-q1',
-        'Qual elemento faz parte do ambiente?',
-        ['Água', 'Apenas animais', 'Apenas pessoas', 'Nenhum elemento físico'],
-        0,
-        'Água é um componente não vivo do ambiente.'
-      ),
-      makeQuestion(
-        'bio7-u3-l1-q2',
-        'O ambiente inclui seres vivos e componentes físicos.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. O ambiente possui componentes bióticos e abióticos.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l1-e1',
-        'Qual conjunto representa componentes do ambiente?',
-        [
-          'Água, solo, plantas e animais.',
-          'Apenas animais.',
-          'Apenas água.',
-          'Somente máquinas.',
-        ],
-        0,
-        'O ambiente inclui componentes vivos e não vivos.'
-      ),
-      makeExercise(
-        'bio7-u3-l1-e2',
-        'Os seres vivos podem ser influenciados pelas condições do ambiente.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Condições ambientais influenciam sobrevivência, crescimento e distribuição dos organismos.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 2),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Fatores bióticos',
-    lessonNumber: 2,
-    title: 'Fatores bióticos',
-
-    objectives: [
-      'Definir fatores bióticos.',
-      'Identificar exemplos de fatores bióticos.',
-      'Explicar como os seres vivos influenciam uns aos outros.',
-    ],
-
-    content: {
-      definition:
-        'Fatores bióticos são os componentes vivos de um ambiente e as relações que estabelecem entre si.',
-
-      explanation: [
-        'Plantas, animais, fungos, bactérias e outros organismos são componentes bióticos.',
-        'Um organismo pode afetar outro através de alimentação, competição, cooperação, predação, parasitismo ou outras interações.',
-        'A presença ou ausência de determinadas espécies pode alterar as condições de vida de outras espécies.',
-        'Os fatores bióticos funcionam em conjunto com fatores abióticos.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Uma planta de milho pode ser afetada por insetos que se alimentam das folhas e também por organismos que ajudam na polinização.',
-      solution:
-        'Essas interações entre organismos são fatores bióticos.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Agricultura',
-      description:
-        'Pragas, polinizadores, predadores e microrganismos do solo são exemplos de fatores bióticos importantes para a produção agrícola.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Considerar água e temperatura como fatores bióticos.',
-      correctUnderstanding:
-        'Água e temperatura são fatores abióticos. Fatores bióticos correspondem aos componentes vivos e suas interações.',
-    },
-
-    summaryPoints: [
-      'Fatores bióticos são componentes vivos.',
-      'Incluem plantas, animais e microrganismos.',
-      'Os organismos interagem entre si.',
-      'Essas interações podem influenciar populações.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l2-q1',
-        'Qual é um fator biótico?',
-        ['Uma planta', 'Temperatura', 'Água', 'Luz'],
-        0,
-        'Uma planta é um organismo vivo e, portanto, um componente biótico.'
-      ),
-      makeQuestion(
-        'bio7-u3-l2-q2',
-        'A competição entre organismos é uma interação biótica.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Competição ocorre entre seres vivos e é uma interação biótica.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l2-e1',
-        'Qual situação representa um fator biótico?',
-        [
-          'Um gafanhoto alimentando-se de uma planta.',
-          'A temperatura do ar.',
-          'A quantidade de água.',
-          'A intensidade da luz.',
-        ],
-        0,
-        'O gafanhoto e a planta são organismos vivos e a interação entre eles é biótica.'
-      ),
-      makeExercise(
-        'bio7-u3-l2-e2',
-        'A temperatura é um fator biótico.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Temperatura é um fator abiótico.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 3),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Fatores abióticos',
-    lessonNumber: 3,
-    title: 'Fatores abióticos',
-
-    objectives: [
-      'Definir fatores abióticos.',
-      'Identificar fatores físicos e químicos do ambiente.',
-      'Explicar a influência desses fatores sobre os organismos.',
-    ],
-
-    content: {
-      definition:
-        'Fatores abióticos são componentes não vivos do ambiente que influenciam os organismos.',
-
-      explanation: [
-        'Entre os fatores abióticos estão temperatura, luz, água, ar, solo, pH, salinidade e humidade.',
-        'Cada espécie possui condições ambientais nas quais consegue sobreviver e reproduzir-se melhor.',
-        'Alterações nos fatores abióticos podem modificar a distribuição e a abundância dos organismos.',
-        'Os fatores abióticos interagem com os fatores bióticos para determinar as condições de um ecossistema.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Uma planta necessita de determinada quantidade de luz e água para realizar adequadamente as suas funções.',
-      solution:
-        'Se as condições forem demasiado secas ou houver luz insuficiente, o crescimento pode ser afetado.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Agricultura e clima',
-      description:
-        'Temperatura, chuva, disponibilidade de água e características do solo influenciam a produção agrícola em diferentes regiões.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que fatores abióticos são seres vivos pequenos.',
-      correctUnderstanding:
-        'Abiótico significa não vivo. Água, luz, temperatura e solo são exemplos.',
-    },
-
-    summaryPoints: [
-      'Fatores abióticos são componentes não vivos.',
-      'Incluem água, luz, temperatura e solo.',
-      'Influenciam sobrevivência e distribuição.',
-      'Interagem com fatores bióticos.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l3-q1',
-        'Qual é um fator abiótico?',
-        ['Temperatura', 'Planta', 'Peixe', 'Bactéria'],
-        0,
-        'Temperatura é um componente não vivo do ambiente.'
-      ),
-      makeQuestion(
-        'bio7-u3-l3-q2',
-        'A água pode funcionar como fator abiótico.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. A disponibilidade de água influencia muitos organismos.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l3-e1',
-        'Qual conjunto apresenta apenas fatores abióticos?',
-        [
-          'Luz, água e temperatura.',
-          'Plantas, animais e fungos.',
-          'Peixes, algas e bactérias.',
-          'Predadores, presas e parasitas.',
-        ],
-        0,
-        'Luz, água e temperatura são componentes não vivos.'
-      ),
-      makeExercise(
-        'bio7-u3-l3-e2',
-        'Os fatores abióticos podem influenciar o crescimento das plantas.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Luz, água, temperatura e solo podem influenciar o crescimento.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 4),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Habitat',
-    lessonNumber: 4,
-    title: 'Habitat',
-
-    objectives: [
-      'Definir habitat.',
-      'Dar exemplos de habitats.',
-      'Relacionar habitat com condições de vida.',
-    ],
-
-    content: {
-      definition:
-        'Habitat é o local ou tipo de ambiente onde um organismo vive e encontra condições e recursos necessários à sua sobrevivência.',
-
-      explanation: [
-        'Um habitat fornece recursos e condições como alimento, água, abrigo e espaço.',
-        'Diferentes espécies podem ocupar habitats diferentes ou compartilhar o mesmo habitat.',
-        'O habitat não é simplesmente o lugar onde o organismo foi encontrado uma vez; envolve condições que permitem a sua sobrevivência.',
-        'A destruição ou alteração de habitats pode ameaçar populações e espécies.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Um peixe de água doce vive num habitat aquático onde encontra água, alimento, oxigénio dissolvido e condições adequadas.',
-      solution:
-        'O conjunto dessas condições permite a sobrevivência do organismo.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Habitats moçambicanos',
-      description:
-        'Florestas, rios, lagos, mangais, savanas e zonas costeiras são habitats de muitas espécies presentes em Moçambique.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Confundir habitat com espécie.',
-      correctUnderstanding:
-        'Habitat é o local e conjunto de condições onde o organismo vive.',
-    },
-
-    summaryPoints: [
-      'Habitat é o local de vida de um organismo.',
-      'Fornece recursos e condições necessárias.',
-      'Espécies diferentes podem compartilhar habitats.',
-      'Alteração de habitats pode afetar a biodiversidade.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l4-q1',
-        'O que é habitat?',
-        [
-          'Local e condições onde um organismo vive.',
-          'Nome científico de uma espécie.',
-          'Somente alimento.',
-          'Apenas o clima mundial.',
-        ],
-        0,
-        'Habitat corresponde ao local e condições em que um organismo vive.'
-      ),
-      makeQuestion(
-        'bio7-u3-l4-q2',
-        'A destruição de habitats pode ameaçar espécies.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. A perda de condições e recursos pode reduzir populações.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l4-e1',
-        'Qual é um exemplo de habitat?',
-        ['Um rio onde vivem peixes e outros organismos.', 'Uma molécula.', 'Um órgão humano.', 'Uma célula isolada.'],
-        0,
-        'Um rio pode fornecer condições e recursos para diversas espécies.'
-      ),
-      makeExercise(
-        'bio7-u3-l4-e2',
-        'Habitat é apenas o alimento que um organismo consome.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Habitat é o local e conjunto de condições onde o organismo vive.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 5),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'População',
-    lessonNumber: 5,
-    title: 'População',
-
-    objectives: [
-      'Definir população biológica.',
-      'Distinguir população de indivíduo.',
-      'Compreender que populações possuem características próprias.',
-    ],
-
-    content: {
-      definition:
-        'População é o conjunto de indivíduos da mesma espécie que vivem numa determinada área e período e que podem interagir entre si.',
-
-      explanation: [
-        'Uma população é formada por vários indivíduos da mesma espécie.',
-        'Os indivíduos de uma população podem competir por recursos, reproduzir-se e interagir de diferentes maneiras.',
-        'Uma população possui características como tamanho, densidade, distribuição e estrutura etária.',
-        'O número de indivíduos de uma população pode mudar devido a nascimentos, mortes, imigração e emigração.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Todas as árvores de uma determinada espécie que vivem numa área específica podem constituir uma população.',
-      solution:
-        'O conceito exige considerar a mesma espécie, uma área e um período definidos.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Monitorização da fauna',
-      description:
-        'Estudar populações de animais ajuda na conservação de espécies e na gestão de áreas protegidas.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Chamar população a todos os organismos de uma área, independentemente da espécie.',
-      correctUnderstanding:
-        'População é formada por indivíduos da mesma espécie numa área e período determinados.',
-    },
-
-    summaryPoints: [
-      'População envolve indivíduos da mesma espécie.',
-      'Os indivíduos vivem numa área e período definidos.',
-      'Populações mudam de tamanho ao longo do tempo.',
-      'Nascimentos, mortes, imigração e emigração influenciam populações.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l5-q1',
-        'Uma população é constituída por:',
-        [
-          'Indivíduos da mesma espécie numa determinada área.',
-          'Todos os seres vivos do planeta.',
-          'Apenas indivíduos de espécies diferentes.',
-          'Somente plantas.',
-        ],
-        0,
-        'População é um conjunto de indivíduos da mesma espécie numa área e período definidos.'
-      ),
-      makeQuestion(
-        'bio7-u3-l5-q2',
-        'Nascimentos podem alterar o tamanho de uma população.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Nascimentos tendem a aumentar o número de indivíduos.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l5-e1',
-        'Qual situação representa uma população?',
-        [
-          'Todos os indivíduos de uma espécie de peixe numa lagoa.',
-          'Uma árvore isolada.',
-          'Peixes, árvores e aves juntos.',
-          'Todas as espécies de uma floresta.',
-        ],
-        0,
-        'Uma população é formada por indivíduos da mesma espécie.'
-      ),
-      makeExercise(
-        'bio7-u3-l5-e2',
-        'Morte de indivíduos pode reduzir o tamanho de uma população.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Mortes reduzem o número de indivíduos da população.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 6),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Comunidade',
-    lessonNumber: 6,
-    title: 'Comunidade',
-
-    objectives: [
-      'Definir comunidade biológica.',
-      'Distinguir comunidade de população.',
-      'Reconhecer diferentes espécies numa comunidade.',
-    ],
-
-    content: {
-      definition:
-        'Comunidade é o conjunto de populações de espécies diferentes que vivem e interagem numa determinada área.',
-
-      explanation: [
-        'Uma comunidade inclui várias populações que compartilham uma área.',
-        'As espécies podem estabelecer relações de alimentação, competição, predação, parasitismo, mutualismo e outras interações.',
-        'A composição de uma comunidade pode mudar quando espécies desaparecem ou novas espécies entram.',
-        'Comunidade é um nível de organização ecológica superior ao de população.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Numa lagoa podem existir populações de peixes, algas, plantas aquáticas, insetos, bactérias e outros organismos.',
-      solution:
-        'Todas essas populações juntas constituem uma comunidade biológica.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Comunidades naturais',
-      description:
-        'Mangais, rios, florestas e savanas possuem comunidades compostas por muitas espécies interdependentes.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Confundir comunidade com população.',
-      correctUnderstanding:
-        'População envolve uma espécie; comunidade envolve várias populações de espécies diferentes.',
-    },
-
-    summaryPoints: [
-      'Comunidade reúne populações de diferentes espécies.',
-      'As populações interagem entre si.',
-      'É um nível ecológico superior à população.',
-      'A composição de uma comunidade pode mudar.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l6-q1',
-        'Uma comunidade é formada por:',
-        [
-          'Populações de diferentes espécies.',
-          'Apenas um indivíduo.',
-          'Apenas uma população.',
-          'Somente fatores abióticos.',
-        ],
-        0,
-        'Comunidade inclui várias populações de espécies diferentes.'
-      ),
-      makeQuestion(
-        'bio7-u3-l6-q2',
-        'Predação pode ser uma interação dentro de uma comunidade.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Predação é uma interação entre organismos de diferentes espécies.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l6-e1',
-        'Qual exemplo representa uma comunidade?',
-        [
-          'Peixes, algas, insetos e bactérias de uma lagoa.',
-          'Apenas os peixes de uma lagoa.',
-          'Uma única planta.',
-          'Apenas a água da lagoa.',
-        ],
-        0,
-        'Uma comunidade reúne diferentes populações de espécies.'
-      ),
-      makeExercise(
-        'bio7-u3-l6-e2',
-        'Comunidade e população são exatamente o mesmo conceito.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. População envolve uma espécie; comunidade envolve várias populações.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 7),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Ecossistema',
-    lessonNumber: 7,
-    title: 'Ecossistema',
-
-    objectives: [
-      'Definir ecossistema.',
-      'Relacionar componentes bióticos e abióticos.',
-      'Explicar a importância das interações no ecossistema.',
-    ],
-
-    content: {
-      definition:
-        'Ecossistema é o conjunto formado pela comunidade de seres vivos e pelos componentes não vivos do ambiente, juntamente com as interações entre eles.',
-
-      explanation: [
-        'Um ecossistema inclui seres vivos, água, ar, solo, luz, temperatura e outros fatores abióticos.',
-        'Os organismos interagem entre si e com o ambiente físico.',
-        'A energia entra principalmente através da radiação solar e é transferida pelas relações alimentares.',
-        'A matéria circula entre organismos e ambiente através de processos naturais.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: lagoa',
-      description:
-        'Uma lagoa pode conter água, luz, sedimentos, algas, plantas, peixes, insetos, bactérias e outros organismos.',
-      solution:
-        'A interação entre todos esses componentes forma um ecossistema.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Ecossistemas de Moçambique',
-      description:
-        'Rios, lagos, mangais, savanas, florestas e zonas costeiras são exemplos de ambientes onde existem ecossistemas diversos.',
-      contextArea: 'ambiente',
-    },
-
-    attention: {
-      commonError:
-        'Definir ecossistema apenas como conjunto de animais e plantas.',
-      correctUnderstanding:
-        'Ecossistema inclui componentes bióticos, abióticos e as interações entre eles.',
-    },
-
-    summaryPoints: [
-      'Ecossistema reúne comunidade e ambiente físico.',
-      'Existem fatores bióticos e abióticos.',
-      'Os componentes interagem.',
-      'Energia e matéria participam do funcionamento dos ecossistemas.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l7-q1',
-        'Um ecossistema inclui:',
-        [
-          'Seres vivos, componentes abióticos e suas interações.',
-          'Somente animais.',
-          'Somente plantas.',
-          'Apenas água.',
-        ],
-        0,
-        'Ecossistema inclui componentes vivos, não vivos e suas interações.'
-      ),
-      makeQuestion(
-        'bio7-u3-l7-q2',
-        'A luz solar pode ser importante para o funcionamento dos ecossistemas.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. A energia solar sustenta a produção primária na maioria dos ecossistemas.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l7-e1',
-        'Qual conjunto pode formar parte de um ecossistema?',
-        [
-          'Água, solo, plantas, animais e microrganismos.',
-          'Apenas peixes.',
-          'Apenas água.',
-          'Somente rochas.',
-        ],
-        0,
-        'Um ecossistema inclui componentes vivos e não vivos.'
-      ),
-      makeExercise(
-        'bio7-u3-l7-e2',
-        'Os componentes de um ecossistema interagem entre si.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. As interações são fundamentais para o funcionamento do ecossistema.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 8),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Relações entre seres vivos',
-    lessonNumber: 8,
-    title: 'Relações entre seres vivos',
-
-    objectives: [
-      'Compreender que os seres vivos interagem.',
-      'Reconhecer competição, predação, parasitismo e mutualismo.',
-      'Relacionar interações com sobrevivência.',
-    ],
-
-    content: {
-      definition:
-        'Relações ecológicas são interações estabelecidas entre organismos, podendo beneficiar, prejudicar ou não afetar de forma significativa os participantes.',
-
-      explanation: [
-        'Na competição, organismos utilizam recursos limitados e podem prejudicar-se mutuamente pelo acesso a esses recursos.',
-        'Na predação, um organismo captura e consome outro.',
-        'No parasitismo, um organismo obtém recursos de outro, causando-lhe prejuízo.',
-        'No mutualismo, ambos os organismos obtêm benefícios; diferentes formas de associação podem apresentar diferentes graus de dependência.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo',
-      description:
-        'Uma abelha obtém alimento numa flor e pode transportar pólen para outra flor, favorecendo a reprodução da planta.',
-      solution:
-        'Essa interação pode beneficiar tanto o inseto como a planta.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Agricultura e biodiversidade',
-      description:
-        'Predadores naturais, polinizadores e organismos do solo influenciam a produção agrícola e o equilíbrio dos ecossistemas.',
-      contextArea: 'agricultura',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que todas as relações entre organismos são prejudiciais.',
-      correctUnderstanding:
-        'Existem relações negativas, positivas e neutras, dependendo dos efeitos sobre os participantes.',
-    },
-
-    summaryPoints: [
-      'Os seres vivos estabelecem várias relações.',
-      'Competição ocorre quando recursos são disputados.',
-      'Predação envolve consumo de uma presa.',
-      'Parasitismo beneficia o parasita e prejudica o hospedeiro.',
-      'Mutualismo pode beneficiar ambos.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l8-q1',
-        'Qual relação envolve um organismo capturar e consumir outro?',
-        ['Predação', 'Mutualismo', 'Competição', 'Fotossíntese'],
-        0,
-        'Predação é uma interação em que um organismo captura e consome outro.'
-      ),
-      makeQuestion(
-        'bio7-u3-l8-q2',
-        'No mutualismo, ambos os organismos podem beneficiar-se.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Mutualismo é uma interação com benefício para ambos os participantes.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l8-e1',
-        'Qual situação representa predação?',
-        [
-          'Uma ave captura um inseto para se alimentar.',
-          'Duas plantas disputam água.',
-          'Uma abelha visita uma flor.',
-          'Um fungo obtém nutrientes de um hospedeiro.',
-        ],
-        0,
-        'Capturar e consumir uma presa caracteriza predação.'
-      ),
-      makeExercise(
-        'bio7-u3-l8-e2',
-        'A competição pode ocorrer quando organismos necessitam do mesmo recurso limitado.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Recursos como alimento, água, luz ou espaço podem ser limitantes.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 9),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Conservação ambiental',
-    lessonNumber: 9,
-    title: 'Conservação ambiental',
-
-    objectives: [
-      'Definir conservação ambiental.',
-      'Explicar por que a biodiversidade deve ser protegida.',
-      'Identificar ações de conservação.',
-    ],
-
-    content: {
-      definition:
-        'Conservação ambiental é o conjunto de ações destinadas a proteger espécies, habitats, ecossistemas e recursos naturais, garantindo o seu uso responsável e a manutenção das funções ecológicas.',
-
-      explanation: [
-        'A biodiversidade fornece alimentos, medicamentos, matérias-primas, serviços ecossistémicos e benefícios culturais.',
-        'A destruição de habitats, poluição, exploração excessiva e introdução de espécies invasoras podem ameaçar a biodiversidade.',
-        'A conservação pode envolver áreas protegidas, restauração de habitats, uso sustentável dos recursos e educação ambiental.',
-        'Conservar não significa impedir toda utilização dos recursos naturais; significa utilizá-los de forma que não comprometa a sua renovação e as funções ecológicas.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: proteção de uma floresta',
-      description:
-        'Reduzir o corte ilegal, evitar queimadas descontroladas e promover recuperação de áreas degradadas são ações que podem contribuir para a conservação.',
-      solution:
-        'A proteção deve considerar espécies, habitats e necessidades das comunidades.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Conservação em Moçambique',
-      description:
-        'A conservação da biodiversidade é importante para florestas, fauna, zonas húmidas, mangais, áreas costeiras e outros ecossistemas.',
-      contextArea: 'biodiversidade',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que conservação significa simplesmente proibir qualquer utilização dos recursos.',
-      correctUnderstanding:
-        'Conservação procura proteger a natureza e promover utilização sustentável dos recursos, considerando também as necessidades humanas.',
-    },
-
-    summaryPoints: [
-      'Conservação protege biodiversidade e ecossistemas.',
-      'Habitats saudáveis são importantes para as espécies.',
-      'Uso sustentável reduz impactos negativos.',
-      'Educação ambiental contribui para conservação.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l9-q1',
-        'Qual é uma finalidade da conservação ambiental?',
-        [
-          'Proteger biodiversidade e ecossistemas.',
-          'Destruir habitats.',
-          'Aumentar poluição.',
-          'Eliminar todas as espécies.',
-        ],
-        0,
-        'A conservação procura proteger a biodiversidade e manter funções ecológicas.'
-      ),
-      makeQuestion(
-        'bio7-u3-l9-q2',
-        'O uso sustentável pode fazer parte da conservação.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Utilizar recursos de forma sustentável é importante para a conservação.'
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l9-e1',
-        'Qual ação contribui para a conservação?',
-        [
-          'Recuperar uma área degradada.',
-          'Destruir habitats.',
-          'Poluir rios.',
-          'Caçar espécies ameaçadas sem controlo.',
-        ],
-        0,
-        'A restauração de áreas degradadas pode recuperar habitats e funções ecológicas.'
-      ),
-      makeExercise(
-        'bio7-u3-l9-e2',
-        'Conservar significa necessariamente impedir qualquer uso dos recursos naturais.',
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. Conservação também pode envolver utilização sustentável dos recursos.'
-      ),
-    ],
-  },
-
-  {
-    id: lessonId('bio-7-u3', 10),
-    unitId: 'bio-7-u3',
-    classLevel: '7ª Classe',
-    subject: 'Biologia',
-    theme: 'Problemas ambientais',
-    lessonNumber: 10,
-    title: 'Problemas ambientais',
-
-    objectives: [
-      'Identificar problemas ambientais comuns.',
-      'Explicar causas e consequências.',
-      'Reconhecer ações que podem reduzir impactos ambientais.',
-    ],
-
-    content: {
-      definition:
-        'Problemas ambientais são alterações ou impactos que prejudicam componentes do ambiente, organismos, ecossistemas ou o bem-estar humano.',
-
-      explanation: [
-        'Entre os problemas ambientais estão poluição da água, do ar e do solo, desflorestação, degradação dos solos, perda de biodiversidade e produção inadequada de resíduos.',
-        'As causas podem estar relacionadas com atividades humanas como queimadas descontroladas, descarte inadequado de resíduos, exploração excessiva de recursos e determinadas formas de agricultura, indústria ou urbanização.',
-        'As consequências podem incluir perda de habitats, contaminação da água, redução de espécies, erosão dos solos e problemas de saúde.',
-        'A prevenção exige combinação de educação, legislação, tecnologias adequadas, gestão de recursos e participação das comunidades.',
-      ],
-    },
-
-    example: {
-      title: 'Exemplo: poluição de um rio',
-      description:
-        'O lançamento de resíduos num rio pode alterar a qualidade da água e afetar organismos aquáticos e pessoas que dependem daquela fonte.',
-      solution:
-        'Reduzir a entrada de poluentes, tratar águas residuais e proteger as margens são medidas que podem diminuir o problema.',
-    },
-
-    mozambiqueApplication: {
-      title: 'Proteção dos recursos naturais',
-      description:
-        'Problemas ambientais podem afetar água, solos, florestas, agricultura, pesca e biodiversidade. A participação das comunidades é fundamental para reduzir impactos.',
-      contextArea: 'ambiente',
-    },
-
-    attention: {
-      commonError:
-        'Pensar que os problemas ambientais afetam apenas plantas e animais.',
-      correctUnderstanding:
-        'A degradação ambiental também pode afetar diretamente a saúde, alimentação, água, economia e qualidade de vida das comunidades.',
-    },
-
-    summaryPoints: [
-      'Poluição é um importante problema ambiental.',
-      'Desflorestação pode provocar perda de habitats.',
-      'Degradação do solo pode reduzir a produtividade.',
-      'Perda de biodiversidade afeta ecossistemas.',
-      'Prevenção exige participação individual e coletiva.',
-    ],
-
-    quickChecks: [
-      makeQuestion(
-        'bio7-u3-l10-q1',
-        'Qual pode ser uma consequência da poluição da água?',
-        [
-          'Prejuízo para organismos aquáticos e saúde humana.',
-          'Aumento automático da biodiversidade.',
-          'Melhoria garantida da qualidade da água.',
-          'Eliminação de todos os microrganismos.',
-        ],
-        0,
-        'A poluição pode afetar organismos aquáticos e pessoas que dependem da água.'
-      ),
-      makeQuestion(
-        'bio7-u3-l10-q2',
-        'A proteção ambiental pode beneficiar as comunidades humanas.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Ambiente saudável contribui para água, alimentos, saúde e meios de subsistência.',
-      ),
-    ],
-
-    exercises: [
-      makeExercise(
-        'bio7-u3-l10-e1',
-        'Qual ação pode ajudar a reduzir problemas ambientais?',
-        [
-          'Gestão adequada de resíduos.',
-          'Lançamento de lixo nos rios.',
-          'Desflorestação sem controlo.',
-          'Queimadas descontroladas.',
-        ],
-        0,
-        'A gestão adequada de resíduos reduz a poluição e os impactos ambientais.'
-      ),
-      makeExercise(
-        'bio7-u3-l10-e2',
-        'Os problemas ambientais podem afetar a saúde humana.',
-        ['Verdadeiro', 'Falso'],
-        0,
-        'Verdadeiro. Água contaminada, poluição do ar e outros impactos ambientais podem afetar a saúde.',
-      ),
-    ],
-  },
-];
-
-/*
- * ============================================================
- * AULAS DE SEGURANÇA PARA OS OUTROS TÓPICOS
- * ============================================================
- *
- * Enquanto desenvolvemos cada classe, os tópicos ainda não
- * detalhados continuam funcionais. Eles não substituem o
- * conteúdo desenvolvido que será acrescentado posteriormente.
- */
-
-function createTemporaryLesson(
-  unitId: string,
-  topicTitle: string,
   classLevel: ClassLevel,
   subject: Subject,
+  unitId: string,
   unitTitle: string,
-  lessonNumber: number
-): Lesson {
-  const biology = subject === 'Biologia';
+  title: string,
+  theme: string,
+  definition: string,
+  explanation: string[],
+  exampleTitle: string,
+  exampleDescription: string,
+  mozTitle: string,
+  mozDescription: string,
+  contextArea:
+    | 'agricultura'
+    | 'saúde'
+    | 'biodiversidade'
+    | 'recursos_naturais'
+    | 'ambiente'
+    | 'indústria'
+    | 'energia',
+  commonError: string,
+  correctUnderstanding: string,
+  summary: string[],
+  question: string,
+  options: string[],
+  correctIndex: number,
+  questionExplanation: string,
+  exercise: string,
+  exerciseOptions: string[],
+  exerciseCorrectIndex: number,
+  exerciseExplanation: string,
+  exampleSolution?: string
+): EssentialContent => ({
+  id,
+  classLevel,
+  subject,
+  unitId,
+  unitTitle,
+  title,
+  theme,
+  definition,
+  explanation,
+  exampleTitle,
+  exampleDescription,
+  exampleSolution,
+  mozTitle,
+  mozDescription,
+  contextArea,
+  commonError,
+  correctUnderstanding,
+  summary,
+  question,
+  options,
+  correctIndex,
+  questionExplanation,
+  exercise,
+  exerciseOptions,
+  exerciseCorrectIndex,
+  exerciseExplanation,
+});
 
+/*
+===========================================================
+ BIOLOGIA — 7ª CLASSE
+===========================================================
+*/
+
+const BIO_7: EssentialContent[] = [
+
+c(
+'bio-7-01',
+'7ª Classe',
+'Biologia',
+'bio-7-u1',
+'Introdução à Biologia',
+'Biologia e método científico',
+'Introdução à Biologia',
+'Biologia é a ciência que estuda os seres vivos, a sua organização, funcionamento, reprodução, evolução e relação com o ambiente.',
+[
+'A palavra Biologia vem de termos de origem grega relacionados com vida e estudo. A disciplina procura compreender como os seres vivos são constituídos e como funcionam.',
+'O estudo biológico utiliza observação, perguntas, hipóteses, experiências, recolha de dados, análise e conclusão. Esse conjunto de procedimentos é conhecido como método científico.',
+'Uma hipótese é uma explicação provisória que pode ser testada. Uma hipótese científica deve poder ser confrontada com observações ou experiências.',
+'A Biologia está relacionada com outras ciências, como Química, Física, Geografia e Matemática.'
+],
+'Exemplo: uma planta que cresce pouco',
+'Um estudante observa que duas plantas da mesma espécie crescem de maneira diferente. Pode levantar a hipótese de que a quantidade de luz influencia o crescimento.',
+'Aplicação em Moçambique',
+'A observação de culturas como milho, feijão e mandioca permite estudar crescimento, nutrição vegetal, pragas e influência das condições ambientais.',
+'agricultura',
+'Pensar que uma hipótese é uma certeza.',
+'Uma hipótese é uma explicação provisória que precisa ser testada através de evidências.',
+[
+'Biologia estuda a vida e os seres vivos.',
+'O método científico organiza a investigação.',
+'Hipóteses precisam ser testadas.',
+'A Biologia relaciona-se com várias outras ciências.'
+],
+'Qual é o principal objeto de estudo da Biologia?',
+['As estrelas','Os seres vivos e os fenómenos da vida','Somente as rochas','Apenas os números'],
+1,
+'A Biologia estuda os seres vivos e os processos relacionados com a vida.',
+'Um estudante quer saber se a falta de água influencia o crescimento de uma planta. Qual procedimento é mais científico?',
+['Apenas dar uma opinião','Comparar plantas sob condições controladas','Escolher uma conclusão antes da experiência','Não observar os resultados'],
+1,
+'Uma investigação científica deve controlar condições e comparar resultados antes de chegar a uma conclusão.'
+),
+
+c(
+'bio-7-02',
+'7ª Classe',
+'Biologia',
+'bio-7-u1',
+'Introdução à Biologia',
+'Microscopia e observação científica',
+'Microscópio',
+'O microscópio é um instrumento que permite observar estruturas demasiado pequenas para serem vistas claramente a olho nu.',
+[
+'O microscópio óptico utiliza lentes para ampliar a imagem de objetos pequenos.',
+'A ampliação permite visualizar detalhes, mas aumentar uma imagem não significa necessariamente revelar mais informação útil.',
+'A preparação correta da amostra, iluminação e foco são fundamentais para obter uma boa imagem.',
+'O microscópio tornou possível estudar estruturas celulares e contribuiu para o desenvolvimento da Biologia.'
+],
+'Observação de uma célula',
+'Uma fina preparação de tecido pode ser colocada numa lâmina e observada através do microscópio depois de ajustado o foco.',
+'Microscopia em escolas',
+'Mesmo com equipamentos simples, a observação microscópica ajuda estudantes moçambicanos a relacionar conceitos de célula e tecidos com organismos presentes no seu ambiente.',
+'educação',
+'Confundir ampliação com resolução.',
+'Ampliação aumenta a imagem; resolução é a capacidade de distinguir dois pontos próximos como separados.',
+[
+'O microscópio permite observar estruturas microscópicas.',
+'O foco e a iluminação são importantes.',
+'Ampliação e resolução não são a mesma coisa.',
+'A microscopia é fundamental para o estudo celular.'
+],
+'Para que serve principalmente um microscópio?',
+['Para medir temperatura','Para observar estruturas muito pequenas','Para pesar substâncias','Para medir velocidade'],
+1,
+'O microscópio permite observar estruturas que não podem ser analisadas adequadamente a olho nu.',
+'Por que uma imagem pode ficar maior, mas continuar sem detalhes?',
+['Porque ampliação e resolução são diferentes','Porque o microscópio não possui lentes','Porque toda amostra é invisível','Porque a luz não participa da observação'],
+0,
+'Aumentar uma imagem sem melhorar a resolução pode produzir uma imagem maior, mas não necessariamente mais informativa.'
+),
+
+c(
+'bio-7-03',
+'7ª Classe',
+'Biologia',
+'bio-7-u2',
+'Seres Vivos',
+'Características dos seres vivos',
+'Seres vivos',
+'Seres vivos são sistemas organizados que apresentam características como metabolismo, crescimento, reprodução, resposta a estímulos e capacidade de manter condições internas relativamente estáveis.',
+[
+'Os seres vivos possuem organização. Nos organismos multicelulares, células podem formar tecidos, órgãos e sistemas.',
+'Os seres vivos realizam metabolismo, conjunto de reações químicas que permitem obter e utilizar energia e matéria.',
+'A reprodução permite a continuidade das espécies.',
+'Os organismos respondem a estímulos do ambiente e podem apresentar adaptações ao longo das gerações.'
+],
+'Uma planta em direção à luz',
+'Uma planta colocada perto de uma janela pode orientar o crescimento dos seus órgãos em direção à luz. Isso demonstra resposta a um estímulo ambiental.',
+'Vida e agricultura',
+'Conhecer as necessidades dos seres vivos ajuda a melhorar práticas agrícolas, como fornecimento de água, luz, nutrientes e proteção contra condições desfavoráveis.',
+'agricultura',
+'Usar apenas movimento como definição de vida.',
+'Nem todo movimento indica vida. O mais importante é considerar o conjunto de características biológicas.',
+[
+'Seres vivos apresentam organização.',
+'Realizam metabolismo.',
+'Reproduzem-se e respondem ao ambiente.',
+'As características da vida devem ser analisadas em conjunto.'
+],
+'Qual característica está diretamente relacionada à obtenção e utilização de energia?',
+['Metabolismo','Cor','Tamanho','Forma'],
+0,
+'Metabolismo corresponde ao conjunto de reações químicas que sustentam as atividades do organismo.',
+'Uma semente germina quando encontra condições adequadas. Qual processo está envolvido?',
+['Apenas movimento','Crescimento e metabolismo','Somente mudança de cor','Nenhuma atividade biológica'],
+1,
+'A germinação envolve intensa atividade metabólica e crescimento do organismo vegetal.'
+),
+
+c(
+'bio-7-04',
+'7ª Classe',
+'Biologia',
+'bio-7-u3',
+'Ambiente',
+'Ecossistema e relações entre seres vivos',
+'Ecossistema',
+'Ecossistema é o conjunto formado pelos seres vivos de uma área e pelos fatores físicos e químicos do ambiente, juntamente com as relações entre esses componentes.',
+[
+'Os fatores bióticos correspondem aos seres vivos, como plantas, animais, fungos e microrganismos.',
+'Os fatores abióticos incluem água, luz, temperatura, solo, ar e sais minerais.',
+'Uma população é formada por indivíduos da mesma espécie numa determinada área. Comunidade reúne populações de espécies diferentes.',
+'Os seres vivos estabelecem relações como competição, predação, parasitismo, mutualismo e outras interações.'
+],
+'Uma machamba',
+'Em uma machamba existem plantas cultivadas, insetos, microrganismos, água, solo, luz e temperatura. Todos esses componentes interagem.',
+'Conservação ambiental',
+'Em Moçambique, compreender os ecossistemas ajuda a proteger florestas, rios, zonas costeiras, fauna e áreas agrícolas.',
+'ambiente',
+'Pensar que ecossistema significa apenas os animais e plantas.',
+'Um ecossistema inclui componentes vivos e não vivos e as interações entre eles.',
+[
+'Ecossistema inclui fatores bióticos e abióticos.',
+'População reúne indivíduos da mesma espécie.',
+'Comunidade reúne diferentes populações.',
+'As relações ecológicas influenciam o equilíbrio do ecossistema.'
+],
+'Qual é um fator abiótico?',
+['Capim','Peixe','Temperatura','Bactéria'],
+2,
+'Temperatura é um fator físico não vivo do ambiente.',
+'Se a água de um rio ficar muito poluída, que componente do ecossistema pode ser afetado?',
+['Somente as pedras','Os organismos aquáticos e as relações ecológicas','Nenhum ser vivo','Apenas o vento'],
+1,
+'A poluição da água pode afetar diretamente organismos aquáticos e indiretamente toda a rede ecológica.'
+)
+
+];
+
+/*
+===========================================================
+ BIOLOGIA — 8ª CLASSE
+===========================================================
+*/
+
+const BIO_8: EssentialContent[] = [
+
+c(
+'bio-8-01',
+'8ª Classe',
+'Biologia',
+'bio-8-u1',
+'Célula: Unidade da Vida',
+'Teoria celular e tipos de células',
+'Célula',
+'A célula é a unidade estrutural e funcional básica dos seres vivos. Alguns organismos possuem uma única célula e outros são constituídos por muitas células.',
+[
+'Todos os organismos celulares são constituídos por células.',
+'A célula realiza funções fundamentais da vida, embora as células dos diferentes organismos tenham estruturas especializadas.',
+'Organismos unicelulares são constituídos por uma célula. Organismos multicelulares possuem muitas células especializadas.',
+'As células podem ser classificadas em procarióticas e eucarióticas de acordo com a organização do material genético.'
+],
+'Bactéria e célula vegetal',
+'Uma bactéria é procariótica e não possui núcleo delimitado por membrana. Uma célula vegetal é eucariótica e possui núcleo.',
+'Microrganismos e saúde',
+'O estudo das células ajuda a compreender doenças, microrganismos, agricultura e conservação de alimentos.',
+'saúde',
+'Pensar que todas as células possuem exatamente as mesmas estruturas.',
+'Células diferentes podem possuir estruturas comuns e estruturas especializadas de acordo com a sua função.',
+[
+'A célula é unidade básica da vida.',
+'Existem organismos unicelulares e multicelulares.',
+'Existem células procarióticas e eucarióticas.',
+'A estrutura celular está relacionada com a função.'
+],
+'Qual afirmação está de acordo com a teoria celular?',
+['Todos os seres vivos são formados por células','Somente animais possuem células','As células não realizam funções vitais','Todas as células possuem parede celular'],
+0,
+'A teoria celular estabelece que a célula é a unidade básica dos organismos vivos.',
+'Qual é uma diferença importante entre células procarióticas e eucarióticas?',
+['As procarióticas não possuem núcleo delimitado por membrana','As eucarióticas não possuem DNA','As procarióticas não possuem membrana','As eucarióticas não possuem citoplasma'],
+0,
+'Células procarióticas possuem material genético em uma região não delimitada por membrana nuclear.'
+),
+
+c(
+'bio-8-02',
+'8ª Classe',
+'Biologia',
+'bio-8-u1',
+'Célula: Unidade da Vida',
+'Organelos e funções celulares',
+'Organelos celulares',
+'Organelos são estruturas celulares especializadas que desempenham funções específicas dentro das células eucarióticas.',
+[
+'O núcleo contém a maior parte do DNA da célula e participa do controlo da atividade celular.',
+'As mitocôndrias realizam etapas importantes da respiração celular aeróbia e produzem ATP.',
+'Os ribossomas participam na síntese de proteínas.',
+'Nas células vegetais, cloroplastos realizam a fotossíntese e o grande vacúolo participa no armazenamento e equilíbrio hídrico.'
+],
+'Mitocôndria e energia',
+'Uma célula muscular necessita de muita energia para funcionar. Por isso, possui muitas mitocôndrias.',
+'Produção agrícola',
+'A compreensão das estruturas celulares ajuda a explicar crescimento das plantas, produção de alimentos e efeitos de condições ambientais sobre as culturas.',
+'agricultura',
+'Pensar que um organelo realiza todas as funções da célula.',
+'As estruturas trabalham de forma integrada; uma célula depende da cooperação entre diferentes componentes.',
+[
+'Núcleo: informação genética.',
+'Mitocôndria: produção de ATP por respiração celular.',
+'Ribossoma: síntese de proteínas.',
+'Cloroplasto: fotossíntese em células vegetais.'
+],
+'Qual organelo está diretamente relacionado com a fotossíntese?',
+['Ribossoma','Cloroplasto','Mitocôndria','Lisossoma'],
+1,
+'O cloroplasto contém clorofila e estruturas onde ocorrem as reações da fotossíntese.',
+'Uma célula que precisa produzir muitas proteínas necessita de grande atividade de qual estrutura?',
+['Ribossomas','Parede celular','Vacúolo apenas','Cloroplastos em qualquer célula'],
+0,
+'Os ribossomas são responsáveis pela síntese de proteínas.'
+),
+
+c(
+'bio-8-03',
+'8ª Classe',
+'Biologia',
+'bio-8-u2',
+'Nutrição e Alimentação',
+'Fotossíntese',
+'Fotossíntese',
+'Fotossíntese é o processo pelo qual organismos fotossintéticos, como plantas e algas, utilizam energia luminosa para produzir matéria orgânica a partir de dióxido de carbono e água, libertando oxigénio em condições fotossintéticas oxigénicas.',
+[
+'A clorofila participa na captação de energia luminosa.',
+'A água fornece hidrogénio e eletrões em etapas do processo e o dióxido de carbono fornece o carbono utilizado para formar moléculas orgânicas.',
+'A glicose e outros compostos orgânicos produzidos podem servir de fonte de energia e matéria para a planta.',
+'A fotossíntese é fundamental para os ecossistemas porque contribui para a produção de matéria orgânica e para a entrada de energia nas cadeias alimentares.'
+],
+'Planta de milho',
+'Uma planta de milho utiliza luz solar, água e dióxido de carbono para produzir matéria orgânica necessária ao crescimento.',
+'Fotossíntese nas culturas',
+'A produção agrícola depende da disponibilidade de luz, água, nutrientes e condições adequadas para a atividade fotossintética.',
+'agricultura',
+'Pensar que a planta obtém todo o seu alimento diretamente do solo.',
+'O solo fornece água e sais minerais, mas a matéria orgânica é produzida principalmente através da fotossíntese.',
+[
+'A fotossíntese utiliza energia luminosa.',
+'CO₂ e água participam do processo.',
+'A clorofila é importante na captação da luz.',
+'A fotossíntese sustenta grande parte das cadeias alimentares.'
+],
+'Qual substância do ar é utilizada como fonte de carbono na fotossíntese?',
+['Oxigénio','Dióxido de carbono','Nitrogénio molecular','Hidrogénio'],
+1,
+'O dióxido de carbono fornece carbono para a síntese de compostos orgânicos.',
+'Uma planta está recebendo água, mas permanece completamente no escuro. O que acontecerá com a fotossíntese?',
+['Continuará normalmente','Será fortemente limitada pela falta de luz','Aumentará indefinidamente','Não dependerá da luz'],
+1,
+'A energia luminosa é essencial para as reações fotoquímicas da fotossíntese.'
+),
+
+c(
+'bio-8-04',
+'8ª Classe',
+'Biologia',
+'bio-8-u2',
+'Nutrição e Alimentação',
+'Respiração celular',
+'Respiração celular',
+'Respiração celular é o conjunto de processos metabólicos pelos quais células obtêm energia utilizável a partir de moléculas orgânicas.',
+[
+'Na respiração aeróbia, a glicose é oxidada utilizando oxigénio como aceitador final de eletrões na cadeia respiratória.',
+'O processo produz ATP, principal forma de energia química diretamente utilizada em muitas atividades celulares.',
+'A respiração celular ocorre continuamente nas células vivas, embora a intensidade possa variar.',
+'Nas células eucarióticas, as etapas principais da respiração aeróbia ocorrem no citosol e nas mitocôndrias.'
+],
+'Exercício físico',
+'Durante exercício intenso, os músculos aumentam a necessidade de ATP. Quando o fornecimento de oxigénio não acompanha a demanda, pode aumentar a participação de vias anaeróbias.',
+'Saúde e atividade física',
+'Compreender a respiração celular ajuda a explicar atividade muscular, alimentação, energia e necessidades do organismo.',
+'saúde',
+'Confundir respiração celular com simplesmente inspirar e expirar.',
+'Respiração pulmonar é troca de gases; respiração celular é um processo metabólico que ocorre dentro das células.',
+[
+'Respiração celular produz ATP.',
+'Na respiração aeróbia, o oxigénio participa como aceitador final de eletrões.',
+'A glicose pode ser oxidada para obtenção de energia.',
+'Respiração celular e respiração pulmonar são conceitos diferentes.'
+],
+'Qual é uma função central da respiração celular?',
+['Produzir ATP utilizável pela célula','Produzir luz','Formar solo','Impedir toda perda de água'],
+0,
+'A respiração celular disponibiliza energia na forma de ATP para atividades celulares.',
+'Por que uma pessoa precisa de oxigénio para sustentar adequadamente muitas atividades aeróbias?',
+['Porque o oxigénio participa da respiração aeróbia','Porque o oxigénio é alimento','Porque o oxigénio substitui a água','Porque o oxigénio produz glicose diretamente'],
+0,
+'O oxigénio participa da cadeia respiratória na respiração aeróbia.'
+)
+
+];
+
+/*
+===========================================================
+ BIOLOGIA — 9ª CLASSE
+===========================================================
+*/
+
+const BIO_9: EssentialContent[] = [
+
+c(
+'bio-9-01',
+'9ª Classe',
+'Biologia',
+'bio-9-u1',
+'Reprodução e Desenvolvimento',
+'Reprodução humana',
+'Reprodução humana',
+'A reprodução humana é o processo biológico pelo qual se originam novos indivíduos, envolvendo gametas, fecundação, desenvolvimento embrionário e nascimento.',
+[
+'O sistema reprodutor masculino produz espermatozoides e hormonas sexuais.',
+'O sistema reprodutor feminino produz ovócitos e hormonas e proporciona condições para a gestação.',
+'A fecundação ocorre normalmente quando um espermatozoide se funde com o ovócito, formando o zigoto.',
+'O desenvolvimento embrionário envolve sucessivas divisões celulares e diferenciação.'
+],
+'Fecundação',
+'Na fecundação, o material genético dos dois gametas combina-se para formar uma nova combinação genética.',
+'Saúde reprodutiva',
+'Conhecimento sobre reprodução, higiene, prevenção de infeções sexualmente transmissíveis e planeamento familiar contribui para decisões responsáveis.',
+'saúde',
+'Confundir menstruação com fecundação.',
+'Menstruação ocorre quando não houve implantação de uma gravidez e o revestimento uterino é eliminado; fecundação é a fusão dos gametas.',
+[
+'A reprodução permite a continuidade da espécie.',
+'Gametas são células reprodutivas.',
+'A fecundação forma o zigoto.',
+'O desenvolvimento envolve divisão e diferenciação celular.'
+],
+'O que resulta diretamente da fecundação?',
+['Zigoto','Urina','Hemoglobina','Neurónio adulto'],
+0,
+'O zigoto é a célula formada pela união dos gametas.',
+'Qual é uma finalidade importante da educação sexual?',
+['Fornecer informação científica para decisões responsáveis','Estimular comportamentos de risco','Substituir consultas médicas','Eliminar a necessidade de higiene'],
+0,
+'A educação sexual baseada em evidências ajuda a tomar decisões responsáveis e a prevenir problemas de saúde.'
+),
+
+c(
+'bio-9-02',
+'9ª Classe',
+'Biologia',
+'bio-9-u2',
+'Genética Introdutória',
+'Genética e hereditariedade',
+'Genética',
+'Genética é o ramo da Biologia que estuda a hereditariedade e a variação das características dos organismos.',
+[
+'Os genes são segmentos de DNA que contêm informação relacionada com produtos funcionais, como proteínas ou RNAs.',
+'Os genes estão organizados nos cromossomas.',
+'Os alelos são formas alternativas de um gene ou região genética.',
+'Genótipo refere-se à constituição genética relevante de um indivíduo; fenótipo corresponde às características observáveis ou mensuráveis resultantes da interação entre fatores genéticos e ambientais.'
+],
+'Cor das sementes',
+'Em organismos com reprodução sexuada, descendentes recebem material genético dos progenitores, produzindo combinações variadas.',
+'Melhoramento de culturas',
+'O conhecimento da hereditariedade pode ser aplicado no melhoramento de variedades agrícolas adaptadas às condições locais.',
+'agricultura',
+'Pensar que o fenótipo depende exclusivamente dos genes.',
+'O fenótipo resulta da interação entre informação genética e ambiente, embora a importância de cada fator varie conforme a característica.',
+[
+'Genética estuda hereditariedade e variação.',
+'Genes são segmentos de DNA.',
+'Alelo é uma forma de um gene.',
+'Fenótipo depende de fatores genéticos e ambientais.'
+],
+'O que é um gene?',
+['Uma unidade de informação genética localizada no DNA','Uma célula sanguínea','Um órgão','Um alimento'],
+0,
+'Genes são segmentos de DNA associados à informação hereditária.',
+'Uma planta possui genes para determinada característica, mas cresce em solo muito pobre. O ambiente pode afetar o fenótipo?',
+['Sim','Não','Somente em animais','Somente em microrganismos'],
+0,
+'O ambiente pode influenciar a expressão das características observáveis.'
+),
+
+c(
+'bio-9-03',
+'9ª Classe',
+'Biologia',
+'bio-9-u2',
+'Genética Introdutória',
+'Leis de Mendel',
+'Hereditariedade mendeliana',
+'As leis de Mendel descrevem padrões de transmissão de características hereditárias observados em experiências com ervilhas.',
+[
+'Mendel trabalhou com características que podiam ser acompanhadas em gerações sucessivas.',
+'Na segregação, os dois alelos de um gene se separam durante a formação dos gametas.',
+'Na fecundação, os gametas combinam-se novamente.',
+'Em alguns cruzamentos, é possível prever proporções genéticas e fenotípicas, mas características reais podem ser mais complexas do que os modelos mendelianos simples.'
+],
+'Cruzamento monohíbrido',
+'Num cruzamento simples entre indivíduos heterozigóticos para um gene com dominância completa, a distribuição genotípica esperada é 1:2:1 e a fenotípica pode ser 3:1.',
+'Melhoramento animal e vegetal',
+'Modelos de hereditariedade ajudam a compreender a transmissão de características em plantas e animais utilizados na produção.',
+'agricultura',
+'Pensar que todos os caracteres obedecem exatamente à proporção 3:1.',
+'A proporção 3:1 é válida em condições específicas de um modelo mendeliano simples com dominância completa.',
+[
+'Mendel estudou transmissão hereditária.',
+'Os alelos segregam durante a formação dos gametas.',
+'As proporções dependem do modelo genético.',
+'Nem todas as características seguem padrões mendelianos simples.'
+],
+'Em um cruzamento Aa × Aa, qual proporção genotípica é esperada?',
+['1 AA : 2 Aa : 1 aa','3 AA : 1 aa','1 Aa : 1 aa','Todos AA'],
+0,
+'Cada progenitor produz gametas A e a, resultando em AA, Aa, Aa e aa.',
+'No cruzamento Aa × Aa, qual proporção fenotípica é esperada quando A apresenta dominância completa?',
+['3 dominantes : 1 recessivo','1 dominante : 3 recessivos','Todos recessivos','Todos heterozigóticos'],
+0,
+'AA e Aa apresentam o fenótipo dominante, enquanto aa apresenta o recessivo.'
+),
+
+c(
+'bio-9-04',
+'9ª Classe',
+'Biologia',
+'bio-9-u3',
+'Classificação dos Seres Vivos',
+'Classificação e biodiversidade',
+'Classificação biológica',
+'Classificação biológica organiza os seres vivos em grupos com base em características, relações evolutivas e evidências científicas.',
+[
+'A taxonomia envolve identificação, descrição e classificação dos organismos.',
+'A nomenclatura binomial utiliza dois nomes para designar uma espécie: género e epíteto específico.',
+'Classificações modernas procuram refletir relações evolutivas.',
+'A biodiversidade inclui diversidade genética, diversidade de espécies e diversidade de ecossistemas.'
+],
+'Nome científico',
+'O ser humano é Homo sapiens. Homo corresponde ao género e sapiens ao epíteto específico.',
+'Biodiversidade moçambicana',
+'Moçambique possui elevada diversidade de plantas, animais e ecossistemas, incluindo áreas costeiras, florestais e savânicas.',
+'biodiversidade',
+'Pensar que a classificação é apenas uma lista de nomes.',
+'A classificação científica procura organizar a diversidade e representar relações entre organismos.',
+[
+'A classificação organiza a biodiversidade.',
+'A nomenclatura binomial utiliza dois termos.',
+'A espécie é uma unidade fundamental da classificação.',
+'A classificação moderna considera relações evolutivas.'
+],
+'Qual é o objetivo principal da classificação biológica?',
+['Organizar e compreender a diversidade dos organismos','Eliminar espécies','Mudar o ambiente','Produzir alimentos diretamente'],
+0,
+'A classificação facilita identificação, comparação e estudo da biodiversidade.',
+'Por que os nomes científicos são úteis?',
+['Reduzem ambiguidades entre diferentes nomes locais','Substituem todas as línguas','Servem apenas para plantas','Não possuem regras'],
+0,
+'Um nome científico padronizado facilita a comunicação científica internacional.'
+)
+
+];
+
+/*
+===========================================================
+ BIOLOGIA — 10ª CLASSE
+===========================================================
+*/
+
+const BIO_10: EssentialContent[] = [
+
+c(
+'bio-10-01',
+'10ª Classe',
+'Biologia',
+'bio-10-u1',
+'Anatomia e Fisiologia Humana',
+'Sistema digestivo',
+'Sistema digestivo',
+'O sistema digestivo é o conjunto de órgãos responsáveis pela ingestão, digestão, absorção de nutrientes e eliminação de resíduos não aproveitados.',
+[
+'A digestão mecânica fragmenta os alimentos, enquanto a digestão química envolve enzimas e outras substâncias.',
+'A boca inicia a digestão e conduz o alimento para o tubo digestivo.',
+'O estômago realiza mistura e participa da digestão de proteínas.',
+'O intestino delgado é o principal local de digestão e absorção de nutrientes.'
+],
+'Digestão do amido',
+'A digestão do amido começa na boca com a ação da amilase salivar e continua no intestino delgado.',
+'Alimentação e saúde',
+'Uma alimentação equilibrada é importante para crescimento, energia, imunidade e prevenção de problemas nutricionais.',
+'saúde',
+'Pensar que a digestão ocorre apenas no estômago.',
+'A digestão começa na boca e continua em diferentes regiões do tubo digestivo.',
+[
+'A digestão envolve processos mecânicos e químicos.',
+'O estômago participa da digestão.',
+'O intestino delgado absorve a maior parte dos nutrientes.',
+'O intestino grosso participa da absorção de água e formação das fezes.'
+],
+'Onde ocorre a maior parte da absorção de nutrientes?',
+['Intestino delgado','Esófago','Boca','Traqueia'],
+0,
+'O intestino delgado possui estruturas adaptadas à absorção de nutrientes.',
+'Uma alimentação pobre em nutrientes pode afetar principalmente:',
+['Crescimento e funcionamento do organismo','Apenas a cor dos olhos','Somente o cabelo','Nenhuma função'],
+0,
+'Nutrientes são necessários para energia, construção e manutenção dos tecidos.'
+),
+
+c(
+'bio-10-02',
+'10ª Classe',
+'Biologia',
+'bio-10-u1',
+'Anatomia e Fisiologia Humana',
+'Sistema circulatório',
+'Sistema circulatório',
+'O sistema circulatório transporta sangue, gases, nutrientes, hormonas e resíduos pelo organismo.',
+[
+'O coração funciona como uma bomba muscular.',
+'As artérias conduzem sangue para fora do coração e as veias conduzem sangue em direção ao coração.',
+'Os capilares permitem trocas entre o sangue e os tecidos.',
+'Nem toda artéria transporta sangue rico em oxigénio: as artérias pulmonares são uma exceção.'
+],
+'Circulação pulmonar',
+'O sangue pobre em oxigénio sai do ventrículo direito pelas artérias pulmonares em direção aos pulmões.',
+'Saúde cardiovascular',
+'Conhecer o sistema circulatório ajuda a compreender pressão arterial, atividade física, alimentação e prevenção de doenças cardiovasculares.',
+'saúde',
+'Definir artéria simplesmente como vaso que transporta sangue oxigenado.',
+'Artéria e veia são classificadas principalmente pela direção do fluxo em relação ao coração.',
+[
+'Artérias saem do coração.',
+'Veias chegam ao coração.',
+'Capilares permitem trocas.',
+'O sangue transporta várias substâncias.'
+],
+'Qual vaso conduz sangue para fora do coração?',
+['Artéria','Veia','Capilar apenas','Alvéolo'],
+0,
+'Artérias conduzem sangue para fora do coração.',
+'Qual é a função principal dos capilares?',
+['Permitir trocas entre sangue e tecidos','Bombear sangue','Produzir urina','Produzir bile'],
+0,
+'As paredes finas dos capilares facilitam trocas de gases, nutrientes e resíduos.'
+),
+
+c(
+'bio-10-03',
+'10ª Classe',
+'Biologia',
+'bio-10-u2',
+'Sistema Nervoso e Coordenação',
+'Sistema nervoso',
+'Sistema nervoso',
+'O sistema nervoso coordena respostas do organismo através da receção, processamento e transmissão de informações.',
+[
+'Neurónios são células especializadas na transmissão de sinais nervosos.',
+'O sistema nervoso central é constituído pelo encéfalo e medula espinal.',
+'O sistema nervoso periférico inclui nervos e estruturas que ligam o sistema central ao resto do organismo.',
+'Reflexos podem produzir respostas rápidas através de circuitos específicos.'
+],
+'Reflexo de retirada',
+'Ao tocar numa superfície muito quente, receptores detetam o estímulo e circuitos nervosos coordenam a retirada da mão.',
+'Segurança e saúde',
+'Compreender reflexos e coordenação ajuda a prevenir acidentes e compreender alterações neurológicas.',
+'saúde',
+'Pensar que o cérebro é o único componente do sistema nervoso.',
+'A medula espinal, nervos e receptores também participam na coordenação nervosa.',
+[
+'Neurónios transmitem sinais.',
+'O sistema central inclui encéfalo e medula.',
+'O sistema periférico liga o sistema central ao organismo.',
+'Reflexos permitem respostas rápidas.'
+],
+'Qual estrutura pertence ao sistema nervoso central?',
+['Medula espinal','Nervo periférico','Músculo','Pele'],
+0,
+'A medula espinal, juntamente com o encéfalo, forma o sistema nervoso central.',
+'Uma resposta reflexa rápida é importante porque:',
+['Pode proteger o organismo antes de uma resposta consciente completa','Impede toda dor','Elimina a necessidade do cérebro','Produz alimentos'],
+0,
+'Reflexos permitem respostas rápidas a determinados estímulos potencialmente perigosos.'
+),
+
+c(
+'bio-10-04',
+'10ª Classe',
+'Biologia',
+'bio-10-u3',
+'Saúde Humana e Doenças',
+'Doenças infecciosas e prevenção',
+'Doenças infecciosas',
+'Doenças infecciosas são causadas por agentes biológicos, como bactérias, vírus, fungos ou parasitas, capazes de infectar um hospedeiro.',
+[
+'Diferentes agentes causam diferentes doenças.',
+'A transmissão pode ocorrer por água ou alimentos contaminados, gotículas, contacto, sangue, vetores ou outras vias.',
+'Higiene, vacinação, água segura, saneamento e controlo de vetores podem reduzir riscos.',
+'Antibióticos atuam contra determinadas bactérias e não tratam infeções virais.'
+],
+'Malária',
+'A malária é causada por parasitas do género Plasmodium e é transmitida principalmente por mosquitos Anopheles infectados.',
+'Prevenção da malária',
+'O uso correto de redes mosquiteiras, redução de criadouros e procura de cuidados de saúde ajudam no controlo da malária.',
+'saúde',
+'Usar antibióticos contra qualquer infeção.',
+'Antibióticos não funcionam contra vírus e devem ser usados de acordo com orientação profissional quando indicados.',
+[
+'Doenças infecciosas possuem agentes causadores.',
+'A transmissão depende da doença.',
+'Prevenção combina várias medidas.',
+'Antibióticos não tratam vírus.'
+],
+'Qual agente causa a malária?',
+['Plasmodium','Bactéria do cólera','Fungo de pão','Vírus influenza'],
+0,
+'A malária é causada por parasitas do género Plasmodium.',
+'Qual medida reduz diretamente o contacto com mosquitos transmissores da malária?',
+['Uso adequado de rede mosquiteira','Partilhar utensílios','Evitar beber água apenas','Tomar antibiótico sem indicação'],
+0,
+'Redes mosquiteiras reduzem o contacto entre pessoas e mosquitos vetores.'
+)
+
+];
+
+/*
+===========================================================
+ BIOLOGIA — 11ª CLASSE
+===========================================================
+*/
+
+const BIO_11: EssentialContent[] = [
+
+c(
+'bio-11-01',
+'11ª Classe',
+'Biologia',
+'bio-11-u1',
+'Genética Clássica e Molecular',
+'DNA e replicação',
+'DNA',
+'O DNA é uma molécula que armazena informação genética nos organismos celulares e em diversos vírus.',
+[
+'O DNA é constituído por nucleótidos formados por açúcar, fosfato e uma base nitrogenada.',
+'As bases do DNA são adenina, timina, citosina e guanina.',
+'As duas cadeias de DNA são complementares.',
+'Na replicação, cada molécula de DNA serve de molde para a formação de duas moléculas de DNA, permitindo a transmissão da informação genética.'
+],
+'Complementaridade',
+'Uma sequência com A-T-G-C possui uma cadeia complementar com T-A-C-G.',
+'Genética e saúde',
+'O estudo do DNA é importante para diagnóstico molecular, investigação genética, identificação e biotecnologia.',
+'saúde',
+'Pensar que todo DNA está exclusivamente no núcleo.',
+'Células eucarióticas também possuem DNA em organelos como mitocôndrias e, nas plantas, cloroplastos.',
+[
+'DNA contém informação genética.',
+'Possui quatro bases principais.',
+'As bases formam pares complementares.',
+'A replicação permite copiar a informação genética.'
+],
+'Qual base emparelha normalmente com adenina no DNA?',
+['Timina','Guanina','Citosina','Uracilo'],
+0,
+'No DNA, adenina emparelha com timina.',
+'Qual é a importância da replicação do DNA?',
+['Permitir a transmissão da informação genética para células-filhas','Destruir todos os genes','Produzir oxigénio diretamente','Impedir a divisão celular'],
+0,
+'A replicação permite que células resultantes da divisão recebam cópias da informação genética.'
+),
+
+c(
+'bio-11-02',
+'11ª Classe',
+'Biologia',
+'bio-11-u1',
+'Genética Clássica e Molecular',
+'Expressão génica e síntese de proteínas',
+'Expressão génica',
+'Expressão génica é o conjunto de processos pelos quais a informação de um gene é utilizada para produzir um produto funcional, como uma proteína ou RNA.',
+[
+'Na síntese proteica, a informação do DNA pode ser transcrita para RNA mensageiro.',
+'O RNA mensageiro pode ser traduzido nos ribossomas.',
+'O código genético relaciona sequências de nucleótidos com aminoácidos.',
+'A regulação da expressão génica permite que diferentes células utilizem diferentes conjuntos de genes.'
+],
+'Insulina',
+'A insulina é uma proteína produzida por células especializadas do pâncreas. A informação para sua produção está codificada no DNA.',
+'Biotecnologia',
+'Conhecer expressão génica permite compreender doenças e desenvolver aplicações biotecnológicas, incluindo produção de proteínas terapêuticas.',
+'saúde',
+'Pensar que DNA é diretamente transformado em proteína em uma única etapa.',
+'Em células eucarióticas, a expressão de genes codificadores de proteínas envolve processos como transcrição e tradução.',
+[
+'DNA contém informação.',
+'RNA participa da expressão génica.',
+'Ribossomas realizam tradução.',
+'A regulação génica permite especialização celular.'
+],
+'Em que estrutura ocorre a tradução?',
+['Ribossoma','Parede celular','Lisossoma','Centríolo'],
+0,
+'A tradução ocorre nos ribossomas, onde a sequência do RNA mensageiro orienta a montagem da proteína.',
+'Qual sequência representa corretamente o fluxo simplificado da informação genética?',
+['DNA → RNA → proteína','Proteína → RNA → DNA sempre','RNA → DNA → solo','Água → DNA → proteína'],
+0,
+'O modelo DNA → RNA → proteína representa o fluxo clássico da informação para genes codificadores de proteínas.'
+),
+
+c(
+'bio-11-03',
+'11ª Classe',
+'Biologia',
+'bio-11-u2',
+'Evolução Biológica',
+'Evolução por seleção natural',
+'Seleção natural',
+'Seleção natural é um processo evolutivo no qual indivíduos com características hereditárias que aumentam a sobrevivência ou reprodução em determinado ambiente tendem a deixar mais descendentes.',
+[
+'As populações apresentam variação.',
+'Parte da variação possui componente hereditário.',
+'Os organismos enfrentam condições que influenciam sobrevivência e reprodução.',
+'A seleção natural atua sobre características observáveis, mas a evolução ocorre na população ao longo de gerações.'
+],
+'Resistência a inseticidas',
+'Quando uma população de insetos possui variação genética e alguns indivíduos são menos afetados por um inseticida, esses indivíduos podem sobreviver e reproduzir-se mais.',
+'Agricultura e resistência',
+'O uso inadequado de pesticidas pode favorecer populações resistentes, dificultando o controlo de pragas.',
+'agricultura',
+'Pensar que os organismos desenvolvem intencionalmente características porque precisam delas.',
+'A seleção natural não cria uma característica por necessidade. Ela altera a frequência de variantes hereditárias já existentes ou surgidas por mutação.',
+[
+'Populações possuem variação.',
+'Parte da variação é hereditária.',
+'A seleção natural altera frequências ao longo das gerações.',
+'Indivíduos não evoluem intencionalmente.'
+],
+'Quem evolui biologicamente ao longo das gerações?',
+['Populações','Um indivíduo durante uma única vida','Uma pedra','Uma molécula isolada'],
+0,
+'A evolução é uma mudança nas características hereditárias de populações ao longo das gerações.',
+'Por que o uso repetido de um pesticida pode favorecer resistência?',
+['Porque indivíduos resistentes podem sobreviver e reproduzir-se mais','Porque o pesticida cria vontade de resistir','Porque todos os insetos se tornam iguais','Porque nenhum inseto possui variação'],
+0,
+'A seleção favorece variantes resistentes quando elas estão presentes e o ambiente impõe essa pressão.'
+),
+
+c(
+'bio-11-04',
+'11ª Classe',
+'Biologia',
+'bio-11-u3',
+'Ecologia e Dinâmica de Ecossistemas',
+'Cadeias alimentares e fluxo de energia',
+'Cadeia alimentar',
+'Cadeia alimentar representa uma sequência simplificada de transferência de matéria e energia entre organismos através da alimentação.',
+[
+'Produtores, como plantas, formam matéria orgânica a partir de energia luminosa ou química.',
+'Consumidores obtêm matéria e energia alimentando-se de outros organismos.',
+'Decompositores participam da decomposição da matéria orgânica.',
+'A energia disponível diminui ao longo dos níveis tróficos porque parte é dissipada como calor durante o metabolismo.'
+],
+'Milho → gafanhoto → galinha',
+'Numa machamba, o milho pode servir de alimento para gafanhotos, que podem ser consumidos por galinhas. Essa relação forma parte de uma teia alimentar.',
+'Segurança alimentar',
+'Alterações nas populações de produtores, consumidores ou decompositores podem afetar a produtividade e estabilidade dos ecossistemas agrícolas.',
+'agricultura',
+'Pensar que a energia circula infinitamente na cadeia alimentar.',
+'A matéria pode ser reciclada, mas a energia flui pelo ecossistema e parte é dissipada como calor.',
+[
+'Produtores iniciam muitas cadeias alimentares.',
+'Consumidores obtêm alimento de outros organismos.',
+'Decompositores reciclam matéria.',
+'A energia diminui ao longo dos níveis tróficos.'
+],
+'Qual organismo é normalmente produtor numa cadeia alimentar terrestre?',
+['Capim','Gafanhoto','Galinha','Falcão'],
+0,
+'Plantas são produtores porque produzem matéria orgânica usando energia luminosa.',
+'Por que geralmente existe menos energia disponível nos níveis tróficos superiores?',
+['Porque parte da energia é dissipada durante o metabolismo','Porque predadores não possuem células','Porque plantas não possuem energia','Porque a energia desaparece sem transformação'],
+0,
+'Parte da energia é dissipada como calor em processos metabólicos.'
+)
+
+];
+
+/*
+===========================================================
+ BIOLOGIA — 12ª CLASSE
+===========================================================
+*/
+
+const BIO_12: EssentialContent[] = [
+
+c(
+'bio-12-01',
+'12ª Classe',
+'Biologia',
+'bio-12-u1',
+'Biologia Molecular Avançada',
+'Mutações e variabilidade genética',
+'Mutação',
+'Mutação é uma alteração na sequência do material genético. Algumas mutações são neutras, outras podem ser prejudiciais ou vantajosas dependendo do contexto.',
+[
+'Mutações podem surgir espontaneamente durante processos celulares ou ser favorecidas por determinados agentes mutagénicos.',
+'Mutações em células germinativas podem ser transmitidas à descendência.',
+'Mutações somáticas normalmente não são transmitidas aos descendentes.',
+'A variabilidade genética resulta de mutações, recombinação e outros processos.'
+],
+'Mutação pontual',
+'Uma alteração de uma única base no DNA pode não alterar a proteína, alterar um aminoácido ou introduzir um sinal de paragem, dependendo da posição e do tipo de mudança.',
+'Saúde e genética',
+'O estudo de mutações ajuda a compreender doenças genéticas, cancro e respostas a tratamentos.',
+'saúde',
+'Pensar que toda mutação causa doença.',
+'Mutações podem ser neutras, prejudiciais ou, em determinadas condições, vantajosas.',
+[
+'Mutações alteram material genético.',
+'Podem ser neutras, prejudiciais ou vantajosas.',
+'Mutações germinativas podem ser herdadas.',
+'Mutações contribuem para a variabilidade genética.'
+],
+'O que é uma mutação?',
+['Alteração na sequência do material genético','Apenas uma mudança de temperatura','Uma doença obrigatoriamente','Uma célula especializada'],
+0,
+'Mutações são alterações na sequência do material genético.',
+'Uma mutação presente numa célula da pele de um adulto é automaticamente transmitida aos filhos?',
+['Não','Sim, sempre','Somente se houver febre','Somente em plantas'],
+0,
+'Mutações somáticas normalmente não são transmitidas à descendência.'
+),
+
+c(
+'bio-12-02',
+'12ª Classe',
+'Biologia',
+'bio-12-u2',
+'Biotecnologia e Bioética',
+'Engenharia genética e DNA recombinante',
+'DNA recombinante',
+'DNA recombinante é uma molécula de DNA formada pela combinação de sequências de DNA provenientes de diferentes fontes.',
+[
+'Técnicas de engenharia genética permitem isolar, copiar, modificar ou inserir sequências de DNA.',
+'Nem todo DNA recombinante resulta em organismo transgénico.',
+'Organismos geneticamente modificados podem ser utilizados em investigação, agricultura, indústria e medicina.',
+'A utilização da biotecnologia deve considerar segurança, eficácia, impactos ambientais e questões éticas.'
+],
+'Insulina recombinante',
+'Bactérias modificadas podem ser utilizadas para produzir insulina humana recombinante, uma aplicação importante da engenharia genética.',
+'Biotecnologia e saúde',
+'A engenharia genética pode produzir substâncias terapêuticas e apoiar diagnóstico e investigação de doenças.',
+'saúde',
+'Pensar que todo organismo geneticamente modificado é necessariamente perigoso.',
+'Os riscos e benefícios devem ser avaliados caso a caso, com evidências científicas e regulamentação adequada.',
+[
+'DNA recombinante combina sequências de DNA.',
+'Engenharia genética permite modificar material genético.',
+'Existem aplicações médicas e agrícolas.',
+'Questões éticas e de biossegurança são importantes.'
+],
+'O que caracteriza o DNA recombinante?',
+['Combinação de sequências de DNA de diferentes fontes','Ausência total de DNA','Somente DNA de vírus','DNA sem bases nitrogenadas'],
+0,
+'DNA recombinante resulta da combinação de sequências de DNA.',
+'Qual é uma aplicação médica da engenharia genética?',
+['Produção de proteínas terapêuticas','Produção de areia','Medição da temperatura','Formação de nuvens'],
+0,
+'A engenharia genética permite produzir proteínas utilizadas em medicina.'
+),
+
+c(
+'bio-12-03',
+'12ª Classe',
+'Biologia',
+'bio-12-u3',
+'Evolução, Genética Populacional e Diversidade',
+'Genética populacional',
+'Genética populacional',
+'Genética populacional estuda a distribuição e mudança das frequências dos alelos e genótipos nas populações.',
+[
+'As frequências alélicas representam a proporção de diferentes alelos numa população.',
+'Mutação, seleção natural, deriva genética, migração e acasalamento não aleatório podem alterar a estrutura genética das populações.',
+'A deriva genética é particularmente importante em populações pequenas.',
+'O fluxo génico ocorre quando indivíduos ou gametas entram ou saem de uma população.'
+],
+'Efeito fundador',
+'Quando um pequeno grupo de indivíduos estabelece uma nova população, os alelos presentes nesse grupo podem representar apenas uma parte da diversidade original.',
+'Conservação',
+'Em populações pequenas e isoladas, a perda de diversidade genética pode aumentar riscos de longo prazo para a conservação.',
+'biodiversidade',
+'Pensar que evolução significa sempre aumento de complexidade.',
+'Evolução significa mudança nas características hereditárias de populações ao longo das gerações, não necessariamente maior complexidade.',
+[
+'Populações possuem frequências alélicas.',
+'Deriva genética pode alterar frequências ao acaso.',
+'Seleção natural favorece variantes em determinado ambiente.',
+'Fluxo génico movimenta alelos entre populações.'
+],
+'Qual processo pode alterar frequências alélicas por acaso?',
+['Deriva genética','Digestão','Fotossíntese','Respiração pulmonar'],
+0,
+'A deriva genética altera frequências alélicas por efeitos aleatórios de amostragem.',
+'Por que populações pequenas podem perder diversidade genética mais rapidamente?',
+['Porque efeitos aleatórios podem ter maior impacto','Porque não possuem DNA','Porque não sofrem reprodução','Porque todos os genes desaparecem imediatamente'],
+0,
+'Em populações pequenas, eventos aleatórios podem alterar significativamente as frequências dos alelos.'
+),
+
+c(
+'bio-12-04',
+'12ª Classe',
+'Biologia',
+'bio-12-u4',
+'Ecologia Aplicada e Desenvolvimento Sustentável',
+'Desenvolvimento sustentável',
+'Desenvolvimento sustentável',
+'Desenvolvimento sustentável procura satisfazer necessidades humanas atuais sem comprometer a capacidade das gerações futuras de satisfazerem as suas necessidades.',
+[
+'A sustentabilidade envolve dimensões ambientais, sociais e económicas.',
+'A utilização de recursos naturais deve considerar capacidade de renovação e limites ecológicos.',
+'A conservação da biodiversidade é importante para manter serviços dos ecossistemas.',
+'Produção agrícola, energia, água e gestão de resíduos devem ser planejadas considerando impactos de longo prazo.'
+],
+'Gestão da água',
+'Uma comunidade pode reduzir desperdício, proteger nascentes, tratar água e utilizar tecnologias adequadas para conservar recursos hídricos.',
+'Água em comunidades',
+'Em Moçambique, a gestão sustentável da água é importante para consumo humano, agricultura, saúde e conservação dos ecossistemas.',
+'recursos_naturais',
+'Pensar que sustentabilidade significa não utilizar recursos naturais.',
+'Sustentabilidade significa utilizar recursos de maneira responsável, equilibrando necessidades humanas e conservação.',
+[
+'Sustentabilidade considera presente e futuro.',
+'Inclui ambiente, sociedade e economia.',
+'Conservação e uso responsável dos recursos são fundamentais.',
+'Decisões locais podem ter efeitos ambientais amplos.'
+],
+'Qual é uma característica do desenvolvimento sustentável?',
+['Considerar necessidades atuais e futuras','Usar recursos sem limites','Ignorar impactos ambientais','Eliminar toda atividade económica'],
+0,
+'Sustentabilidade procura equilibrar necessidades humanas e conservação dos recursos.',
+'Qual medida contribui para a sustentabilidade da água?',
+['Proteger fontes de água e reduzir desperdício','Despejar resíduos no rio','Destruir zonas húmidas','Aumentar desperdício'],
+0,
+'Proteção das fontes e uso eficiente reduzem impactos e ajudam a manter a disponibilidade de água.'
+)
+
+];
+
+/*
+===========================================================
+ QUÍMICA — 7ª CLASSE
+===========================================================
+*/
+
+const CHEM_7: EssentialContent[] = [
+
+c(
+'chem-7-01',
+'7ª Classe',
+'Química',
+'chem-7-u1',
+'Introdução à Química',
+'O que é Química?',
+'Introdução à Química',
+'Química é a ciência que estuda a matéria, a sua composição, estrutura, propriedades e transformações, bem como a energia envolvida nesses processos.',
+[
+'A matéria está presente nos objetos, água, ar, alimentos, solo e organismos.',
+'A Química procura compreender de que são constituídos os materiais.',
+'Também estuda propriedades como solubilidade, densidade, acidez e reatividade.',
+'As transformações podem formar novas substâncias ou alterar apenas o estado ou aparência do material.'
+],
+'Preparação de alimentos',
+'Cozinhar um alimento envolve mudanças físicas e químicas que podem ser estudadas pela Química.',
+'Química no quotidiano',
+'A Química está presente na agricultura, tratamento da água, produção de sabão, alimentos, medicamentos e materiais.',
+'agricultura',
+'Pensar que Química existe apenas no laboratório.',
+'A Química está presente em muitas atividades quotidianas.',
+[
+'Química estuda matéria.',
+'Estuda propriedades e composição.',
+'Estuda transformações.',
+'Está presente no quotidiano.'
+],
+'O que estuda a Química?',
+['A matéria e suas transformações','Somente animais','Somente planetas','Apenas números'],
+0,
+'A Química estuda a matéria, suas propriedades e transformações.',
+'Qual atividade envolve Química?',
+['Cozinhar alimentos','Somente correr','Dormir','Contar objetos'],
+0,
+'Cozinhar envolve transformações da matéria estudadas pela Química.'
+),
+
+c(
+'chem-7-02',
+'7ª Classe',
+'Química',
+'chem-7-u2',
+'Matéria',
+'Matéria e propriedades',
+'Matéria',
+'Matéria é tudo aquilo que possui massa e ocupa espaço, apresentando propriedades que permitem caracterizá-la.',
+[
+'A matéria pode existir em diferentes estados físicos.',
+'Propriedades gerais incluem massa e volume.',
+'Propriedades específicas ajudam a identificar materiais, como densidade, ponto de fusão e solubilidade.',
+'A matéria pode sofrer transformações físicas e químicas.'
+],
+'Água e pedra',
+'Uma pedra possui massa e ocupa espaço. A água também possui massa e volume, embora tenha propriedades diferentes.',
+'Materiais locais',
+'Conhecer propriedades dos materiais ajuda na seleção de materiais para construção, agricultura, armazenamento e tratamento de água.',
+'recursos_naturais',
+'Confundir matéria com massa.',
+'Massa é uma propriedade da matéria; matéria não é sinónimo de massa.',
+[
+'Matéria possui massa e ocupa espaço.',
+'Existem propriedades gerais e específicas.',
+'Materiais apresentam propriedades diferentes.',
+'Matéria pode sofrer transformações.'
+],
+'Qual é uma propriedade geral da matéria?',
+['Massa','Cor específica de cada substância','Ponto de ebulição apenas','Reatividade apenas'],
+0,
+'Massa é uma propriedade geral da matéria.',
+'Uma garrafa com água ocupa espaço. Isso demonstra que a água:',
+['Possui volume','Não é matéria','Não possui massa','É energia pura'],
+0,
+'Volume representa o espaço ocupado por uma porção de matéria.'
+),
+
+c(
+'chem-7-03',
+'7ª Classe',
+'Química',
+'chem-7-u3',
+'Substâncias e Misturas',
+'Substâncias e misturas',
+'Substância e mistura',
+'Substância é um material com composição característica. Mistura resulta da combinação de duas ou mais substâncias sem que necessariamente se forme uma nova substância.',
+[
+'Substâncias podem ser simples ou compostas.',
+'Uma mistura homogénea apresenta aspecto uniforme em escala macroscópica.',
+'Uma mistura heterogénea apresenta mais de uma fase visível ou distinguível.',
+'Misturas podem ser separadas por processos físicos adequados.'
+],
+'Água com sal',
+'Quando sal se dissolve completamente em água, forma-se uma mistura homogénea chamada solução.',
+'Tratamento de água',
+'A separação de misturas é fundamental no tratamento e purificação da água.',
+'recursos_naturais',
+'Pensar que toda mistura é heterogénea.',
+'Existem misturas homogéneas e heterogéneas.',
+[
+'Substância possui composição característica.',
+'Mistura contém mais de uma substância.',
+'Mistura homogénea apresenta uma fase macroscópica.',
+'Misturas podem ser separadas fisicamente.'
+],
+'Água e sal dissolvido formam:',
+['Mistura homogénea','Substância simples','Elemento isolado','Mistura obrigatoriamente heterogénea'],
+0,
+'Quando o sal está completamente dissolvido, a mistura apresenta aspecto uniforme.',
+'Como separar areia de água?',
+['Filtração','Evaporação apenas obrigatoriamente','Combustão','Fusão'],
+0,
+'A filtração separa um sólido insolúvel de um líquido usando uma barreira porosa.'
+),
+
+c(
+'chem-7-04',
+'7ª Classe',
+'Química',
+'chem-7-u4',
+'Transformações da Matéria',
+'Transformações físicas e químicas',
+'Transformações',
+'Transformação física altera estado, forma ou aparência sem produzir necessariamente uma nova substância; transformação química envolve formação de novas substâncias.',
+[
+'Fusão do gelo é uma transformação física.',
+'Dissolução pode ser física, embora processos químicos possam ocorrer dependendo do sistema.',
+'Combustão é uma transformação química.',
+'Ferrugem do ferro também envolve transformação química.'
+],
+'Gelo e ferro',
+'O gelo derretendo continua sendo água. Já o ferro enferrujado contém produtos de reação diferentes do ferro inicial.',
+'Conservação de alimentos',
+'Cozimento, fermentação e deterioração são exemplos de processos químicos importantes na alimentação.',
+'indústria',
+'Pensar que toda mudança de cor é necessariamente uma reação química.',
+'A evidência deve ser analisada no contexto; mudança de cor pode ter várias causas.',
+[
+'Transformação física não exige formação de nova substância.',
+'Transformação química forma novas substâncias.',
+'Combustão é química.',
+'Fusão é física.'
+],
+'Qual é uma transformação química?',
+['Ferrugem do ferro','Derretimento do gelo','Cortar papel','Evaporar água'],
+0,
+'A ferrugem envolve reação do ferro com componentes do ambiente e formação de novos produtos.',
+'Quando o gelo derrete, ocorre:',
+['Transformação física','Transformação química obrigatoriamente','Formação de nova substância','Combustão'],
+0,
+'O gelo e a água líquida continuam sendo H₂O.'
+)
+
+];
+
+/*
+===========================================================
+ QUÍMICA — 8ª CLASSE
+===========================================================
+*/
+
+const CHEM_8: EssentialContent[] = [
+
+c(
+'chem-8-01',
+'8ª Classe',
+'Química',
+'chem-8-u1',
+'Constituição da Matéria',
+'Átomo e estrutura atómica',
+'Átomo',
+'Átomo é a unidade fundamental da matéria para a descrição química dos elementos, constituído por núcleo e região eletrónica.',
+[
+'O núcleo contém protões e neutrões.',
+'Os eletrões ocupam regiões de probabilidade ao redor do núcleo.',
+'O número de protões determina o número atómico e identifica o elemento.',
+'Num átomo neutro, o número de eletrões é igual ao número de protões.'
+],
+'Carbono',
+'O carbono possui número atómico 6, portanto um átomo neutro de carbono possui seis protões e seis eletrões.',
+'Elementos presentes nos seres vivos',
+'O carbono, oxigénio, hidrogénio e outros elementos são fundamentais para a matéria viva e para recursos naturais.',
+'biomassa',
+'Pensar que eletrões percorrem sempre órbitas circulares fixas como planetas.',
+'O modelo moderno descreve eletrões por orbitais e regiões de probabilidade.',
+[
+'Átomo possui núcleo e eletrões.',
+'Protões têm carga positiva.',
+'Eletrões têm carga negativa.',
+'O número de protões define o elemento.'
+],
+'O que determina o número atómico?',
+['Número de protões','Número de neutrões apenas','Número de moléculas','Número de níveis de água'],
+0,
+'O número atómico é igual ao número de protões do núcleo.',
+'Um átomo neutro possui 8 protões. Quantos eletrões possui?',
+['8','4','16','0'],
+0,
+'Num átomo neutro, o número de eletrões é igual ao número de protões.'
+),
+
+c(
+'chem-8-02',
+'8ª Classe',
+'Química',
+'chem-8-u1',
+'Constituição da Matéria',
+'Tabela periódica',
+'Tabela periódica',
+'A tabela periódica organiza os elementos químicos segundo o número atómico e propriedades periódicas.',
+[
+'Elementos são organizados em períodos e grupos.',
+'Elementos de um mesmo grupo podem apresentar propriedades químicas relacionadas.',
+'Metais, não metais e metaloides apresentam diferentes propriedades.',
+'A posição de um elemento ajuda a prever algumas características químicas.'
+],
+'Sódio e cloro',
+'Sódio e cloro possuem propriedades muito diferentes, mas formam o composto cloreto de sódio.',
+'Recursos minerais',
+'A tabela periódica ajuda a compreender elementos presentes em minerais, fertilizantes, materiais industriais e organismos.',
+'indústria',
+'Pensar que elementos próximos possuem sempre propriedades idênticas.',
+'As tendências periódicas existem, mas cada elemento possui propriedades próprias.',
+[
+'A tabela organiza elementos.',
+'Número atómico aumenta ao longo dos períodos.',
+'Grupos apresentam relações de propriedades.',
+'A posição ajuda a prever comportamento químico.'
+],
+'Qual informação identifica diretamente um elemento?',
+['Número atómico','Cor do recipiente','Massa da amostra apenas','Estado da água'],
+0,
+'O número atómico identifica o elemento.',
+'Elementos de um mesmo grupo geralmente:',
+['Apresentam algumas propriedades químicas semelhantes','São todos iguais','Possuem sempre a mesma massa','São todos gases'],
+0,
+'Elementos do mesmo grupo apresentam configurações de valência relacionadas e tendências químicas semelhantes.'
+),
+
+c(
+'chem-8-03',
+'8ª Classe',
+'Química',
+'chem-8-u2',
+'Ligações Químicas',
+'Ligações químicas',
+'Ligação química',
+'Ligação química é uma interação que mantém átomos unidos em estruturas estáveis, envolvendo principalmente os eletrões de valência.',
+[
+'Na ligação iónica ocorre transferência de eletrões entre espécies, formando iões de cargas opostas.',
+'Na ligação covalente ocorre partilha de pares de eletrões entre átomos.',
+'Na ligação metálica, eletrões de valência apresentam comportamento coletivo em uma rede metálica.',
+'O tipo de ligação influencia propriedades dos materiais.'
+],
+'Cloreto de sódio',
+'No NaCl, o sódio forma Na⁺ e o cloro forma Cl⁻; as cargas opostas contribuem para a estrutura iónica.',
+'Materiais e indústria',
+'Compreender ligações ajuda a explicar propriedades de sais, metais, água e materiais usados no quotidiano.',
+'indústria',
+'Pensar que ligação iónica significa que os átomos simplesmente encostam.',
+'A ligação envolve interações eletrostáticas entre iões e estrutura organizada.',
+[
+'Eletrões de valência participam das ligações.',
+'Iónica envolve formação de iões.',
+'Covalen­te envolve partilha de eletrões.',
+'Metálica possui eletrões deslocalizados.'
+],
+'Que tipo de ligação envolve partilha de eletrões?',
+['Covalente','Iónica apenas','Metálica exclusivamente','Nuclear'],
+0,
+'Ligações covalentes envolvem partilha de pares de eletrões entre átomos.',
+'Na formação de NaCl, o sódio tende a:',
+['Perder um eletrão','Ganhar sete protões','Perder o núcleo','Formar água'],
+0,
+'O sódio possui um eletrão de valência e tende a formar Na⁺ por perda desse eletrão.'
+),
+
+c(
+'chem-8-04',
+'8ª Classe',
+'Química',
+'chem-8-u3',
+'Ácidos, Bases e Indicadores',
+'Ácidos e bases',
+'Ácido e base',
+'Ácidos e bases são classes de substâncias com propriedades químicas características. Em água, ácidos aumentam a concentração de H₃O⁺, enquanto bases aumentam a concentração de OH⁻ ou aceitam protões, dependendo da definição usada.',
+[
+'O pH é uma medida relacionada com a atividade de iões hidrogénio em solução aquosa.',
+'Soluções ácidas apresentam pH inferior a 7 em condições usuais de referência.',
+'Soluções básicas apresentam pH superior a 7.',
+'Indicadores mudam de cor conforme a acidez ou basicidade do meio.'
+],
+'Limão',
+'O sumo de limão contém ácidos orgânicos e apresenta caráter ácido.',
+'Água e saúde',
+'O controlo do pH é importante no tratamento de água, agricultura, alimentos e processos industriais.',
+'recursos_naturais',
+'Pensar que ácido significa necessariamente venenoso.',
+'Acidez e toxicidade não são a mesma coisa; dependem da substância e da concentração.',
+[
+'pH caracteriza acidez/basicidade.',
+'pH menor que 7 indica meio ácido em água.',
+'pH maior que 7 indica meio básico.',
+'Indicadores ajudam a identificar o caráter da solução.'
+],
+'Uma solução com pH 3 é:',
+['Ácida','Básica','Neutra','Sempre um metal'],
+0,
+'Em água, pH 3 corresponde a uma solução ácida.',
+'Qual substância pode ser usada como indicador natural?',
+['Extrato de repolho roxo','Areia','Ferro','Sal sólido'],
+0,
+'Pigmentos do repolho roxo mudam de cor em diferentes condições de pH.'
+)
+
+];
+
+/*
+===========================================================
+ QUÍMICA — 9ª CLASSE
+===========================================================
+*/
+
+const CHEM_9: EssentialContent[] = [
+
+c(
+'chem-9-01',
+'9ª Classe',
+'Química',
+'chem-9-u1',
+'Reações Químicas',
+'Reações químicas',
+'Reação química',
+'Reação química é um processo no qual uma ou mais substâncias são transformadas em outras substâncias com composição e propriedades diferentes.',
+[
+'As substâncias iniciais são chamadas reagentes.',
+'As substâncias formadas são produtos.',
+'Durante uma reação, os átomos são reorganizados; não são simplesmente criados ou destruídos.',
+'Equações químicas representam simbolicamente essas transformações.'
+],
+'Combustão',
+'Na combustão do metano, metano e oxigénio reagem formando dióxido de carbono e água.',
+'Combustíveis',
+'Combustões são importantes para energia e transporte, mas podem produzir poluentes e gases de efeito estufa.',
+'energia',
+'Pensar que os átomos desaparecem numa reação.',
+'Os átomos são conservados e reorganizados em novas combinações.',
+[
+'Reagentes transformam-se em produtos.',
+'Átomos são reorganizados.',
+'Equações representam reações.',
+'A matéria é conservada.'
+],
+'Em uma reação química, os reagentes são:',
+['Substâncias presentes no início da reação','Sempre produtos','Somente gases','Somente metais'],
+0,
+'Reagentes são as substâncias que participam inicialmente da transformação.',
+'Na reação 2H₂ + O₂ → 2H₂O, quais são os produtos?',
+['H₂O','H₂ e O₂','Somente H₂','Somente O₂'],
+0,
+'A água é o produto representado no lado direito da equação.'
+),
+
+c(
+'chem-9-02',
+'9ª Classe',
+'Química',
+'chem-9-u2',
+'Estequiometria',
+'Conservação da massa',
+'Lei da conservação da massa',
+'Em um sistema fechado, a massa total dos reagentes é igual à massa total dos produtos de uma reação química.',
+[
+'A lei relaciona-se com a conservação dos átomos durante as reações.',
+'Uma equação química deve ser balanceada para apresentar o mesmo número de átomos de cada elemento nos dois lados.',
+'Os coeficientes representam proporções entre partículas ou quantidades de matéria.',
+'Balancear não significa alterar as fórmulas químicas das substâncias.'
+],
+'Formação de água',
+'Na equação 2H₂ + O₂ → 2H₂O existem quatro átomos de H e dois de O em ambos os lados.',
+'Laboratório e indústria',
+'O balanceamento é necessário para calcular quantidades de reagentes e produtos em processos químicos.',
+'indústria',
+'Alterar índices das fórmulas para balancear.',
+'Devem ser alterados coeficientes, não os índices que definem a substância.',
+[
+'A massa é conservada em sistema fechado.',
+'Equações devem ser balanceadas.',
+'Coeficientes indicam proporções.',
+'Fórmulas químicas não devem ser alteradas arbitrariamente.'
+],
+'Qual equação está balanceada?',
+['2H₂ + O₂ → 2H₂O','H₂ + O₂ → H₂O','H₂ + O → H₂O₂','H₂ + O₂ → H₂O₂'],
+0,
+'Na equação correta existem dois H₂, um O₂ e dois H₂O, conservando os átomos.',
+'Para balancear uma equação química devemos alterar principalmente:',
+['Coeficientes','Símbolos dos elementos','Índices arbitrariamente','Nomes dos elementos'],
+0,
+'Coeficientes mudam as quantidades relativas sem alterar a identidade química da substância.'
+),
+
+c(
+'chem-9-03',
+'9ª Classe',
+'Química',
+'chem-9-u3',
+'Soluções',
+'Concentração de soluções',
+'Concentração',
+'Concentração expressa a quantidade de soluto presente em determinada quantidade de solução ou solvente, dependendo da definição usada.',
+[
+'Uma solução contém soluto e solvente.',
+'A concentração pode ser expressa de várias formas.',
+'A concentração em massa pode ser calculada por C = m/V, quando massa e volume estão nas unidades adequadas.',
+'Diluição reduz a concentração adicionando solvente, sem alterar a quantidade de soluto inicialmente presente, se não houver perdas.'
+],
+'Sal em água',
+'Adicionar mais sal ao mesmo volume de água aumenta a concentração até que se atinja a solubilidade e possa restar sólido.',
+'Água e laboratório',
+'Preparar soluções com concentração conhecida é importante em laboratórios, saúde, agricultura e tratamento de água.',
+'saúde',
+'Pensar que adicionar água aumenta a concentração.',
+'Adicionar solvente geralmente diminui a concentração, mantendo constante a quantidade de soluto.',
+[
+'Solução possui soluto e solvente.',
+'Concentração mede quantidade de soluto em relação a uma referência.',
+'C = m/V é uma forma de concentração em massa.',
+'Diluição diminui concentração.'
+],
+'Se 10 g de sal estão dissolvidos em 2 L de solução, a concentração em massa é:',
+['5 g/L','20 g/L','0,2 g/L','12 g/L'],
+0,
+'C = m/V = 10/2 = 5 g/L.',
+'Se adicionarmos água a uma solução sem perder soluto, a concentração:',
+['Diminui','Aumenta sempre','Não pode mudar','Transforma-se em sólido'],
+0,
+'O mesmo soluto passa a estar distribuído em maior volume.'
+),
+
+c(
+'chem-9-04',
+'9ª Classe',
+'Química',
+'chem-9-u4',
+'Química Inorgânica',
+'Óxidos, ácidos, bases e sais',
+'Funções inorgânicas',
+'Óxidos, ácidos, bases e sais são classes importantes de substâncias inorgânicas com propriedades e comportamentos químicos característicos.',
+[
+'Óxidos são compostos binários em que o oxigénio está combinado com outro elemento, com exceções específicas da classificação.',
+'Ácidos apresentam propriedades relacionadas com doação de protões ou formação de H₃O⁺ em água.',
+'Bases podem produzir OH⁻ em água ou aceitar protões.',
+'Sais são compostos iónicos que podem resultar de reações entre ácidos e bases.'
+],
+'Neutralização',
+'HCl + NaOH → NaCl + H₂O é um exemplo de neutralização entre um ácido e uma base.',
+'Tratamento de água e agricultura',
+'Reações ácido-base são utilizadas em tratamento de água, correção de solos e processos industriais.',
+'agricultura',
+'Pensar que todo sal é obrigatoriamente sal de cozinha.',
+'Cloreto de sódio é apenas um dos muitos sais existentes.',
+[
+'Óxidos contêm oxigénio combinado com outro elemento.',
+'Ácidos e bases possuem propriedades opostas em muitos contextos.',
+'Sais formam uma grande classe de compostos.',
+'Neutralização pode formar sal e água.'
+],
+'Na reação HCl + NaOH → NaCl + H₂O, NaCl é:',
+['Um sal','Um ácido','Uma base','Um elemento'],
+0,
+'Cloreto de sódio é um sal.',
+'Uma reação entre ácido e base pode produzir:',
+['Sal e água','Somente oxigénio','Somente metal','Somente ácido'],
+0,
+'Uma reação de neutralização pode produzir sal e água.'
+)
+
+];
+
+/*
+===========================================================
+ QUÍMICA — 10ª CLASSE
+===========================================================
+*/
+
+const CHEM_10: EssentialContent[] = [
+
+c(
+'chem-10-01',
+'10ª Classe',
+'Química',
+'chem-10-u1',
+'Quantidade de Matéria',
+'Mol e número de Avogadro',
+'Mol',
+'Mol é a unidade do SI para quantidade de matéria. Um mol contém exatamente 6,02214076 × 10²³ entidades elementares especificadas.',
+[
+'As entidades podem ser átomos, moléculas, iões ou outras partículas.',
+'A massa molar é a massa correspondente a um mol de uma substância.',
+'A quantidade de matéria pode ser calculada por n = m/M.',
+'O conceito de mol permite relacionar o mundo microscópico com quantidades medidas no laboratório.'
+],
+'18 g de água',
+'A massa molar aproximada da água é 18 g/mol. Assim, 18 g de água correspondem aproximadamente a 1 mol de moléculas de água.',
+'Laboratório',
+'O mol é essencial para preparar soluções, calcular reagentes e interpretar reações químicas.',
+'indústria',
+'Confundir mol com massa.',
+'Mol mede quantidade de matéria; gramas medem massa.',
+[
+'Mol é unidade de quantidade de matéria.',
+'1 mol contém 6,02214076 × 10²³ entidades.',
+'n = m/M.',
+'Massa molar é expressa em g/mol.'
+],
+'Quantas entidades existem aproximadamente em 1 mol?',
+['6,02214076 × 10²³','100','1 milhão','10²'],
+0,
+'Esse valor é a constante de Avogadro, definida exatamente pelo SI.',
+'Quantos mol existem em 36 g de água, considerando M = 18 g/mol?',
+['2 mol','0,5 mol','18 mol','54 mol'],
+0,
+'n = m/M = 36/18 = 2 mol.'
+),
+
+c(
+'chem-10-02',
+'10ª Classe',
+'Química',
+'chem-10-u2',
+'Ligação e Estrutura',
+'Geometria molecular e polaridade',
+'Geometria molecular',
+'A geometria molecular descreve a disposição espacial dos átomos numa molécula, influenciada pelas interações entre regiões de densidade eletrónica.',
+[
+'A distribuição eletrónica influencia os ângulos de ligação.',
+'Moléculas podem apresentar geometrias lineares, angulares, trigonal plana, tetraédrica e outras.',
+'A polaridade depende das ligações e da geometria da molécula.',
+'Uma molécula com ligações polares pode ser globalmente apolar se os dipolos se anularem pela geometria.'
+],
+'Água',
+'A molécula de água é angular e possui ligações O-H polares, resultando em molécula polar.',
+'Água e ambiente',
+'A polaridade da água ajuda a explicar sua capacidade de dissolver muitas substâncias iónicas e polares.',
+'recursos_naturais',
+'Pensar que qualquer molécula com ligação polar é obrigatoriamente polar.',
+'A polaridade molecular depende da soma vetorial dos dipolos de ligação e da geometria.',
+[
+'Geometria descreve disposição espacial.',
+'Ligações podem ser polares.',
+'Polaridade molecular depende da geometria.',
+'Água é uma molécula polar.'
+],
+'Por que a água é polar?',
+['Porque sua geometria angular e ligações O-H produzem dipolo resultante','Porque não possui eletrões','Porque é metálica','Porque não possui ligações'],
+0,
+'A geometria angular impede o cancelamento completo dos dipolos O-H.',
+'Uma molécula linear simétrica com duas ligações polares iguais pode ser:',
+['Apolar','Sempre iónica','Sempre metálica','Sem eletrões'],
+0,
+'Os dipolos podem cancelar-se quando a geometria é simétrica.'
+),
+
+c(
+'chem-10-03',
+'10ª Classe',
+'Química',
+'chem-10-u3',
+'Química Orgânica',
+'Introdução à química orgânica',
+'Química orgânica',
+'Química orgânica estuda principalmente compostos de carbono, especialmente estruturas em que o carbono forma cadeias e ligações covalentes características.',
+[
+'O carbono possui quatro eletrões de valência e pode formar quatro ligações covalentes.',
+'Cadeias carbónicas podem ser lineares, ramificadas ou cíclicas.',
+'Hidrocarbonetos são compostos constituídos apenas por carbono e hidrogénio.',
+'Grupos funcionais determinam muitas propriedades e reatividades dos compostos orgânicos.'
+],
+'Etanol',
+'O etanol possui dois carbonos, seis hidrogénios e um grupo hidroxilo, sendo um álcool.',
+'Combustíveis e indústria',
+'Compostos orgânicos estão presentes em combustíveis, medicamentos, plásticos, alimentos e muitos materiais.',
+'indústria',
+'Definir química orgânica como estudo exclusivo de seres vivos.',
+'A química orgânica estuda principalmente compostos de carbono, independentemente de serem produzidos por seres vivos ou sintetizados industrialmente.',
+[
+'Carbono forma muitas estruturas.',
+'Hidrocarbonetos contêm C e H.',
+'Grupos funcionais influenciam propriedades.',
+'Química orgânica tem ampla aplicação industrial.'
+],
+'Qual elemento é central na química orgânica?',
+['Carbono','Sódio','Ferro','Hélio'],
+0,
+'O carbono forma grande diversidade de estruturas covalentes.',
+'Qual composto é um hidrocarboneto?',
+['CH₄','H₂O','NaCl','NH₃'],
+0,
+'CH₄ contém apenas carbono e hidrogénio.'
+),
+
+c(
+'chem-10-04',
+'10ª Classe',
+'Química',
+'chem-10-u4',
+'Química Ambiental',
+'Combustíveis e poluição',
+'Combustíveis',
+'Combustível é uma substância ou material capaz de libertar energia utilizável, geralmente através de uma reação química como combustão.',
+[
+'Combustíveis fósseis incluem carvão, petróleo e gás natural.',
+'A combustão completa de hidrocarbonetos produz principalmente CO₂ e H₂O.',
+'Combustão incompleta pode produzir monóxido de carbono e fuligem.',
+'A queima de combustíveis fósseis é uma importante fonte antropogénica de CO₂.'
+],
+'Carvão vegetal',
+'A combustão libera energia, mas também produz gases e partículas que podem afetar a saúde e o ambiente.',
+'Energia e ambiente',
+'O uso de combustíveis deve considerar eficiência, qualidade do ar, saúde e impactos ambientais.',
+'energia',
+'Pensar que toda combustão produz apenas dióxido de carbono e água.',
+'A composição do combustível e as condições de combustão determinam os produtos.',
+[
+'Combustão libera energia.',
+'Combustão completa de hidrocarbonetos produz CO₂ e água.',
+'Combustão incompleta pode produzir CO.',
+'Combustíveis têm impactos ambientais.'
+],
+'Qual gás tóxico pode resultar de combustão incompleta?',
+['Monóxido de carbono','Oxigénio','Hélio','Nitrogénio puro'],
+0,
+'O monóxido de carbono é produzido em combustões incompletas e interfere no transporte de oxigénio no organismo.',
+'Por que ambientes fechados são perigosos para combustões sem ventilação adequada?',
+['Podem acumular monóxido de carbono e outros poluentes','Porque o fogo deixa de existir','Porque produz apenas água','Porque elimina todo oxigénio instantaneamente'],
+0,
+'Ventilação inadequada favorece acumulação de gases perigosos e redução do oxigénio.'
+)
+
+];
+
+/*
+===========================================================
+ QUÍMICA — 11ª CLASSE
+===========================================================
+*/
+
+const CHEM_11: EssentialContent[] = [
+
+c(
+'chem-11-01',
+'11ª Classe',
+'Química',
+'chem-11-u1',
+'Química Orgânica',
+'Hidrocarbonetos',
+'Hidrocarbonetos',
+'Hidrocarbonetos são compostos orgânicos constituídos exclusivamente por carbono e hidrogénio.',
+[
+'Alcanos possuem apenas ligações simples entre carbonos.',
+'Alcenos possuem pelo menos uma ligação dupla carbono-carbono.',
+'Alcinos possuem pelo menos uma ligação tripla.',
+'Aromaticidade descreve sistemas especiais de ligações conjugadas, como o benzeno.'
+],
+'Metano e eteno',
+'Metano é um alcano com uma ligação simples; eteno possui uma ligação dupla entre carbonos.',
+'Gás natural',
+'O gás natural contém principalmente metano, embora sua composição varie conforme a origem. É utilizado como combustível e matéria-prima industrial.',
+'energia',
+'Pensar que todo hidrocarboneto é um gás.',
+'Hidrocarbonetos podem ser gases, líquidos ou sólidos dependendo da estrutura e massa molecular.',
+[
+'Hidrocarbonetos contêm apenas C e H.',
+'Alcanos têm ligações simples.',
+'Alcenos possuem ligações duplas.',
+'Alcinos possuem ligações triplas.'
+],
+'Qual é um hidrocarboneto?',
+['C₂H₆','H₂O','NaOH','HCl'],
+0,
+'C₂H₆ contém apenas carbono e hidrogénio.',
+'Qual hidrocarboneto possui uma ligação dupla?',
+['Eteno','Etano','Metano','Propano'],
+0,
+'O eteno possui ligação C=C.'
+),
+
+c(
+'chem-11-02',
+'11ª Classe',
+'Química',
+'chem-11-u2',
+'Funções Orgânicas',
+'Álcoois, ácidos carboxílicos e ésteres',
+'Funções orgânicas',
+'Funções orgânicas são grupos de átomos presentes em moléculas que conferem propriedades e reatividade características.',
+[
+'Álcoois possuem grupo hidroxilo ligado a carbono saturado.',
+'Ácidos carboxílicos possuem grupo carboxilo.',
+'Ésteres possuem o grupo funcional característico -COO- e podem ser formados em reações de esterificação.',
+'As propriedades de uma molécula dependem do grupo funcional e da estrutura completa.'
+],
+'Etanol e ácido acético',
+'Etanol é um álcool. Ácido acético, presente no vinagre, é um ácido carboxílico.',
+'Alimentos',
+'Ésteres estão relacionados com aromas e fragrâncias, enquanto álcoois e ácidos possuem aplicações industriais e alimentares.',
+'indústria',
+'Confundir grupo funcional com a molécula inteira.',
+'O grupo funcional é apenas uma parte da estrutura e influencia fortemente o comportamento químico.',
+[
+'Grupos funcionais caracterizam famílias orgânicas.',
+'Álcool possui -OH característico.',
+'Ácido carboxílico possui -COOH.',
+'Ésteres possuem grupo -COO-.'
+],
+'Qual grupo funcional caracteriza um álcool?',
+['-OH','-COOH','-COO- exclusivamente','-NH₂'],
+0,
+'O grupo hidroxilo é característico dos álcoois.',
+'Qual substância é um ácido carboxílico?',
+['CH₃COOH','CH₃OH','CH₄','C₂H₆'],
+0,
+'CH₃COOH possui o grupo carboxilo -COOH.'
+),
+
+c(
+'chem-11-03',
+'11ª Classe',
+'Química',
+'chem-11-u3',
+'Equilíbrio Químico',
+'Equilíbrio químico',
+'Equilíbrio químico',
+'Equilíbrio químico é o estado de um sistema reversível em que as velocidades das reações direta e inversa são iguais, mantendo concentrações constantes ao longo do tempo.',
+[
+'Equilíbrio químico é dinâmico, não significa que as reações pararam.',
+'O equilíbrio pode deslocar-se quando condições como concentração, pressão ou temperatura mudam.',
+'O princípio de Le Chatelier ajuda a prever a resposta de sistemas em equilíbrio a perturbações.',
+'A constante de equilíbrio depende da temperatura para uma determinada reação.'
+],
+'Síntese de amónia',
+'O processo Haber-Bosch utiliza equilíbrio entre nitrogénio e hidrogénio para produzir amónia.',
+'Fertilizantes',
+'A amónia é matéria-prima para fertilizantes importantes para a agricultura.',
+'agricultura',
+'Pensar que no equilíbrio não ocorre reação.',
+'As reações direta e inversa continuam ocorrendo, mas com velocidades iguais.',
+[
+'Equilíbrio é dinâmico.',
+'Velocidades direta e inversa são iguais.',
+'Concentrações permanecem constantes.',
+'Temperatura pode alterar a constante de equilíbrio.'
+],
+'No equilíbrio químico, as reações:',
+['Continuam ocorrendo com velocidades iguais','Param completamente','Ocorrem apenas no sentido direto','Desaparecem'],
+0,
+'O equilíbrio é dinâmico.',
+'Adicionar mais reagente a um sistema em equilíbrio geralmente provoca:',
+['Uma resposta do sistema que tende a consumir parte do reagente adicionado','Fim imediato da reação','Desaparecimento de todos os produtos','Nenhuma alteração possível'],
+0,
+'O sistema responde à perturbação deslocando-se conforme as condições termodinâmicas.'
+),
+
+c(
+'chem-11-04',
+'11ª Classe',
+'Química',
+'chem-11-u4',
+'Eletroquímica',
+'Oxidação e redução',
+'Reações redox',
+'Reações de oxidação-redução envolvem transferência de eletrões ou mudanças nos números de oxidação.',
+[
+'Oxidação corresponde à perda de eletrões ou aumento do número de oxidação.',
+'Reação de redução corresponde ao ganho de eletrões ou diminuição do número de oxidação.',
+'O agente oxidante é reduzido.',
+'O agente redutor é oxidado.'
+],
+'Ferrugem',
+'Na corrosão do ferro, o ferro sofre oxidação enquanto espécies de oxigénio são reduzidas.',
+'Proteção de metais',
+'Compreender corrosão ajuda na conservação de estruturas metálicas, ferramentas, pontes e equipamentos.',
+'indústria',
+'Confundir oxidante com espécie que sofre oxidação.',
+'O agente oxidante recebe eletrões e é reduzido.',
+[
+'Oxidação envolve perda de eletrões.',
+'Re­dução envolve ganho de eletrões.',
+'O oxidante é reduzido.',
+'O redutor é oxidado.'
+],
+'Qual processo envolve perda de eletrões?',
+['Oxidação','Redução','Neutralização','Diluição'],
+0,
+'Perder eletrões corresponde a oxidação.',
+'Em uma reação redox, o agente redutor:',
+['É oxidado','É reduzido','Não participa','É sempre água'],
+0,
+'O agente redutor fornece eletrões e, por isso, sofre oxidação.'
+)
+
+];
+
+/*
+===========================================================
+ QUÍMICA — 12ª CLASSE
+===========================================================
+*/
+
+const CHEM_12: EssentialContent[] = [
+
+c(
+'chem-12-01',
+'12ª Classe',
+'Química',
+'chem-12-u1',
+'Cinética Química',
+'Velocidade das reações',
+'Cinética química',
+'Cinética química estuda a velocidade das reações e os fatores que influenciam essa velocidade.',
+[
+'A velocidade mede a variação da concentração de uma espécie por unidade de tempo.',
+'Para um reagente, v = -Δ[reagente]/Δt.',
+'Para um produto, v = Δ[produto]/Δt.',
+'Concentração, temperatura, superfície de contacto e catalisadores podem influenciar a velocidade.'
+],
+'Comprimido triturado',
+'Um comprimido triturado apresenta maior superfície de contacto com a água do que um comprimido inteiro, podendo dissolver-se mais rapidamente.',
+'Processos industriais',
+'O controlo da velocidade é importante na produção de medicamentos, alimentos, combustíveis e produtos químicos.',
+'indústria',
+'Pensar que catalisador aumenta sempre a quantidade final de produto.',
+'Catalisador aumenta a velocidade ao oferecer um caminho de menor energia de ativação, sem alterar a constante de equilíbrio.',
+[
+'Cinética estuda velocidade.',
+'Concentração influencia a velocidade em muitas reações.',
+'Temperatura pode aumentar a velocidade.',
+'Catalisadores reduzem a energia de ativação do caminho reacional.'
+],
+'Qual fator pode aumentar a velocidade de muitas reações?',
+['Aumento de temperatura','Remoção de todas as partículas','Diminuição obrigatória da concentração','Eliminação do contacto'],
+0,
+'Aumentar a temperatura geralmente aumenta a energia cinética e a frequência de colisões eficazes.',
+'Qual é a expressão correta para a velocidade de consumo de um reagente?',
+['v = -Δ[reagente]/Δt','v = Δ[reagente]/Δt sempre positivo','v = Δt/Δ[reagente]','v = [reagente] × Δt'],
+0,
+'O sinal negativo mantém a velocidade positiva quando a concentração do reagente diminui.'
+),
+
+c(
+'chem-12-02',
+'12ª Classe',
+'Química',
+'chem-12-u2',
+'Ácidos e Bases',
+'pH e equilíbrio ácido-base',
+'pH',
+'pH é uma grandeza logarítmica relacionada à atividade dos iões hidrónio em solução aquosa; em aproximações escolares, pH = -log[H₃O⁺].',
+[
+'Quanto maior a concentração de H₃O⁺, menor tende a ser o pH.',
+'Em condições padrão, pH 7 é associado à neutralidade da água pura a 25 °C.',
+'Ácidos fortes ionizam-se extensamente em água; ácidos fracos estabelecem equilíbrio de ionização.',
+'A força de um ácido não é a mesma coisa que sua concentração.'
+],
+'Ácido clorídrico',
+'HCl é um ácido forte em água e apresenta elevada ionização.',
+'Tratamento e laboratório',
+'O controlo de pH é importante em água, agricultura, alimentos, processos industriais e análises laboratoriais.',
+'água',
+'Confundir ácido forte com solução concentrada.',
+'Força mede tendência de ionização; concentração indica quantidade de soluto por volume.',
+[
+'pH é logarítmico.',
+'Maior [H₃O⁺] significa menor pH.',
+'Força e concentração são conceitos diferentes.',
+'Ácidos fortes ionizam-se extensamente em água.'
+],
+'Uma solução com [H₃O⁺] = 10⁻³ mol/L tem aproximadamente qual pH?',
+['3','-3','10','7'],
+0,
+'pH = -log(10⁻³) = 3.',
+'Uma solução de ácido fraco pode ter concentração elevada e ainda assim:',
+['Ionizar apenas parcialmente','Ionizar obrigatoriamente 100%','Não conter moléculas','Ser sempre neutra'],
+0,
+'Ácidos fracos estabelecem equilíbrio e não ionizam completamente.'
+),
+
+c(
+'chem-12-03',
+'12ª Classe',
+'Química',
+'chem-12-u3',
+'Química Orgânica',
+'Polímeros',
+'Polímeros',
+'Polímeros são macromoléculas constituídas por unidades estruturais repetidas chamadas monómeros ou derivadas delas.',
+[
+'Polímeros podem ser naturais, como celulose, ou sintéticos, como polietileno.',
+'Polimerização pode ocorrer por diferentes mecanismos.',
+'As propriedades dependem da estrutura, massa molecular e interações entre cadeias.',
+'Plásticos têm grande utilidade, mas a gestão inadequada dos resíduos provoca impactos ambientais.'
+],
+'Polietileno',
+'O polietileno é produzido pela polimerização de unidades de eteno.',
+'Gestão de resíduos',
+'O uso responsável de plásticos, reutilização, reciclagem e gestão adequada de resíduos são importantes para reduzir impactos ambientais.',
+'ambiente',
+'Pensar que todos os polímeros são plásticos sintéticos.',
+'Existem polímeros naturais e sintéticos.',
+[
+'Polímeros são macromoléculas.',
+'Monómeros formam unidades repetidas.',
+'Existem polímeros naturais e sintéticos.',
+'A gestão de resíduos é essencial.'
+],
+'Qual é um polímero natural?',
+['Celulose','Polietileno','PVC','Náilon'],
+0,
+'A celulose é um polímero natural formado por unidades de glicose.',
+'Uma estratégia ambiental adequada para resíduos plásticos é:',
+['Reduzir, reutilizar, reciclar e melhorar a gestão','Queimar todos ao ar livre','Lançar no rio','Enterrar indiscriminadamente'],
+0,
+'Gestão adequada reduz poluição e riscos ambientais.'
+),
+
+c(
+'chem-12-04',
+'12ª Classe',
+'Química',
+'chem-12-u4',
+'Química Ambiental',
+'Água, poluição e tratamento',
+'Tratamento da água',
+'Tratamento da água é o conjunto de processos físicos, químicos e biológicos utilizados para remover contaminantes ou tornar a água adequada ao uso pretendido.',
+[
+'Água destinada ao consumo precisa atender critérios microbiológicos e físico-químicos.',
+'Processos podem incluir coagulação, floculação, sedimentação, filtração e desinfeção.',
+'Ferver água pode reduzir muitos microrganismos, mas não remove todos os contaminantes químicos.',
+'Água visualmente limpa não é necessariamente segura para beber.'
+],
+'Filtração e desinfeção',
+'Filtração pode remover partículas, enquanto desinfeção busca reduzir microrganismos patogénicos.',
+'Água segura em comunidades',
+'O conhecimento químico contribui para tratamento doméstico e comunitário da água e para prevenção de doenças.',
+'recursos_naturais',
+'Pensar que água transparente é automaticamente potável.',
+'Qualidade da água depende de vários parâmetros, incluindo contaminantes invisíveis e microrganismos.',
+[
+'Tratamento combina processos.',
+'Filtração remove partículas.',
+'Desinfeção reduz microrganismos.',
+'Água transparente pode ainda estar contaminada.'
+],
+'Qual processo é usado principalmente para reduzir microrganismos patogénicos?',
+['Desinfeção','Peneiração de pedras','Decantação de areia apenas','Medição do volume'],
+0,
+'Desinfeção utiliza métodos físicos ou químicos para inativar ou remover microrganismos.',
+'Por que não devemos avaliar a segurança da água apenas pela aparência?',
+['Contaminantes podem ser invisíveis','Toda água transparente é segura','A cor determina todos os microrganismos','A água não possui substâncias dissolvidas'],
+0,
+'Muitos contaminantes químicos e microbiológicos não são visíveis.'
+)
+
+];
+
+/*
+===========================================================
+ CONVERSÃO DOS CONTEÚDOS PARA O FORMATO Lesson
+===========================================================
+*/
+
+function makeLesson(item: EssentialContent): Lesson {
   return {
-    id: `${unitId}-l${lessonNumber}`,
-    unitId,
-    classLevel,
-    subject,
-    theme: topicTitle,
-    lessonNumber,
-    title: topicTitle,
+    id: item.id,
+    unitId: item.unitId,
+    classLevel: item.classLevel,
+    subject: item.subject,
+    theme: item.theme,
+    lessonNumber: 1,
+    title: item.title,
 
     objectives: [
-      `Compreender o conceito fundamental de "${topicTitle}".`,
-      `Explicar os principais aspetos relacionados com o tema.`,
-      'Aplicar o conhecimento em situações do quotidiano.',
+      `Definir e compreender o conceito de ${item.title}.`,
+      `Explicar os principais aspectos relacionados com ${item.theme}.`,
+      'Relacionar o conteúdo com situações do quotidiano.',
+      'Aplicar o conhecimento científico na resolução de problemas.'
     ],
 
     content: {
-      definition: biology
-        ? `"${topicTitle}" é um tema de Biologia relacionado com o estudo dos seres vivos e dos fenómenos da vida.`
-        : `"${topicTitle}" é um tema de Química relacionado com o estudo da matéria, das suas propriedades ou das suas transformações.`,
-
-      explanation: [
-        `O estudo de "${topicTitle}" deve começar pela compreensão dos conceitos fundamentais.`,
-        'O estudante deve relacionar a definição com exemplos concretos.',
-        'A aplicação prática ajuda a consolidar o conhecimento científico.',
-      ],
+      definition: item.definition,
+      explanation: item.explanation
     },
 
     example: {
-      title: `Exemplo relacionado com ${topicTitle}`,
-      description:
-        `Uma situação do quotidiano pode ser utilizada para compreender o conceito de "${topicTitle}".`,
-      solution:
-        'A resolução deve utilizar os conceitos científicos estudados.',
+      title: item.exampleTitle,
+      description: item.exampleDescription,
+      solution: item.exampleSolution
     },
 
     mozambiqueApplication: {
-      title: 'Aplicação em Moçambique',
-      description:
-        biology
-          ? 'O conhecimento pode ser relacionado com saúde, agricultura, biodiversidade e ambiente.'
-          : 'O conhecimento pode ser relacionado com água, agricultura, energia, indústria e ambiente.',
-      contextArea: biology ? 'biodiversidade' : 'recursos_naturais',
+      title: item.mozTitle,
+      description: item.mozDescription,
+      contextArea: item.contextArea
     },
 
     attention: {
-      commonError:
-        'Memorizar termos sem compreender o significado científico.',
-      correctUnderstanding:
-        'O estudante deve compreender o conceito, observar exemplos e aplicá-lo em situações diferentes.',
+      commonError: item.commonError,
+      correctUnderstanding: item.correctUnderstanding
     },
 
-    summaryPoints: [
-      `O tema é "${topicTitle}".`,
-      'Os conceitos devem ser compreendidos.',
-      'Exemplos ajudam na aprendizagem.',
-    ],
+    summaryPoints: item.summary,
 
     quickChecks: [
-      makeQuestion(
-        `${unitId}-${lessonNumber}-q1`,
-        `Qual é a melhor estratégia para estudar "${topicTitle}"?`,
-        [
-          'Compreender os conceitos e aplicá-los.',
-          'Memorizar sem compreender.',
-          'Ignorar exemplos.',
-          'Não realizar exercícios.',
-        ],
-        0,
-        'A compreensão e aplicação são fundamentais para a aprendizagem científica.'
-      ),
+      {
+        id: `${item.id}-q1`,
+        question: item.question,
+        options: item.options,
+        correctAnswerIndex: item.correctIndex,
+        explanation: item.questionExplanation
+      }
     ],
 
     exercises: [
-      makeExercise(
-        `${unitId}-${lessonNumber}-e1`,
-        `Compreender "${topicTitle}" exige apenas memorizar palavras.`,
-        ['Verdadeiro', 'Falso'],
-        1,
-        'Falso. A aprendizagem exige compreensão e capacidade de aplicação.',
-      ),
-    ],
+      {
+        id: `${item.id}-e1`,
+        statement: item.exercise,
+        difficulty: 'Médio',
+        type: 'multiple_choice',
+        options: item.exerciseOptions,
+        correctAnswer: item.exerciseCorrectIndex,
+        explanation: item.exerciseExplanation
+      }
+    ]
   };
 }
 
 /*
- * ============================================================
- * AULAS DOS OUTROS TÓPICOS
- * ============================================================
- */
-
-const ALL_CURRICULUM_LESSONS: Lesson[] = [];
-
-for (const unit of CURRICULUM_UNITS) {
-  unit.lessonTopics.forEach((topicTitle, index) => {
-    const isBio7 =
-      unit.classLevel === '7ª Classe' &&
-      unit.subject === 'Biologia';
-
-    if (!isBio7) {
-      ALL_CURRICULUM_LESSONS.push(
-        createTemporaryLesson(
-          unit.id,
-          topicTitle,
-          unit.classLevel,
-          unit.subject,
-          unit.title,
-          index + 1
-        )
-      );
-    }
-  });
-}
-
-/*
- * ============================================================
- * TODAS AS AULAS
- * ============================================================
- */
+===========================================================
+ TODOS OS CONTEÚDOS ESSENCIAIS
+===========================================================
+*/
 
 export const DETAILED_LESSONS: Lesson[] = [
-  ...BIO_7_LESSONS,
-];
+  ...BIO_7.map(makeLesson),
+  ...BIO_8.map(makeLesson),
+  ...BIO_9.map(makeLesson),
+  ...BIO_10.map(makeLesson),
+  ...BIO_11.map(makeLesson),
+  ...BIO_12.map(makeLesson),
 
-export const ALL_LESSONS: Lesson[] = [
-  ...DETAILED_LESSONS,
-  ...ALL_CURRICULUM_LESSONS,
+  ...CHEM_7.map(makeLesson),
+  ...CHEM_8.map(makeLesson),
+  ...CHEM_9.map(makeLesson),
+  ...CHEM_10.map(makeLesson),
+  ...CHEM_11.map(makeLesson),
+  ...CHEM_12.map(makeLesson)
 ];
 
 /*
- * ============================================================
- * BUSCA DE AULA
- * ============================================================
- */
+===========================================================
+ ÍNDICES DE PESQUISA
+===========================================================
+*/
+
+export const ALL_LESSONS: Lesson[] = DETAILED_LESSONS;
 
 export function getLessonForTopic(
   unitId: string,
   topicTitle: string,
-  classLevel: ClassLevel,
-  subject: Subject,
-  unitTitle: string
-): Lesson {
-  const topic = topicTitle.trim().toLowerCase();
+  classLevel?: ClassLevel,
+  subject?: Subject
+): Lesson | undefined {
 
-  const lesson = ALL_LESSONS.find(
-    (item) =>
-      item.unitId === unitId &&
-      item.theme.trim().toLowerCase() === topic
-  );
+  return ALL_LESSONS.find((lesson) => {
 
-  if (lesson) {
-    return lesson;
-  }
+    const sameUnit = lesson.unitId === unitId;
 
-  return createTemporaryLesson(
-    unitId,
-    topicTitle,
-    classLevel,
-    subject,
-    unitTitle,
-    1
+    const sameTopic =
+      lesson.title.toLowerCase() === topicTitle.toLowerCase() ||
+      lesson.theme.toLowerCase() === topicTitle.toLowerCase();
+
+    const sameClass =
+      !classLevel || lesson.classLevel === classLevel;
+
+    const sameSubject =
+      !subject || lesson.subject === subject;
+
+    return sameUnit && sameTopic && sameClass && sameSubject;
+  });
+}
+
+/*
+===========================================================
+ PESQUISA POR TEXTO
+===========================================================
+*/
+
+export function searchLessons(query: string): Lesson[] {
+
+  const normalized = query
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+
+  return ALL_LESSONS.filter((lesson) => {
+
+    const text = [
+      lesson.title,
+      lesson.theme,
+      lesson.content.definition,
+      ...lesson.content.explanation,
+      ...lesson.summaryPoints
+    ]
+      .join(' ')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    return text.includes(normalized);
+  });
+}
+
+/*
+===========================================================
+ FILTROS POR CLASSE E DISCIPLINA
+===========================================================
+*/
+
+export function getLessonsByClass(
+  classLevel: ClassLevel
+): Lesson[] {
+
+  return ALL_LESSONS.filter(
+    (lesson) => lesson.classLevel === classLevel
   );
 }
+
+export function getLessonsBySubject(
+  subject: Subject
+): Lesson[] {
+
+  return ALL_LESSONS.filter(
+    (lesson) => lesson.subject === subject
+  );
+}
+
+export function getLessonsByClassAndSubject(
+  classLevel: ClassLevel,
+  subject: Subject
+): Lesson[] {
+
+  return ALL_LESSONS.filter(
+    (lesson) =>
+      lesson.classLevel === classLevel &&
+      lesson.subject === subject
+  );
+}
+
+/*
+===========================================================
+ FIM DO ARQUIVO
+===========================================================
+*/
