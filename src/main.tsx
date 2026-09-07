@@ -1,5 +1,5 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
@@ -9,11 +9,20 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 );
 
-// Register service worker for offline support and PWA installability
-if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+// Registrar Service Worker para suporte offline e instalação como PWA
+if (
+  typeof window !== 'undefined' &&
+  'serviceWorker' in navigator &&
+  window.location.protocol.startsWith('http')
+) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch((err) => {
-      console.warn('Service Worker registration skipped or failed:', err);
-    });
+    navigator.serviceWorker
+      .register('/TANmz/sw.js')
+      .catch((err) => {
+        console.warn(
+          'Registro do Service Worker falhou:',
+          err
+        );
+      });
   });
 }
