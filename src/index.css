@@ -1,19 +1,283 @@
 @import "tailwindcss";
 
-@layer base {
-  body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  }
+/* =========================================================
+   TANmz — IDENTIDADE VISUAL
+   Verde + Branco | Educação | Limpo | Moderno
+   ========================================================= */
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-  }
+:root {
+  /* Cores principais */
+  --tanmz-green: #047857;
+  --tanmz-green-dark: #065f46;
+  --tanmz-green-darker: #064e3b;
+  --tanmz-green-light: #10b981;
+  --tanmz-green-soft: #d1fae5;
+  --tanmz-green-pale: #ecfdf5;
+
+  /* Cores neutras */
+  --tanmz-white: #ffffff;
+  --tanmz-background: #f8fafc;
+  --tanmz-surface: #ffffff;
+  --tanmz-border: #e2e8f0;
+
+  /* Texto */
+  --tanmz-text: #1e293b;
+  --tanmz-text-soft: #475569;
+  --tanmz-text-muted: #64748b;
+
+  /* Cores de apoio */
+  --tanmz-blue: #2563eb;
+  --tanmz-blue-soft: #dbeafe;
+
+  --tanmz-yellow: #f59e0b;
+  --tanmz-yellow-soft: #fef3c7;
+
+  --tanmz-red: #dc2626;
+  --tanmz-red-soft: #fee2e2;
+
+  /* Sombras */
+  --tanmz-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --tanmz-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --tanmz-shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.10);
+
+  /* Cantos */
+  --tanmz-radius-sm: 8px;
+  --tanmz-radius: 12px;
+  --tanmz-radius-lg: 16px;
 }
 
-/* Custom scrollbar for lessons and mobile views */
+
+/* =========================================================
+   CONFIGURAÇÃO GERAL
+   ========================================================= */
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    'Plus Jakarta Sans',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
+
+  font-size: 16px;
+  line-height: 1.65;
+
+  color: var(--tanmz-text);
+  background: var(--tanmz-background);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================================================
+   TÍTULOS
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+
+  font-family:
+    'Outfit',
+    'Plus Jakarta Sans',
+    system-ui,
+    sans-serif;
+
+  color: var(--tanmz-text);
+
+  line-height: 1.25;
+  font-weight: 700;
+
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.65rem;
+}
+
+h3 {
+  font-size: 1.35rem;
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+h5 {
+  font-size: 1.05rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+
+/* =========================================================
+   TEXTO
+   ========================================================= */
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+strong {
+  font-weight: 700;
+  color: var(--tanmz-text);
+}
+
+small {
+  font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  color: var(--tanmz-green);
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+a:hover {
+  color: var(--tanmz-green-dark);
+}
+
+
+/* =========================================================
+   SELEÇÃO DE TEXTO
+   ========================================================= */
+
+::selection {
+  background: var(--tanmz-green-soft);
+  color: var(--tanmz-green-darker);
+}
+
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.35);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   CAMPOS DE FORMULÁRIO
+   ========================================================= */
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--tanmz-text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--tanmz-text-muted);
+}
+
+
+/* =========================================================
+   CARTÕES
+   ========================================================= */
+
+.tanmz-card {
+  background: var(--tanmz-surface);
+  border: 1px solid var(--tanmz-border);
+  border-radius: var(--tanmz-radius-lg);
+  box-shadow: var(--tanmz-shadow-sm);
+}
+
+.tanmz-card:hover {
+  box-shadow: var(--tanmz-shadow);
+}
+
+
+/* =========================================================
+   CLASSES DE CORES DA IDENTIDADE TANmz
+   ========================================================= */
+
+.tanmz-green {
+  color: var(--tanmz-green);
+}
+
+.tanmz-green-dark {
+  color: var(--tanmz-green-dark);
+}
+
+.tanmz-green-bg {
+  background: var(--tanmz-green);
+  color: var(--tanmz-white);
+}
+
+.tanmz-green-soft-bg {
+  background: var(--tanmz-green-soft);
+  color: var(--tanmz-green-darker);
+}
+
+.tanmz-blue-soft-bg {
+  background: var(--tanmz-blue-soft);
+  color: #1e40af;
+}
+
+.tanmz-yellow-soft-bg {
+  background: var(--tanmz-yellow-soft);
+  color: #92400e;
+}
+
+.tanmz-red-soft-bg {
+  background: var(--tanmz-red-soft);
+  color: #991b1b;
+}
+
+
+/* =========================================================
+   BARRA DE ROLAGEM
+   ========================================================= */
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -21,10 +285,104 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #a7f3d0;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--tanmz-green-light);
+}
+
+
+/* Firefox */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a7f3d0 transparent;
+}
+
+
+/* =========================================================
+   TRANSIÇÕES SUAVES
+   ========================================================= */
+
+button,
+a,
+input,
+select,
+textarea {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+/* =========================================================
+   MELHOR EXPERIÊNCIA NO TELEMÓVEL
+   ========================================================= */
+
+@media (max-width: 640px) {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+  }
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* =========================================================
+   MODO DE IMPRESSÃO
+   ========================================================= */
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
