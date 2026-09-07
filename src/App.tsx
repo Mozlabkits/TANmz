@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { Header } from './components/Header';
 import { BottomNav, TabType } from './components/BottomNav';
 import { HomeView } from './components/HomeView';
@@ -13,9 +14,17 @@ import { AITutorModal } from './components/AITutorModal';
 import { WelcomeOnboardingModal } from './components/WelcomeOnboardingModal';
 import { AndroidInstallBanner } from './components/AndroidInstallBanner';
 
-import { ClassLevel, Subject, StudentProfile, Lesson, QuizTest } from './types';
+import {
+  ClassLevel,
+  Subject,
+  StudentProfile,
+  Lesson,
+  QuizTest,
+} from './types';
+
 import { CURRICULUM_UNITS } from './data/curriculumData';
 import { getLessonForTopic } from './data/lessonsData';
+
 import {
   getStoredProfile,
   saveProfile,
@@ -28,41 +37,111 @@ import {
   recordLastAccessedContent,
 } from './utils/storage';
 
+
+/* =========================================================
+   TANmz — APLICAÇÃO PRINCIPAL
+   ========================================================= */
+
 export default function App() {
-  const [profile, setProfile] = useState<StudentProfile>(getStoredProfile());
+
+  /* =======================================================
+     PERFIL E NAVEGAÇÃO
+     ======================================================= */
+
+  const [profile, setProfile] = useState<StudentProfile>(
+    getStoredProfile()
+  );
+
   const [currentTab, setCurrentTab] = useState<TabType>('home');
-  const [activeSubject, setActiveSubject] = useState<Subject>('Biologia');
 
-  // Active Lesson state (when student is reading an individual topic)
-  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
-  const [selectedUnitTitle, setSelectedUnitTitle] = useState<string>('');
+  const [activeSubject, setActiveSubject] =
+    useState<Subject>('Biologia');
 
-  // Active Quiz Test state (when student is taking a timed test)
-  const [activeQuiz, setActiveQuiz] = useState<QuizTest | null>(null);
 
-  // Modals
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isTutorOpen, setIsTutorOpen] = useState(false);
-  const [tutorContextTopic, setTutorContextTopic] = useState<string | undefined>(undefined);
-  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  /* =======================================================
+     AULA ATIVA
+     ======================================================= */
 
-  // Check first time user on mount
+  const [selectedLesson, setSelectedLesson] =
+    useState<Lesson | null>(null);
+
+  const [selectedUnitTitle, setSelectedUnitTitle] =
+    useState<string>('');
+
+
+  /* =======================================================
+     QUIZ ATIVO
+     ======================================================= */
+
+  const [activeQuiz, setActiveQuiz] =
+    useState<QuizTest | null>(null);
+
+
+  /* =======================================================
+     MODAIS
+     ======================================================= */
+
+  const [isSearchOpen, setIsSearchOpen] =
+    useState(false);
+
+  const [isTutorOpen, setIsTutorOpen] =
+    useState(false);
+
+  const [tutorContextTopic, setTutorContextTopic] =
+    useState<string | undefined>(undefined);
+
+  const [isOnboardingOpen, setIsOnboardingOpen] =
+    useState(false);
+
+
+  /* =======================================================
+     PRIMEIRA UTILIZAÇÃO
+     ======================================================= */
+
   useEffect(() => {
+
     if (isFirstTimeUser()) {
       setIsOnboardingOpen(true);
     }
+
   }, []);
 
-  const handleSelectClass = (newClass: ClassLevel) => {
+
+  /* =======================================================
+     ALTERAR CLASSE DO ESTUDANTE
+     ======================================================= */
+
+  const handleSelectClass = (
+    newClass: ClassLevel
+  ) => {
+
     const updated = updateStudentClass(newClass);
-    setProfile({ ...updated });
+
+    setProfile({
+      ...updated,
+    });
   };
 
-  const handleOnboardingSelectClass = (chosenClass: ClassLevel) => {
+
+  /* =======================================================
+     FINALIZAR CONFIGURAÇÃO INICIAL
+     ======================================================= */
+
+  const handleOnboardingSelectClass = (
+    chosenClass: ClassLevel
+  ) => {
+
     markFirstTimeCompleted();
+
     setIsOnboardingOpen(false);
+
     handleSelectClass(chosenClass);
   };
+
+
+  /* =======================================================
+     ABRIR UMA AULA
+     ======================================================= */
 
   const handleOpenLesson = (
     unitId: string,
@@ -71,13 +150,49 @@ export default function App() {
     overrideClass?: ClassLevel,
     overrideSubject?: Subject
   ) => {
-    const classToUse = overrideClass || profile.selectedClass;
-    const subjectToUse = overrideSubject || activeSubject;
 
-    const unit = CURRICULUM_UNITS.find((u) => u.id === unitId);
-    const unitNumber = unit ? unit.unitNumber : 1;
-    const topicIndex = unit ? unit.lessonTopics.indexOf(topicTitle) : 0;
-    const lessonNum = topicIndex >= 0 ? topicIndex + 1 : 1;
+    const classToUse =
+      overrideClass || profile.selectedClass;
+
+    const subjectToUse =
+      overrideSubject || activeSubject;
+
+
+    /* -----------------------------------------------------
+       Encontrar unidade curricular
+       ----------------------------------------------------- */
+
+    const unit = CURRICULUM_UNITS.find(
+      (item) => item.id === unitId
+    );
+
+
+    /* -----------------------------------------------------
+       Determinar número da aula
+       ----------------------------------------------------- */
+
+    const topicIndex =
+      unit
+        ? unit.lessonTopics.indexOf(topicTitle)
+        : 0;
+
+    const lessonNum =
+      topicIndex >= 0
+        ? topicIndex + 1
+        : 1;
+
+
+    /*
+     * Mantemos estas variáveis para preservar a lógica
+     * curricular e facilitar futuras expansões.
+     */
+
+    void lessonNum;
+
+
+    /* -----------------------------------------------------
+       Obter conteúdo desenvolvido
+       ----------------------------------------------------- */
 
     const lessonData = getLessonForTopic(
       unitId,
@@ -87,32 +202,88 @@ export default function App() {
       unitTitle
     );
 
-    const updatedProfile = recordLastAccessedContent({
-      unitId,
-      topicTitle,
-      unitTitle,
-      classLevel: classToUse,
-      subject: subjectToUse,
-      accessDate: new Date().toISOString(),
+
+    /* -----------------------------------------------------
+       Registar último conteúdo visitado
+       ----------------------------------------------------- */
+
+    const updatedProfile =
+      recordLastAccessedContent({
+        unitId,
+        topicTitle,
+        unitTitle,
+        classLevel: classToUse,
+        subject: subjectToUse,
+        accessDate: new Date().toISOString(),
+      });
+
+
+    setProfile({
+      ...updatedProfile,
     });
-    setProfile({ ...updatedProfile });
+
+
+    /* -----------------------------------------------------
+       Abrir aula
+       ----------------------------------------------------- */
 
     setSelectedLesson(lessonData);
+
     setSelectedUnitTitle(unitTitle);
+
     setActiveQuiz(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+    /* -----------------------------------------------------
+       Voltar ao topo
+       ----------------------------------------------------- */
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
-  const handleCompleteLesson = (lessonId: string) => {
-    const updated = recordLessonCompletion(lessonId);
-    setProfile({ ...updated });
+
+  /* =======================================================
+     CONCLUIR AULA
+     ======================================================= */
+
+  const handleCompleteLesson = (
+    lessonId: string
+  ) => {
+
+    const updated =
+      recordLessonCompletion(lessonId);
+
+    setProfile({
+      ...updated,
+    });
   };
 
-  const handleStartQuiz = (quiz: QuizTest) => {
+
+  /* =======================================================
+     INICIAR QUIZ
+     ======================================================= */
+
+  const handleStartQuiz = (
+    quiz: QuizTest
+  ) => {
+
     setActiveQuiz(quiz);
+
     setSelectedLesson(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
+
+
+  /* =======================================================
+     FINALIZAR QUIZ
+     ======================================================= */
 
   const handleFinishQuiz = (
     quizId: string,
@@ -120,181 +291,607 @@ export default function App() {
     correctCount: number,
     totalCount: number
   ) => {
-    const updated = recordQuizResult(quizId, quizTitle, correctCount, totalCount);
-    setProfile({ ...updated });
+
+    const updated =
+      recordQuizResult(
+        quizId,
+        quizTitle,
+        correctCount,
+        totalCount
+      );
+
+    setProfile({
+      ...updated,
+    });
   };
 
-  const handleRecordExerciseAnswer = (isCorrect: boolean) => {
-    const updated = recordExerciseAnswer(isCorrect);
-    setProfile({ ...updated });
+
+  /* =======================================================
+     REGISTAR RESPOSTA DE EXERCÍCIO
+     ======================================================= */
+
+  const handleRecordExerciseAnswer = (
+    isCorrect: boolean
+  ) => {
+
+    const updated =
+      recordExerciseAnswer(isCorrect);
+
+    setProfile({
+      ...updated,
+    });
   };
+
+
+  /* =======================================================
+     CONTINUAR ESTUDO
+     ======================================================= */
 
   const handleContinueStudy = () => {
-    // If student has a last accessed content, resume that directly
+
+    /*
+     * Se existe um conteúdo anteriormente visitado,
+     * abrir diretamente esse conteúdo.
+     */
+
     if (profile.lastAccessedContent) {
-      const { unitId, topicTitle, unitTitle, classLevel, subject } = profile.lastAccessedContent;
-      handleOpenLesson(unitId, topicTitle, unitTitle, classLevel, subject);
+
+      const {
+        unitId,
+        topicTitle,
+        unitTitle,
+        classLevel,
+        subject,
+      } = profile.lastAccessedContent;
+
+      handleOpenLesson(
+        unitId,
+        topicTitle,
+        unitTitle,
+        classLevel,
+        subject
+      );
+
       return;
     }
 
-    // Otherwise find first unit of current class
-    const units = CURRICULUM_UNITS.filter((u) => u.classLevel === profile.selectedClass);
-    if (units.length > 0) {
-      const firstUnit = units[0];
-      const firstTopic = firstUnit.lessonTopics[0];
-      handleOpenLesson(firstUnit.id, firstTopic, firstUnit.title, firstUnit.classLevel, firstUnit.subject);
+
+    /*
+     * Caso seja um novo estudante,
+     * abrir a primeira unidade da classe atual.
+     */
+
+    const units =
+      CURRICULUM_UNITS.filter(
+        (unit) =>
+          unit.classLevel === profile.selectedClass
+      );
+
+
+    if (units.length === 0) {
+      return;
     }
+
+
+    const firstUnit = units[0];
+
+    const firstTopic =
+      firstUnit.lessonTopics[0];
+
+
+    if (!firstTopic) {
+      return;
+    }
+
+
+    handleOpenLesson(
+      firstUnit.id,
+      firstTopic,
+      firstUnit.title,
+      firstUnit.classLevel,
+      firstUnit.subject
+    );
   };
 
+
+  /* =======================================================
+     REPOR PROGRESSO
+     ======================================================= */
+
   const handleResetProgress = () => {
-    localStorage.removeItem('tanmz_student_profile_v1');
-    localStorage.removeItem('tanmz_first_time_user');
+
+    localStorage.removeItem(
+      'tanmz_student_profile_v1'
+    );
+
+    localStorage.removeItem(
+      'tanmz_first_time_user'
+    );
+
     window.location.reload();
   };
 
-  // Font size scale based on accessibility preferences
+
+  /* =======================================================
+     TAMANHO DAS LETRAS
+     ======================================================= */
+
+  /*
+   * Aumentamos o tamanho padrão.
+   *
+   * Antes:
+   * normal = text-sm
+   *
+   * Agora:
+   * normal = text-base
+   *
+   * Isto melhora bastante a leitura no Android.
+   */
+
   const fontSizeClasses = {
-    normal: 'text-sm',
-    large: 'text-base font-medium',
-    xlarge: 'text-lg font-medium',
+
+    normal:
+      'text-base',
+
+    large:
+      'text-lg font-medium',
+
+    xlarge:
+      'text-xl font-medium',
+
   };
 
+
+  /* =======================================================
+     INTERFACE
+     ======================================================= */
+
   return (
-    <div className={`min-h-screen bg-slate-50 flex flex-col font-sans ${fontSizeClasses[profile.fontSize] || 'text-sm'}`}>
-      {/* Android PWA Install Banner (appears when opened on mobile browser) */}
+
+    <div
+      className={`
+        min-h-screen
+        flex
+        flex-col
+        font-sans
+        bg-slate-50
+        text-slate-800
+        ${fontSizeClasses[profile.fontSize] || 'text-base'}
+      `}
+    >
+
+      {/* =================================================
+          BANNER DE INSTALAÇÃO ANDROID
+          ================================================= */}
+
       <AndroidInstallBanner />
 
-      {/* App Header */}
+
+      {/* =================================================
+          CABEÇALHO
+          ================================================= */}
+
       <Header
-        selectedClass={profile.selectedClass}
-        onSelectClass={handleSelectClass}
-        onOpenSearch={() => setIsSearchOpen(true)}
+
+        selectedClass={
+          profile.selectedClass
+        }
+
+        onSelectClass={
+          handleSelectClass
+        }
+
+        onOpenSearch={() =>
+          setIsSearchOpen(true)
+        }
+
         onOpenTutor={() => {
-          setTutorContextTopic(undefined);
+
+          setTutorContextTopic(
+            undefined
+          );
+
           setIsTutorOpen(true);
         }}
-        points={profile.points}
+
+        points={
+          profile.points
+        }
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1">
-        {/* If taking a quiz test */}
+
+      {/* =================================================
+          CONTEÚDO PRINCIPAL
+          ================================================= */}
+
+      <main
+        className="
+          flex-1
+          w-full
+          overflow-x-hidden
+          pb-20
+        "
+      >
+
+        {/* =================================================
+            QUIZ
+            ================================================= */}
+
         {activeQuiz ? (
+
           <QuizTestView
-            quiz={activeQuiz}
-            onBack={() => setActiveQuiz(null)}
-            onFinishQuiz={handleFinishQuiz}
+
+            quiz={
+              activeQuiz
+            }
+
+            onBack={() =>
+              setActiveQuiz(null)
+            }
+
+            onFinishQuiz={
+              handleFinishQuiz
+            }
+
           />
+
         ) : selectedLesson ? (
-          /* If reading an individual lesson */
+
+          /* ===============================================
+             AULA
+             =============================================== */
+
           <LessonView
-            lesson={selectedLesson}
-            unitTitle={selectedUnitTitle}
-            onBack={() => setSelectedLesson(null)}
-            onCompleteLesson={handleCompleteLesson}
-            isCompleted={profile.completedLessonIds.includes(selectedLesson.id)}
-            onOpenTutorForLesson={(topic) => {
-              setTutorContextTopic(topic);
-              setIsTutorOpen(true);
-            }}
+
+            lesson={
+              selectedLesson
+            }
+
+            unitTitle={
+              selectedUnitTitle
+            }
+
+            onBack={() =>
+              setSelectedLesson(null)
+            }
+
+            onCompleteLesson={
+              handleCompleteLesson
+            }
+
+            isCompleted={
+              profile.completedLessonIds.includes(
+                selectedLesson.id
+              )
+            }
+
+            onOpenTutorForLesson={
+              (topic) => {
+
+                setTutorContextTopic(
+                  topic
+                );
+
+                setIsTutorOpen(true);
+              }
+            }
+
           />
+
         ) : (
-          /* Main Tab Views */
+
+          /* ===============================================
+             ÁREAS PRINCIPAIS DO APLICATIVO
+             =============================================== */
+
           <>
+
+            {/* =================================================
+                HOME
+                ================================================= */}
+
             {currentTab === 'home' && (
+
               <HomeView
-                profile={profile}
-                onSelectSubjectTab={(sub) => {
-                  setActiveSubject(sub);
-                  setCurrentTab('subjects');
-                }}
-                onOpenSearch={() => setIsSearchOpen(true)}
-                onOpenProgress={() => setCurrentTab('progress')}
+
+                profile={
+                  profile
+                }
+
+                onSelectSubjectTab={
+                  (subject) => {
+
+                    setActiveSubject(
+                      subject
+                    );
+
+                    setCurrentTab(
+                      'subjects'
+                    );
+                  }
+                }
+
+                onOpenSearch={() =>
+                  setIsSearchOpen(true)
+                }
+
+                onOpenProgress={() =>
+                  setCurrentTab(
+                    'progress'
+                  )
+                }
+
                 onOpenTutor={() => {
-                  setTutorContextTopic(undefined);
+
+                  setTutorContextTopic(
+                    undefined
+                  );
+
                   setIsTutorOpen(true);
                 }}
-                onContinueStudy={handleContinueStudy}
-                onChangeClass={() => setIsOnboardingOpen(true)}
+
+                onContinueStudy={
+                  handleContinueStudy
+                }
+
+                onChangeClass={() =>
+                  setIsOnboardingOpen(true)
+                }
+
               />
+
             )}
+
+
+            {/* =================================================
+                DISCIPLINAS
+                ================================================= */}
 
             {currentTab === 'subjects' && (
+
               <SubjectsView
-                currentClass={profile.selectedClass}
-                onChangeClass={handleSelectClass}
-                activeSubject={activeSubject}
-                onChangeSubject={setActiveSubject}
-                onOpenLesson={(unitId, topicTitle, unitTitle) =>
-                  handleOpenLesson(unitId, topicTitle, unitTitle)
+
+                currentClass={
+                  profile.selectedClass
                 }
-                completedLessonIds={profile.completedLessonIds}
+
+                onChangeClass={
+                  handleSelectClass
+                }
+
+                activeSubject={
+                  activeSubject
+                }
+
+                onChangeSubject={
+                  setActiveSubject
+                }
+
+                onOpenLesson={
+                  (
+                    unitId,
+                    topicTitle,
+                    unitTitle
+                  ) =>
+                    handleOpenLesson(
+                      unitId,
+                      topicTitle,
+                      unitTitle
+                    )
+                }
+
+                completedLessonIds={
+                  profile.completedLessonIds
+                }
+
               />
+
             )}
+
+
+            {/* =================================================
+                EXERCÍCIOS
+                ================================================= */}
 
             {currentTab === 'exercises' && (
+
               <ExercisesView
-                currentClass={profile.selectedClass}
-                onStartQuiz={handleStartQuiz}
-                onRecordExerciseAnswer={handleRecordExerciseAnswer}
+
+                currentClass={
+                  profile.selectedClass
+                }
+
+                onStartQuiz={
+                  handleStartQuiz
+                }
+
+                onRecordExerciseAnswer={
+                  handleRecordExerciseAnswer
+                }
+
               />
+
             )}
+
+
+            {/* =================================================
+                PROGRESSO
+                ================================================= */}
 
             {currentTab === 'progress' && (
+
               <ProgressView
-                profile={profile}
-                onNavigateToStudy={() => setCurrentTab('exercises')}
+
+                profile={
+                  profile
+                }
+
+                onNavigateToStudy={() =>
+                  setCurrentTab(
+                    'exercises'
+                  )
+                }
+
               />
+
             )}
+
+
+            {/* =================================================
+                PERFIL
+                ================================================= */}
 
             {currentTab === 'profile' && (
+
               <ProfileView
-                profile={profile}
-                onUpdateProfile={(updated) => {
-                  saveProfile(updated);
-                  setProfile(updated);
-                }}
-                onResetProgress={handleResetProgress}
+
+                profile={
+                  profile
+                }
+
+                onUpdateProfile={
+                  (updated) => {
+
+                    saveProfile(
+                      updated
+                    );
+
+                    setProfile(
+                      updated
+                    );
+                  }
+                }
+
+                onResetProgress={
+                  handleResetProgress
+                }
+
               />
+
             )}
+
           </>
+
         )}
+
       </main>
 
-      {/* Material 3 Bottom Navigation Bar */}
+
+      {/* =====================================================
+          NAVEGAÇÃO INFERIOR
+          ===================================================== */}
+
       <BottomNav
-        currentTab={currentTab}
-        onSelectTab={(tab) => {
-          setSelectedLesson(null);
-          setActiveQuiz(null);
-          setCurrentTab(tab);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+
+        currentTab={
+          currentTab
+        }
+
+        onSelectTab={
+          (tab) => {
+
+            setSelectedLesson(
+              null
+            );
+
+            setActiveQuiz(
+              null
+            );
+
+            setCurrentTab(
+              tab
+            );
+
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
+
+          }
+        }
+
       />
 
-      {/* Global Search Modal */}
+
+      {/* =====================================================
+          PESQUISA
+          ===================================================== */}
+
       <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        onSelectLesson={(unitId, topicTitle, classLevel, subject, unitTitle) => {
-          handleOpenLesson(unitId, topicTitle, unitTitle, classLevel, subject);
-        }}
+
+        isOpen={
+          isSearchOpen
+        }
+
+        onClose={() =>
+          setIsSearchOpen(false)
+        }
+
+        onSelectLesson={
+          (
+            unitId,
+            topicTitle,
+            classLevel,
+            subject,
+            unitTitle
+          ) =>
+            handleOpenLesson(
+              unitId,
+              topicTitle,
+              unitTitle,
+              classLevel,
+              subject
+            )
+        }
+
       />
 
-      {/* Ask AI Tutor Modal */}
+
+      {/* =====================================================
+          TUTOR DE IA
+          ===================================================== */}
+
       <AITutorModal
-        isOpen={isTutorOpen}
-        onClose={() => setIsTutorOpen(false)}
-        currentClass={profile.selectedClass}
-        currentSubject={activeSubject}
-        lessonContextTopic={tutorContextTopic}
+
+        isOpen={
+          isTutorOpen
+        }
+
+        onClose={() =>
+          setIsTutorOpen(false)
+        }
+
+        currentClass={
+          profile.selectedClass
+        }
+
+        currentSubject={
+          activeSubject
+        }
+
+        lessonContextTopic={
+          tutorContextTopic
+        }
+
       />
 
-      {/* First Time Welcome / Class Selection Onboarding */}
+
+      {/* =====================================================
+          CONFIGURAÇÃO INICIAL
+          ===================================================== */}
+
       <WelcomeOnboardingModal
-        isOpen={isOnboardingOpen}
-        onSelectClass={handleOnboardingSelectClass}
+
+        isOpen={
+          isOnboardingOpen
+        }
+
+        onSelectClass={
+          handleOnboardingSelectClass
+        }
+
       />
+
     </div>
   );
 }
