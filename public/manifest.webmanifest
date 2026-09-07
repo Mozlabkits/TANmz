@@ -1,31 +1,35 @@
 {
-  "id": "/",
+  "id": "/TANmz/",
   "name": "TANmz — Biologia & Química",
   "short_name": "TANmz",
   "description": "Aplicação educativa de Biologia e Química para a 7ª à 12ª classe do Ensino Secundário em Moçambique.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/TANmz/",
+  "scope": "/TANmz/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#047857",
   "theme_color": "#047857",
   "lang": "pt-MZ",
-  "categories": ["education", "books", "reference"],
+  "categories": [
+    "education",
+    "books",
+    "reference"
+  ],
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/TANmz/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/TANmz/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-maskable.png",
+      "src": "/TANmz/icon-maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
